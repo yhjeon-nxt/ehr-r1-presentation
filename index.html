@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Seminar Dashboards</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 24px 48px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 1rem;
+      margin-bottom: 48px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+      max-width: 760px;
+      width: 100%;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #2563eb;
+      background: #eff6ff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 0.875rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    .card-arrow {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Paper Seminar</h1>
+  <p class="subtitle">논문 발표 인터랙티브 대시보드</p>
+  <div class="cards">
+    <a class="card" href="./ehr-r1/">
+      <span class="card-tag">NLP / EHR</span>
+      <h2>EHR-R1: Reinforcing Clinical Reasoning in LLMs</h2>
+      <p>EHR 임상 추론 강화를 위한 강화학습 기반 LLM 연구</p>
+      <span class="card-arrow">대시보드 보기 →</span>
+    </a>
+    <a class="card" href="./ptau217/">
+      <span class="card-tag">Neuroscience / AD</span>
+      <h2>Phospho-tau217 in Synapses Around Aβ Plaques</h2>
+      <p>전임상 알츠하이머 대뇌피질에서 Aβ 플라크 주변 시냅스의 p-tau217 출현</p>
+      <span class="card-arrow">대시보드 보기 →</span>
+    </a>
+  </div>
+</body>
+</html>
