@@ -789,22 +789,44 @@
 
         <h3 class="subsection-title">A&beta; 플라크 주변에 p-tau217만 있는 건가? 다른 p-tau도 함께 나타나는가?</h3>
 
-        <div class="info-card">
-          <h3 class="info-card-title">A&beta; 플라크의 성숙 단계와 Thioflavin-S(ThS)</h3>
-          <p class="info-card-body">
-            A&beta; 플라크는 시간에 따라 성숙한다. 초기에는 A&beta; 펩타이드가 느슨하게 퍼진 <strong>diffuse plaque</strong>로 시작하여, 응집이 진행되면 조밀한 아밀로이드 코어를 가진 <strong>dense-core plaque</strong>가 되고, 최종적으로 주변에 손상된 신경돌기와 활성화된 글리아가 모여드는 <strong>neuritic plaque</strong>로 발전한다.
-          </p>
-          <figure class="figure-container" onclick="openLightbox(this)" style="margin-top:16px; box-shadow:none; border:1px solid #e2e8f0;">
-            <img src="images/plaque-maturation.png" alt="Aβ plaque maturation stages" loading="lazy">
-            <figcaption>
-              A&beta; 플라크 성숙 과정. Diffuse → Dense-core → Neuritic plaque. Dense-core 단계부터 &beta;-sheet 구조가 형성된다.
-              <span class="figure-hint">클릭하여 확대</span>
-            </figcaption>
-          </figure>
-          <p class="info-card-body" style="margin-top:12px;">
-            <strong>Thioflavin-S(ThS)</strong>는 &beta;-sheet 구조에 결합하여 형광을 내는 염색 시약이다. Dense-core 이상의 성숙 플라크는 &beta;-sheet 구조를 갖추므로 ThS 양성이 되고, diffuse plaque는 ThS 음성일 수 있다. 이 섹션의 실험에서는 ThS 양성 A&beta; 플라크(= 성숙한 플라크) 주변에서 p-tau217과 다른 p-tau 종의 공존을 분석하였다.
-          </p>
-        </div>
+        <details class="toggle-box" style="margin-bottom:12px;">
+          <summary class="toggle-summary">알아두면 좋을 것: p-tau의 종류 — 181, 202/205, 217, 231은 뭐가 다른가?</summary>
+          <div class="toggle-content">
+            <p class="card-body" style="margin-bottom:12px;">
+              Tau 단백질(441개 아미노산)에는 인산화될 수 있는 부위가 수십 개 있다. 각 부위의 번호가 곧 바이오마커 이름이 된다. 이 논문에서 다루는 주요 p-tau 종은 다음과 같다:
+            </p>
+            <figure class="figure-container" onclick="openLightbox(this)" style="margin-top:8px; margin-bottom:16px; box-shadow:none; border:1px solid #e2e8f0;">
+              <img src="images/tau-phospho-sites.png" alt="Tau phosphorylation sites" loading="lazy">
+              <figcaption>
+                Tau 단백질의 주요 인산화 부위. p-tau181(녹색)만 정상 뇌에서도 존재하며, 나머지는 병리 상태에서만 출현한다.
+                <span class="figure-hint">클릭하여 확대</span>
+              </figcaption>
+            </figure>
+            <p class="card-body" style="margin-bottom:8px;"><strong>p-tau181</strong> (항체: AT270) — 정상 뇌의 myelinated axon에도 존재하는 <strong>유일한 생리적 인산화</strong>. CSF 바이오마커로 오래 사용됐으나, 정상에서도 기저 수준이 있어 특이도가 상대적으로 낮다. 이 논문에서는 축삭 손상의 지표로 해석.</p>
+            <p class="card-body" style="margin-bottom:8px;"><strong>p-tau202/205</strong> (항체: AT8) — 정상 뇌에 없음. NFT와 pretangle의 대표 마커. "tau 병리 = AT8 양성"이라고 할 정도로 널리 쓰임.</p>
+            <p class="card-body" style="margin-bottom:8px;"><strong>p-tau217</strong> — 정상 뇌에 없음. 이 논문의 주인공. preclinical AD에서 <strong>가장 민감한 혈액 바이오마커</strong>. A&beta; 플라크 주변 시냅스에서 능동적으로 생성.</p>
+            <p class="card-body"><strong>p-tau231</strong> (항체: AT180) — 정상 뇌에 없음. 역시 혈액/CSF 바이오마커. p-tau217과 A&beta; 플라크 주변에서 ~80-92% 공존.</p>
+          </div>
+        </details>
+
+        <details class="toggle-box" style="margin-bottom:28px;">
+          <summary class="toggle-summary">알아두면 좋을 것: A&beta; 플라크 성숙 단계와 Thioflavin-S(ThS)</summary>
+          <div class="toggle-content">
+            <p class="card-body" style="margin-bottom:12px;">
+              A&beta; 플라크는 시간에 따라 성숙한다. 초기에는 A&beta; 펩타이드가 느슨하게 퍼진 <strong>diffuse plaque</strong>로 시작하여, 응집이 진행되면 조밀한 아밀로이드 코어를 가진 <strong>dense-core plaque</strong>가 되고, 최종적으로 주변에 손상된 신경돌기와 활성화된 글리아가 모여드는 <strong>neuritic plaque</strong>로 발전한다.
+            </p>
+            <figure class="figure-container" onclick="openLightbox(this)" style="margin-top:8px; margin-bottom:16px; box-shadow:none; border:1px solid #e2e8f0;">
+              <img src="images/plaque-maturation.png" alt="Aβ plaque maturation stages" loading="lazy">
+              <figcaption>
+                A&beta; 플라크 성숙 과정. Diffuse → Dense-core → Neuritic plaque. Dense-core 단계부터 &beta;-sheet 구조가 형성된다.
+                <span class="figure-hint">클릭하여 확대</span>
+              </figcaption>
+            </figure>
+            <p class="card-body">
+              <strong>Thioflavin-S(ThS)</strong>는 &beta;-sheet 구조에 결합하여 형광을 내는 염색 시약이다. Dense-core 이상의 성숙 플라크는 &beta;-sheet 구조를 갖추므로 ThS 양성이 되고, diffuse plaque는 ThS 음성일 수 있다. 이 섹션의 실험에서는 ThS 양성 A&beta; 플라크(= 성숙한 플라크) 주변에서 p-tau217과 다른 p-tau 종의 공존을 분석하였다.
+            </p>
+          </div>
+        </details>
 
         <div class="grid-2 mb-28">
           <div class="card">
@@ -866,6 +888,26 @@
           <h2 class="section-title">Results II: 세포 유형 및 시냅스 위치</h2>
           <p class="section-subtitle">p-tau181 축삭 변형, 시냅스 마커 공존, 글리아 비탐식</p>
         </div>
+
+        <details class="toggle-box" style="margin-bottom:28px;">
+          <summary class="toggle-summary">알아두면 좋을 것: 시냅스 구조와 글리아 세포</summary>
+          <div class="toggle-content">
+            <p class="card-body" style="margin-bottom:12px;">
+              이 섹션에서는 p-tau217이 시냅스의 어느 쪽에 있는지, 글리아 세포가 이를 탐식하는지를 분석한다. 관련 용어를 정리하면:
+            </p>
+            <figure class="figure-container" onclick="openLightbox(this)" style="margin-top:8px; margin-bottom:16px; box-shadow:none; border:1px solid #e2e8f0;">
+              <img src="images/synapse-structure.png" alt="Synapse structure and markers" loading="lazy">
+              <figcaption>
+                시냅스 구조와 본 연구에서 사용된 마커. Pre-시냅스(SYP), post-시냅스(PSD95), 미세아교세포(Iba1), 성상세포(GFAP).
+                <span class="figure-hint">클릭하여 확대</span>
+              </figcaption>
+            </figure>
+            <p class="card-body" style="margin-bottom:8px;"><strong>Pre-시냅스 (축삭 말단)</strong> — 신경전달물질을 담은 소포가 있는 쪽. 마커: <strong>SYP</strong>(synaptophysin, 소포막 단백질). 흥분성 뉴런은 VGLUT1, 억제성 뉴런은 VGAT으로 구분.</p>
+            <p class="card-body" style="margin-bottom:8px;"><strong>Post-시냅스 (수상돌기 가시)</strong> — 수용체와 scaffolding 단백질이 있는 쪽. 마커: <strong>PSD95</strong>(post-synaptic density protein 95).</p>
+            <p class="card-body" style="margin-bottom:8px;"><strong>미세아교세포 (Microglia)</strong> — 뇌의 면역 세포. 마커: <strong>Iba1</strong>. 손상된 시냅스를 탐식(phagocytosis)할 수 있다.</p>
+            <p class="card-body"><strong>성상세포 (Astrocyte)</strong> — 뉴런을 지지하는 글리아 세포. 마커: <strong>GFAP</strong>. 돌기가 시냅스를 감싸며, 역시 시냅스 탐식에 관여할 수 있다.</p>
+          </div>
+        </details>
 
         <h3 class="subsection-title">p-tau181: myelinated axon(수초화 축삭)에 정상 존재, A&beta; 플라크 주변에서 변형</h3>
 
@@ -949,6 +991,19 @@
           <h2 class="section-title">Results III: 뉴런 유형 및 Tau Kinase</h2>
           <p class="section-subtitle">흥분/억제 뉴런 모두에서 출현, 활성 kinase와 공존</p>
         </div>
+
+        <details class="toggle-box" style="margin-bottom:28px;">
+          <summary class="toggle-summary">알아두면 좋을 것: Tau kinase란?</summary>
+          <div class="toggle-content">
+            <p class="card-body" style="margin-bottom:12px;">
+              <strong>Kinase</strong>는 단백질에 인산기(phosphate group)를 붙이는 효소이다. Tau 단백질의 특정 부위를 인산화하는 kinase를 tau kinase라 부른다. 이 섹션에서 다루는 3가지:
+            </p>
+            <p class="card-body" style="margin-bottom:8px;"><strong>GSK3&beta;</strong> (Glycogen Synthase Kinase 3&beta;) — AD 연구에서 가장 주목받는 tau kinase. Tau의 여러 부위(Thr181, Thr217 포함)를 인산화할 수 있다. AD 뇌에서 활성이 증가하며, 치료 표적으로 연구 중.</p>
+            <p class="card-body" style="margin-bottom:8px;"><strong>Cdk5</strong> (Cyclin-Dependent Kinase 5) — 정상적으로 뉴런 발달에 관여하지만, AD에서 p25라는 비정상 활성화 인자와 결합하면 tau를 과인산화시킨다.</p>
+            <p class="card-body" style="margin-bottom:12px;"><strong>JNK</strong> (c-Jun N-terminal Kinase) — 스트레스 반응 kinase. 산화 스트레스, A&beta; 독성 등에 의해 활성화되며 tau를 인산화한다.</p>
+            <p class="card-body">이 세 kinase 모두 in vitro에서 tau의 <strong>Thr217 부위</strong>를 인산화하는 것이 확인되어 있다. 이 섹션에서는 이들이 실제로 preclinical AD 뇌의 시냅스에서 p-tau217과 함께 존재하는지를 검증한다.</p>
+          </div>
+        </details>
 
         <h3 class="subsection-title">흥분성 + 억제성 뉴런 시냅스 모두에서 p-tau217 출현</h3>
 
