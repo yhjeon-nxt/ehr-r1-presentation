@@ -9,6 +9,7 @@
     /* ── Custom Properties ── */
     :root {
       --bg: #0f172a;
+      --bg-alt: #0d1321;
       --card: #1e293b;
       --text: #f8fafc;
       --text-sub: #94a3b8;
@@ -25,183 +26,165 @@
       padding: 0;
     }
 
-    html, body {
-      height: 100vh;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      overflow: hidden;
       background: var(--bg);
       color: var(--text);
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
-    /* ── Top Bar ── */
-    .top-bar {
+    /* ── Progress Bar ── */
+    #progress-bar {
       position: fixed;
       top: 0;
       left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--blue);
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* ── Top Nav ── */
+    nav {
+      position: fixed;
+      top: 3px;
+      left: 0;
       right: 0;
-      width: 100%;
       height: 48px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      background: var(--bg);
+      background: #0f172a;
       border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
       z-index: 1000;
+      gap: 16px;
     }
 
-    #counter {
-      color: var(--text-sub);
-      font-size: 0.85rem;
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
     }
 
-    .home-link {
+    .nav-home {
       color: var(--text-sub);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       transition: color 0.2s;
+      white-space: nowrap;
     }
 
-    .home-link:hover {
+    .nav-home:hover {
       color: var(--text);
     }
 
-    /* ── Slide Container ── */
-    .slide-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+    .nav-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--blue);
+      white-space: nowrap;
     }
 
-    /* ── Individual Slide ── */
-    .slide {
-      position: absolute;
-      inset: 0;
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: #334155;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 60px 64px 80px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-      overflow-y: auto;
+      gap: 2px;
+      list-style: none;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-sub);
+      text-decoration: none;
+      border-radius: 5px;
+      transition: color 0.15s, background-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .nav-links a.active {
+      color: var(--blue);
+      background: rgba(56,189,248,0.12);
+    }
+
+    /* ── Main Content ── */
+    main {
+      padding-top: 60px;
+    }
+
+    /* ── Sections ── */
+    section {
+      padding: 72px 24px;
+    }
+
+    section:nth-child(odd) {
       background: var(--bg);
     }
 
-    .slide.active {
-      opacity: 1;
-      pointer-events: auto;
+    section:nth-child(even) {
+      background: var(--bg-alt);
     }
 
-    /* ── Dot Indicators ── */
-    .dots {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      z-index: 1000;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #475569;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .dot.active {
-      background: var(--blue);
-      transform: scale(1.25);
-    }
-
-    /* ── Grid Overview ── */
-    .grid-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      padding: 48px;
-      z-index: 2000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      overflow-y: auto;
-    }
-
-    .grid-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .grid-item {
-      border: 1px solid #334155;
-      border-radius: 8px;
-      cursor: pointer;
-      aspect-ratio: 16 / 9;
-      background: var(--card);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      color: var(--text-sub);
-      transition: border-color 0.2s;
-    }
-
-    .grid-item:hover {
-      border-color: var(--blue);
-    }
-
-    .grid-item.current {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
-    }
-
-    .grid-item .grid-num {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .grid-item .grid-label {
-      font-size: 0.75rem;
-      text-align: center;
+    .section-inner {
+      max-width: 720px;
+      margin: 0 auto;
     }
 
     /* ── Shared Content Classes ── */
-    .slide-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text);
+    .section-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sub);
       margin-bottom: 8px;
-      text-align: center;
     }
 
-    .slide-subtitle {
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-lead {
       font-size: 1rem;
-      color: var(--text-sub);
+      color: var(--blue);
       margin-bottom: 32px;
-      text-align: center;
     }
 
     .card {
       background: var(--card);
       border-radius: 12px;
-      padding: 24px;
+      padding: 20px;
       border: 1px solid #334155;
     }
 
@@ -210,31 +193,20 @@
       border-radius: 8px;
       padding: 16px 20px;
       font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       line-height: 1.7;
       overflow-x: auto;
       color: var(--text);
     }
 
-    .code-prompt {
-      color: var(--green);
-    }
-
-    .code-cmd {
-      color: var(--blue);
-    }
-
-    .code-comment {
-      color: #64748b;
-    }
-
-    .code-string {
-      color: var(--amber);
-    }
+    .code-prompt { color: var(--green); }
+    .code-cmd    { color: var(--blue); }
+    .code-comment{ color: #64748b; }
+    .code-string { color: var(--amber); }
 
     .badge {
       display: inline-block;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       padding: 3px 10px;
       border-radius: 999px;
@@ -252,6 +224,7 @@
       display: block;
       width: 100%;
       text-align: left;
+      font-family: inherit;
     }
 
     .toggle-btn:hover {
@@ -276,16 +249,16 @@
 
     .info-table th,
     .info-table td {
-      padding: 10px 16px;
+      padding: 10px 14px;
       border-bottom: 1px solid #334155;
       text-align: left;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .info-table th {
       color: var(--text-sub);
       font-weight: 500;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -294,58 +267,158 @@
       color: var(--text);
     }
 
-    .section-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    /* ── Flex / Grid helpers ── */
+    .flex-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .arrow {
       color: var(--text-sub);
-      margin-bottom: 8px;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .mb-6  { margin-bottom: 6px; }
+    .mb-12 { margin-bottom: 12px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-32 { margin-bottom: 32px; }
+
+    .label-row {
+      color: var(--text-sub);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    /* ── Slash command inline badges ── */
+    .cmd-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56,189,248,0.08);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, monospace;
+    }
+
+    .cmd-badge .cmd-name {
+      color: var(--blue);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .cmd-badge .cmd-desc {
+      color: var(--text-sub);
+      font-size: 0.78rem;
+    }
+
+    .cmd-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ── Staircase summary ── */
+    .staircase {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .stair-bar {
+      flex-shrink: 0;
+      width: 76px;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    .stair-bar span {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-align: center;
+      line-height: 1.3;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <span id="counter">1 / 9</span>
-    <a href="../" class="home-link">← Home</a>
-  </div>
+  <!-- Progress Bar -->
+  <div id="progress-bar"></div>
 
-  <!-- Slide Container -->
-  <div class="slide-container">
+  <!-- Top Nav -->
+  <nav>
+    <div class="nav-left">
+      <a href="../" class="nav-home">&#8592; Home</a>
+      <span class="nav-title">Claude Code Guide</span>
+    </div>
+    <div class="nav-divider"></div>
+    <ul class="nav-links">
+      <li><a href="#intro">바이브 코딩</a></li>
+      <li><a href="#about">소개</a></li>
+      <li><a href="#start">시작하기</a></li>
+      <li><a href="#claudemd">CLAUDE.md</a></li>
+      <li><a href="#hooks">Hooks</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#mcp">MCP</a></li>
+      <li><a href="#agent">Agent</a></li>
+      <li><a href="#wrapup">마무리</a></li>
+    </ul>
+  </nav>
 
-    <section class="slide active" id="slide-0">
-      <span class="section-tag">INTRODUCTION</span>
-      <h1 class="slide-title">바이브 코딩이란?</h1>
+  <main>
 
-      <!-- Karpathy quote -->
-      <div class="card" style="border-left: 4px solid var(--amber); max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <p style="font-style: italic; color: var(--text); line-height: 1.7; margin-bottom: 12px;">"There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."</p>
-        <p style="color: var(--text-sub); font-size: 0.85rem;">— Andrej Karpathy, Feb 2025</p>
-      </div>
+    <!-- ── Section 0: 바이브 코딩이란? ── -->
+    <section id="intro">
+      <div class="section-inner">
+        <p class="section-tag">INTRODUCTION</p>
+        <h1 class="section-title">바이브 코딩이란?</h1>
+        <p class="section-lead">코드를 직접 쓰지 않고, 자연어 대화로 소프트웨어를 만드는 방식</p>
 
-      <!-- Definition -->
-      <p style="text-align: center; font-size: 1.1rem; color: var(--blue); margin: 24px 0;">코드를 직접 쓰지 않고, 자연어 대화로 소프트웨어를 만드는 방식</p>
-
-      <!-- Why it matters cards -->
-      <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">왜 AI 연구원에게 중요한가?</p>
-      <div style="display: flex; gap: 16px; max-width: 800px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="flex: 1;">
-          <p style="font-weight: 600; margin-bottom: 6px;">실험 도구 자동화</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">데이터 파이프라인, 분석 스크립트를 대화로</p>
+        <!-- Karpathy quote -->
+        <div class="card mb-24" style="border-left: 4px solid var(--amber);">
+          <p style="font-style: italic; color: var(--text); line-height: 1.75; margin-bottom: 10px;">"There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."</p>
+          <p style="color: var(--text-sub); font-size: 0.82rem;">&#8212; Andrej Karpathy, Feb 2025</p>
         </div>
-        <div class="card" style="flex: 1;">
-          <p style="font-weight: 600; margin-bottom: 6px;">데모/시각화 직접 제작</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">논문 발표용 인터랙티브 대시보드</p>
-        </div>
-        <div class="card" style="flex: 1;">
-          <p style="font-weight: 600; margin-bottom: 6px;">반복 작업 스크립트화</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">파일 정리, 포맷 변환, 배치 처리</p>
-        </div>
-      </div>
 
-      <!-- Tool comparison table -->
-      <div style="max-width: 800px; width: 100%;">
+        <!-- Why it matters -->
+        <p class="label-row mb-12">왜 AI 연구원에게 중요한가?</p>
+        <div class="grid-3 mb-24">
+          <div class="card">
+            <p style="font-weight: 600;">실험 도구 자동화</p>
+          </div>
+          <div class="card">
+            <p style="font-weight: 600;">데모/시각화 직접 제작</p>
+          </div>
+          <div class="card">
+            <p style="font-weight: 600;">반복 작업 스크립트화</p>
+          </div>
+        </div>
+
+        <!-- Tool comparison -->
+        <p class="label-row mb-12">도구 비교</p>
         <table class="info-table">
           <thead>
             <tr>
@@ -365,7 +438,7 @@
               <td>IDE</td>
               <td>AI Flow 기반 자동 완성</td>
             </tr>
-            <tr style="background: rgba(56,189,248,0.1);">
+            <tr style="background: rgba(56,189,248,0.06);">
               <td><strong>Claude Code</strong></td>
               <td>CLI (터미널)</td>
               <td>에이전틱, 도구 호출, 확장성</td>
@@ -380,70 +453,71 @@
       </div>
     </section>
 
-    <section class="slide" id="slide-1">
-      <span class="section-tag">WHAT IS CLAUDE CODE</span>
-      <h1 class="slide-title">Claude Code 소개</h1>
-      <p class="slide-subtitle">터미널에서 돌아가는 AI 코딩 에이전트 — IDE 없이, 대화만으로</p>
+    <!-- ── Section 1: Claude Code 소개 ── -->
+    <section id="about">
+      <div class="section-inner">
+        <p class="section-tag">WHAT IS CLAUDE CODE</p>
+        <h1 class="section-title">Claude Code 소개</h1>
+        <p class="section-lead">터미널에서 돌아가는 AI 코딩 에이전트</p>
 
-      <!-- Architecture diagram -->
-      <div style="display: flex; align-items: center; gap: 12px; max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="flex: 1; text-align: center; border-color: var(--green);">
-          <p style="font-weight: 700; margin-bottom: 4px;">You</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">자연어 프롬프트</p>
+        <!-- Architecture diagram -->
+        <div class="flex-row mb-24" style="flex-wrap: nowrap;">
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--green);">
+            <p style="font-weight: 700; margin-bottom: 4px;">You</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">자연어 프롬프트</p>
+          </div>
+          <span class="arrow">&#8594;</span>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--blue);">
+            <p style="font-weight: 700; margin-bottom: 4px;">Claude Code</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">에이전트 엔진</p>
+          </div>
+          <span class="arrow">&#8594;</span>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--purple);">
+            <p style="font-weight: 700; margin-bottom: 4px;">Tools</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">파일/Git/터미널/웹</p>
+          </div>
         </div>
-        <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">→</div>
-        <div class="card" style="flex: 1; text-align: center; border-color: var(--blue);">
-          <p style="font-weight: 700; margin-bottom: 4px;">Claude Code</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">에이전트 엔진</p>
-        </div>
-        <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">→</div>
-        <div class="card" style="flex: 1; text-align: center; border-color: var(--purple);">
-          <p style="font-weight: 700; margin-bottom: 4px;">Tools</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">파일/Git/터미널/웹</p>
-        </div>
-      </div>
 
-      <!-- Model cards -->
-      <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">모델 선택</p>
-      <div style="display: flex; gap: 16px; max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="flex: 1;">
-          <span class="badge" style="background: rgba(56,189,248,0.2); color: var(--blue); margin-bottom: 10px; display: inline-block;">기본</span>
-          <p style="font-weight: 700; margin-bottom: 6px;">Sonnet 4</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">빠르고 효율적 — 일반 코딩 작업</p>
+        <!-- Models -->
+        <p class="label-row mb-12">모델 선택</p>
+        <div class="grid-2 mb-24">
+          <div class="card">
+            <span class="badge mb-6" style="background: rgba(56,189,248,0.15); color: var(--blue); display: inline-block;">기본</span>
+            <p style="font-weight: 700; margin-bottom: 4px;">Sonnet 4</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem;">빠르고 효율적 &#8212; 일반 코딩 작업</p>
+          </div>
+          <div class="card">
+            <span class="badge mb-6" style="background: rgba(167,139,250,0.15); color: var(--purple); display: inline-block;">고급</span>
+            <p style="font-weight: 700; margin-bottom: 4px;">Opus 4</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem;">깊은 추론 &#8212; 복잡한 아키텍처 설계</p>
+          </div>
         </div>
-        <div class="card" style="flex: 1;">
-          <span class="badge" style="background: rgba(167,139,250,0.2); color: var(--purple); margin-bottom: 10px; display: inline-block;">고급</span>
-          <p style="font-weight: 700; margin-bottom: 6px;">Opus 4</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">깊은 추론 — 복잡한 아키텍처 설계</p>
-        </div>
-      </div>
 
-      <!-- Platform cards -->
-      <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">사용 플랫폼</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">CLI</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">터미널에서 <code style="color: var(--blue); font-family: monospace;">claude</code> 실행</p>
+        <!-- Platforms -->
+        <p class="label-row mb-12">사용 플랫폼</p>
+        <div class="grid-2 mb-24">
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 2px;">CLI</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;"><code style="color: var(--blue); font-family: monospace;">claude</code> 명령어로 실행</p>
+          </div>
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 2px;">VS Code</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">Extension 설치</p>
+          </div>
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 2px;">JetBrains</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">Plugin 설치</p>
+          </div>
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 2px;">Web</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">claude.ai/code</p>
+          </div>
         </div>
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">VS Code</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">Extension 설치</p>
-        </div>
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">JetBrains</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">Plugin 설치</p>
-        </div>
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">Web</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">claude.ai/code</p>
-        </div>
-      </div>
 
-      <!-- Toggle -->
-      <div style="max-width: 600px; width: 100%;">
-        <button class="toggle-btn" onclick="toggleSection(this)">▸ IDE 도구와 뭐가 다른가?</button>
+        <!-- Toggle -->
+        <button class="toggle-btn" onclick="toggleSection(this)">&#9658; IDE 도구와 뭐가 다른가?</button>
         <div class="toggle-content">
-          <div class="card" style="margin-top: 8px; border-radius: 8px;">
+          <div class="card" style="margin-top: 8px;">
             <p style="margin-bottom: 10px;"><strong style="color: var(--text-sub);">IDE 도구 (Cursor, Copilot):</strong> 에디터 안에서 코드 자동완성/수정</p>
             <p><strong style="color: var(--blue);">Claude Code:</strong> 에이전트가 직접 파일 읽기/쓰기/실행, 멀티스텝 작업을 자율적으로 수행</p>
           </div>
@@ -451,489 +525,419 @@
       </div>
     </section>
 
-    <section class="slide" id="slide-2">
-      <span class="section-tag">GETTING STARTED</span>
-      <h1 class="slide-title">시작하기: 설치 &amp; 첫 대화</h1>
-      <p class="slide-subtitle">5분이면 시작할 수 있습니다</p>
+    <!-- ── Section 2: 시작하기 ── -->
+    <section id="start">
+      <div class="section-inner">
+        <p class="section-tag">GETTING STARTED</p>
+        <h1 class="section-title">시작하기</h1>
+        <p class="section-lead">5분이면 시작할 수 있습니다</p>
 
-      <!-- Install code block -->
-      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div><span class="code-prompt">$</span> <span class="code-cmd">npm install -g @anthropic-ai/claude-code</span></div>
-        <div><span class="code-prompt">$</span> <span class="code-cmd">claude</span></div>
-      </div>
-
-      <!-- Auth comparison cards -->
-      <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">인증 방법</p>
-      <div style="display: flex; gap: 16px; max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="flex: 1;">
-          <p style="font-weight: 700; margin-bottom: 6px;">API Key</p>
-          <p style="color: var(--text); font-size: 0.9rem; margin-bottom: 8px;">ANTHROPIC_API_KEY 환경변수 설정</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">사용량 기반 과금</p>
+        <!-- Install -->
+        <div class="code-block mb-24">
+          <div><span class="code-prompt">$</span> <span class="code-cmd">npm install -g @anthropic-ai/claude-code</span></div>
+          <div><span class="code-prompt">$</span> <span class="code-cmd">claude</span></div>
         </div>
-        <div class="card" style="flex: 1;">
-          <p style="font-weight: 700; margin-bottom: 6px;">Claude Max 구독</p>
-          <p style="color: var(--text); font-size: 0.9rem; margin-bottom: 8px;">claude 실행 시 브라우저 인증</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">월정액 ($100/mo)</p>
-        </div>
-      </div>
 
-      <!-- Permission mode table -->
-      <div style="max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Permission 모드</p>
-        <table class="info-table">
-          <thead>
-            <tr>
-              <th>모드</th>
-              <th>자동 승인</th>
-              <th>추천 상황</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>default</td>
-              <td>읽기만</td>
-              <td>처음 시작할 때</td>
-            </tr>
-            <tr>
-              <td>acceptEdits</td>
-              <td>읽기 + 편집</td>
-              <td>코드 작업할 때</td>
-            </tr>
-            <tr>
-              <td>plan</td>
-              <td>읽기만 (계획)</td>
-              <td>큰 작업 전 탐색</td>
-            </tr>
-            <tr>
-              <td>auto</td>
-              <td>전부</td>
-              <td>긴 자율 작업</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Workflow diagram -->
-      <div style="max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-          <div class="card" style="flex: 1; text-align: center; border-color: var(--green); padding: 16px;">
-            <p style="font-weight: 700;">프롬프트 입력</p>
+        <!-- Auth -->
+        <p class="label-row mb-12">인증 방법</p>
+        <div class="grid-2 mb-24">
+          <div class="card">
+            <p style="font-weight: 700; margin-bottom: 6px;">API Key</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem;">ANTHROPIC_API_KEY 환경변수 &#8212; 사용량 기반 과금</p>
           </div>
-          <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">→</div>
-          <div class="card" style="flex: 1; text-align: center; border-color: var(--blue); padding: 16px;">
-            <p style="font-weight: 700; margin-bottom: 4px;">도구 호출</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">Read, Edit, Bash...</p>
-          </div>
-          <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">→</div>
-          <div class="card" style="flex: 1; text-align: center; border-color: var(--amber); padding: 16px;">
-            <p style="font-weight: 700;">결과 확인</p>
+          <div class="card">
+            <p style="font-weight: 700; margin-bottom: 6px;">Claude Max 구독</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem;">브라우저 인증 &#8212; 월정액 ($100/mo)</p>
           </div>
         </div>
-        <p style="text-align: center; color: var(--text-sub); font-size: 0.85rem;">Claude가 자율적으로 도구를 선택하고 실행합니다</p>
-      </div>
 
-      <!-- Slash commands grid -->
-      <div style="max-width: 700px; width: 100%;">
-        <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Slash Commands</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
-          <div class="card" style="padding: 14px;">
-            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/help</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">도움말</p>
-          </div>
-          <div class="card" style="padding: 14px;">
-            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/clear</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">대화 초기화</p>
-          </div>
-          <div class="card" style="padding: 14px;">
-            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/compact</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">컨텍스트 압축</p>
-          </div>
-          <div class="card" style="padding: 14px;">
-            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/cost</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">비용 확인</p>
-          </div>
-          <div class="card" style="padding: 14px;">
-            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/config</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">설정 보기</p>
-          </div>
-          <div class="card" style="padding: 14px;">
-            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/model</p>
-            <p style="color: var(--text-sub); font-size: 0.8rem;">모델 전환</p>
-          </div>
+        <!-- Permission mode -->
+        <p class="label-row mb-12">Permission 모드</p>
+        <div class="mb-24">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>모드</th>
+                <th>자동 승인</th>
+                <th>추천 상황</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>default</td>
+                <td>읽기만</td>
+                <td>처음 시작할 때</td>
+              </tr>
+              <tr>
+                <td>acceptEdits</td>
+                <td>읽기 + 편집</td>
+                <td>코드 작업할 때</td>
+              </tr>
+              <tr>
+                <td>plan</td>
+                <td>읽기만 (계획)</td>
+                <td>큰 작업 전 탐색</td>
+              </tr>
+              <tr>
+                <td>auto</td>
+                <td>전부</td>
+                <td>긴 자율 작업</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Slash commands -->
+        <p class="label-row mb-12">Slash Commands</p>
+        <div class="cmd-grid">
+          <div class="cmd-badge"><span class="cmd-name">/help</span><span class="cmd-desc">도움말</span></div>
+          <div class="cmd-badge"><span class="cmd-name">/clear</span><span class="cmd-desc">대화 초기화</span></div>
+          <div class="cmd-badge"><span class="cmd-name">/compact</span><span class="cmd-desc">컨텍스트 압축</span></div>
+          <div class="cmd-badge"><span class="cmd-name">/cost</span><span class="cmd-desc">비용 확인</span></div>
+          <div class="cmd-badge"><span class="cmd-name">/config</span><span class="cmd-desc">설정 보기</span></div>
+          <div class="cmd-badge"><span class="cmd-name">/model</span><span class="cmd-desc">모델 전환</span></div>
         </div>
       </div>
     </section>
 
-    <section class="slide" id="slide-3">
-      <span class="section-tag">CUSTOMIZE</span>
-      <h1 class="slide-title">CLAUDE.md</h1>
-      <p class="slide-subtitle">매 세션 시작 시 자동으로 로드되는 프로젝트 설명서</p>
+    <!-- ── Section 3: CLAUDE.md ── -->
+    <section id="claudemd">
+      <div class="section-inner">
+        <p class="section-tag">CUSTOMIZE</p>
+        <h1 class="section-title">CLAUDE.md</h1>
+        <p class="section-lead">매 세션마다 자동 로드되는 프로젝트 설명서</p>
 
-      <!-- 3-level diagram -->
-      <div style="display: flex; flex-direction: column; align-items: center; max-width: 500px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="width: 100%; border-left: 4px solid var(--blue);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span>📁 Project</span>
-              <code style="color: var(--blue); font-family: monospace; font-size: 0.85rem;">./CLAUDE.md</code>
+        <!-- 3-level diagram -->
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 24px;">
+          <div class="card" style="border-left: 4px solid var(--blue);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span>Project</span>
+                <code style="color: var(--blue); font-family: monospace; font-size: 0.82rem;">./CLAUDE.md</code>
+              </div>
+              <span class="badge" style="background: rgba(56,189,248,0.15); color: var(--blue);">가장 우선</span>
             </div>
-            <span class="badge" style="background: rgba(56,189,248,0.2); color: var(--blue);">가장 우선</span>
+            <p style="color: var(--text-sub); font-size: 0.82rem; margin-top: 4px;">이 프로젝트 전용 (git 공유)</p>
           </div>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">이 프로젝트 전용 (git 공유)</p>
-        </div>
-        <div style="color: var(--text-sub); font-size: 1.2rem; line-height: 1; padding: 4px 0;">↓</div>
-        <div class="card" style="width: 100%; border-left: 4px solid var(--purple);">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-            <span>👤 User</span>
-            <code style="color: var(--purple); font-family: monospace; font-size: 0.85rem;">~/.claude/CLAUDE.md</code>
+          <div style="text-align: center; color: var(--text-sub); font-size: 1rem; line-height: 1;">&#8595;</div>
+          <div class="card" style="border-left: 4px solid var(--purple);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span>User</span>
+              <code style="color: var(--purple); font-family: monospace; font-size: 0.82rem;">~/.claude/CLAUDE.md</code>
+            </div>
+            <p style="color: var(--text-sub); font-size: 0.82rem; margin-top: 4px;">개인 설정</p>
           </div>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">개인 설정</p>
-        </div>
-        <div style="color: var(--text-sub); font-size: 1.2rem; line-height: 1; padding: 4px 0;">↓</div>
-        <div class="card" style="width: 100%; border-left: 4px solid var(--text-sub);">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-            <span>🏢 Global</span>
-            <code style="color: var(--text-sub); font-family: monospace; font-size: 0.85rem;">managed settings</code>
+          <div style="text-align: center; color: var(--text-sub); font-size: 1rem; line-height: 1;">&#8595;</div>
+          <div class="card" style="border-left: 4px solid #475569;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span>Global</span>
+              <code style="color: var(--text-sub); font-family: monospace; font-size: 0.82rem;">managed settings</code>
+            </div>
+            <p style="color: var(--text-sub); font-size: 0.82rem; margin-top: 4px;">조직 전체 적용</p>
           </div>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">조직 전체 적용</p>
         </div>
-      </div>
 
-      <!-- Example code block -->
-      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div><span class="code-comment"># My Project</span></div>
-        <div>&nbsp;</div>
-        <div><span class="code-comment">## Build</span></div>
-        <div><span class="code-cmd">- npm run dev:</span> 개발 서버 시작</div>
-        <div><span class="code-cmd">- npm test:</span> 테스트 실행</div>
-        <div>&nbsp;</div>
-        <div><span class="code-comment">## Rules</span></div>
-        <div>- TypeScript strict mode 사용</div>
-        <div>- 커밋 메시지는 한글로 작성</div>
-      </div>
+        <!-- Example -->
+        <div class="code-block mb-20">
+          <div><span class="code-comment"># My Project</span></div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment">## Build</span></div>
+          <div><span class="code-cmd">- npm run dev:</span> 개발 서버 시작</div>
+          <div><span class="code-cmd">- npm test:</span> 테스트 실행</div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment">## Rules</span></div>
+          <div>- TypeScript strict mode 사용</div>
+          <div>- 커밋 메시지는 한글로 작성</div>
+        </div>
 
-      <!-- Toggle: AGENTS.md -->
-      <div style="max-width: 600px; width: 100%;">
-        <button class="toggle-btn" onclick="toggleSection(this)">▸ AGENTS.md란?</button>
+        <!-- Toggle: AGENTS.md -->
+        <button class="toggle-btn" onclick="toggleSection(this)">&#9658; AGENTS.md란?</button>
         <div class="toggle-content">
-          <div class="card" style="margin-top: 8px; border-radius: 8px;">
+          <div class="card" style="margin-top: 8px;">
             <p style="margin-bottom: 8px;">서브에이전트가 참조하는 전용 지침 파일</p>
-            <p style="margin-bottom: 8px; color: var(--text-sub); font-size: 0.9rem;">.claude/agents/ 폴더에 커스텀 에이전트 정의 가능</p>
-            <p style="color: var(--text-sub); font-size: 0.9rem;">메인 CLAUDE.md와 별도로, 에이전트별 행동 규칙 설정</p>
+            <p style="color: var(--text-sub); font-size: 0.88rem; margin-bottom: 6px;"><code style="color: var(--blue); font-family: monospace;">.claude/agents/</code> 폴더에 커스텀 에이전트 정의 가능</p>
+            <p style="color: var(--text-sub); font-size: 0.88rem;">메인 CLAUDE.md와 별도로, 에이전트별 행동 규칙 설정</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" id="slide-4">
-      <span class="section-tag">AUTOMATE</span>
-      <h1 class="slide-title">Hooks — 자동화의 시작</h1>
-      <p class="slide-subtitle">특정 이벤트가 발생하면 자동으로 실행되는 명령</p>
+    <!-- ── Section 4: Hooks ── -->
+    <section id="hooks">
+      <div class="section-inner">
+        <p class="section-tag">AUTOMATE</p>
+        <h1 class="section-title">Hooks</h1>
+        <p class="section-lead">이벤트 발생 시 자동 실행되는 명령</p>
 
-      <!-- Event flow diagram -->
-      <div style="display: flex; align-items: center; gap: 10px; max-width: 700px; width: 100%; margin-bottom: 24px; flex-wrap: wrap; justify-content: center;">
-        <div class="card" style="text-align: center; border-color: var(--text-sub); padding: 14px 16px;">
-          <p style="font-weight: 600; font-size: 0.9rem;">이벤트 발생</p>
+        <!-- Flow diagram (3-box) -->
+        <div class="flex-row mb-24" style="flex-wrap: nowrap;">
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--amber); padding: 14px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">PreToolUse</p>
+            <span class="badge" style="background: rgba(245,158,11,0.15); color: var(--amber); font-size: 0.68rem;">차단 가능</span>
+          </div>
+          <span class="arrow">&#8594;</span>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--blue); padding: 14px;">
+            <p style="font-weight: 600;">도구 실행</p>
+          </div>
+          <span class="arrow">&#8594;</span>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--green); padding: 14px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">PostToolUse</p>
+            <span class="badge" style="background: rgba(34,197,94,0.15); color: var(--green); font-size: 0.68rem;">후처리</span>
+          </div>
         </div>
-        <div style="color: var(--text-sub); font-size: 1.2rem; flex-shrink: 0;">→</div>
-        <div class="card" style="text-align: center; border-color: var(--amber); padding: 14px 16px;">
-          <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 6px;">PreToolUse</p>
-          <span class="badge" style="background: rgba(245,158,11,0.2); color: var(--amber); font-size: 0.7rem;">차단 가능</span>
+
+        <!-- Hook types table -->
+        <div class="mb-24">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Hook</th>
+                <th>시점</th>
+                <th>활용 예시</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span style="color: var(--amber);">PreToolUse</span></td>
+                <td>도구 실행 전</td>
+                <td>위험한 명령 차단</td>
+              </tr>
+              <tr>
+                <td><span style="color: var(--green);">PostToolUse</span></td>
+                <td>도구 실행 후</td>
+                <td>자동 포맷팅, 린트</td>
+              </tr>
+              <tr>
+                <td><span style="color: var(--blue);">Notification</span></td>
+                <td>입력 대기 시</td>
+                <td>데스크톱 알림</td>
+              </tr>
+              <tr>
+                <td><span style="color: var(--purple);">SessionStart</span></td>
+                <td>세션 시작 시</td>
+                <td>환경 변수 로드</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div style="color: var(--text-sub); font-size: 1.2rem; flex-shrink: 0;">→</div>
-        <div class="card" style="text-align: center; border-color: var(--blue); padding: 14px 16px;">
-          <p style="font-weight: 600; font-size: 0.9rem;">도구 실행</p>
+
+        <!-- JSON example -->
+        <div class="code-block mb-12">
+          <div>{</div>
+          <div>&nbsp; <span class="code-cmd">"hooks"</span>: {</div>
+          <div>&nbsp;&nbsp;&nbsp; <span class="code-cmd">"PostToolUse"</span>: [{</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-cmd">"matcher"</span>: <span class="code-string">"Edit|Write"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-cmd">"hooks"</span>: [{ <span class="code-cmd">"type"</span>: <span class="code-string">"command"</span>, <span class="code-cmd">"command"</span>: <span class="code-string">"prettier --write $FILE"</span> }]</div>
+          <div>&nbsp;&nbsp;&nbsp; }]</div>
+          <div>&nbsp; }</div>
+          <div>}</div>
         </div>
-        <div style="color: var(--text-sub); font-size: 1.2rem; flex-shrink: 0;">→</div>
-        <div class="card" style="text-align: center; border-color: var(--green); padding: 14px 16px;">
-          <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 6px;">PostToolUse</p>
-          <span class="badge" style="background: rgba(34,197,94,0.2); color: var(--green); font-size: 0.7rem;">후처리</span>
-        </div>
-        <div style="color: var(--text-sub); font-size: 1.2rem; flex-shrink: 0;">→</div>
-        <div class="card" style="text-align: center; border-color: var(--text-sub); padding: 14px 16px;">
-          <p style="font-weight: 600; font-size: 0.9rem;">결과</p>
-        </div>
+        <p style="color: var(--text-sub); font-size: 0.78rem;">설정 위치: ~/.claude/settings.json 또는 .claude/settings.json</p>
       </div>
-
-      <!-- Hook types table -->
-      <div style="max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <table class="info-table">
-          <thead>
-            <tr>
-              <th>Hook</th>
-              <th>시점</th>
-              <th>활용 예시</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span style="color: var(--amber);">PreToolUse</span></td>
-              <td>도구 실행 전</td>
-              <td>위험한 명령 차단</td>
-            </tr>
-            <tr>
-              <td><span style="color: var(--green);">PostToolUse</span></td>
-              <td>도구 실행 후</td>
-              <td>자동 포맷팅, 린트</td>
-            </tr>
-            <tr>
-              <td><span style="color: var(--blue);">Notification</span></td>
-              <td>입력 대기 시</td>
-              <td>데스크톱 알림</td>
-            </tr>
-            <tr>
-              <td><span style="color: var(--purple);">SessionStart</span></td>
-              <td>세션 시작 시</td>
-              <td>환경 변수 로드</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- JSON config example -->
-      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 8px;">
-        <div>{</div>
-        <div>&nbsp; <span class="code-cmd">"hooks"</span>: {</div>
-        <div>&nbsp;&nbsp;&nbsp; <span class="code-cmd">"PostToolUse"</span>: [{</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-cmd">"matcher"</span>: <span class="code-string">"Edit|Write"</span>,</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-cmd">"hooks"</span>: [{</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-cmd">"type"</span>: <span class="code-string">"command"</span>,</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="code-cmd">"command"</span>: <span class="code-string">"prettier --write $FILE"</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }]</div>
-        <div>&nbsp;&nbsp;&nbsp; }]</div>
-        <div>&nbsp; }</div>
-        <div>}</div>
-      </div>
-
-      <!-- Note -->
-      <p style="color: var(--text-sub); font-size: 0.8rem; max-width: 600px; width: 100%; text-align: left;">설정 위치: ~/.claude/settings.json 또는 .claude/settings.json</p>
     </section>
 
-    <section class="slide" id="slide-5">
-      <span class="section-tag">CUSTOMIZE</span>
-      <h1 class="slide-title">Skills — 나만의 슬래시 커맨드</h1>
-      <p class="slide-subtitle">재사용 가능한 커스텀 워크플로우를 /명령어로 실행</p>
+    <!-- ── Section 5: Skills ── -->
+    <section id="skills">
+      <div class="section-inner">
+        <p class="section-tag">CUSTOMIZE</p>
+        <h1 class="section-title">Skills</h1>
+        <p class="section-lead">재사용 가능한 커스텀 /명령어</p>
 
-      <!-- Folder structure -->
-      <div class="code-block" style="max-width: 500px; width: 100%; margin-bottom: 24px;">
-        <div><span class="code-comment"># 프로젝트 스킬 (git 공유)</span></div>
-        <div>.claude/</div>
-        <div>├── commands/</div>
-        <div>│&nbsp;&nbsp; ├── <span class="code-cmd">commit.md</span></div>
-        <div>│&nbsp;&nbsp; └── <span class="code-cmd">review.md</span></div>
-        <div>└── settings.json</div>
-        <div>&nbsp;</div>
-        <div><span class="code-comment"># 유저 스킬 (개인용)</span></div>
-        <div>~/.claude/</div>
-        <div>└── commands/</div>
-        <div>&nbsp;&nbsp;&nbsp; └── <span class="code-cmd">my-deploy.md</span></div>
-      </div>
-
-      <!-- SKILL.md example -->
-      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div><span class="code-comment">---</span></div>
-        <div><span class="code-cmd">name:</span> <span class="code-string">commit</span></div>
-        <div><span class="code-cmd">description:</span> <span class="code-string">변경사항 분석 후 커밋 메시지 자동 생성</span></div>
-        <div><span class="code-cmd">allowed-tools:</span> <span class="code-string">Bash Grep Read</span></div>
-        <div><span class="code-comment">---</span></div>
-        <div>staged changes를 분석하고 conventional commit 형식으로</div>
-        <div>커밋 메시지를 작성해주세요. <span class="code-cmd">$ARGUMENTS</span></div>
-      </div>
-
-      <!-- Project vs User comparison cards -->
-      <div style="display: flex; gap: 16px; max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="flex: 1; border-left: 4px solid var(--blue);">
-          <p style="font-weight: 700; color: var(--blue); margin-bottom: 12px;">프로젝트 스킬</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">.claude/commands/</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">git으로 팀 공유</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">프로젝트 맥락에 특화</p>
+        <!-- Folder tree -->
+        <div class="code-block mb-24">
+          <div><span class="code-comment"># 프로젝트 스킬</span></div>
+          <div>.claude/commands/<span class="code-cmd">commit.md</span></div>
+          <div>.claude/commands/<span class="code-cmd">review.md</span></div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment"># 유저 스킬 (개인용)</span></div>
+          <div>~/.claude/commands/<span class="code-cmd">my-deploy.md</span></div>
         </div>
-        <div class="card" style="flex: 1; border-left: 4px solid var(--purple);">
-          <p style="font-weight: 700; color: var(--purple); margin-bottom: 12px;">유저 스킬</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">~/.claude/commands/</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">개인 전용</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">모든 프로젝트에서 사용</p>
-        </div>
-      </div>
 
-      <!-- Toggle: community skills -->
-      <div style="max-width: 700px; width: 100%;">
-        <button class="toggle-btn" onclick="toggleSection(this)">▸ 커뮤니티 스킬이란?</button>
+        <!-- SKILL.md example -->
+        <div class="code-block mb-24">
+          <div><span class="code-comment">---</span></div>
+          <div><span class="code-cmd">name:</span> <span class="code-string">commit</span></div>
+          <div><span class="code-cmd">description:</span> <span class="code-string">변경사항 분석 후 커밋 메시지 자동 생성</span></div>
+          <div><span class="code-cmd">allowed-tools:</span> <span class="code-string">Bash Grep Read</span></div>
+          <div><span class="code-comment">---</span></div>
+          <div>staged changes를 분석하고 conventional commit 형식으로</div>
+          <div>커밋 메시지를 작성해주세요. <span class="code-cmd">$ARGUMENTS</span></div>
+        </div>
+
+        <!-- Project vs User -->
+        <div class="grid-2 mb-20">
+          <div class="card" style="border-left: 4px solid var(--blue);">
+            <p style="font-weight: 700; color: var(--blue); margin-bottom: 10px;">프로젝트 스킬</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 4px;">.claude/commands/</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 4px;">git으로 팀 공유</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem;">프로젝트 맥락에 특화</p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--purple);">
+            <p style="font-weight: 700; color: var(--purple); margin-bottom: 10px;">유저 스킬</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 4px;">~/.claude/commands/</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 4px;">개인 전용</p>
+            <p style="color: var(--text-sub); font-size: 0.85rem;">모든 프로젝트에서 사용</p>
+          </div>
+        </div>
+
+        <button class="toggle-btn" onclick="toggleSection(this)">&#9658; 커뮤니티 스킬이란?</button>
         <div class="toggle-content">
-          <div class="card" style="margin-top: 8px; border-radius: 8px;">
+          <div class="card" style="margin-top: 8px;">
             <p style="margin-bottom: 8px;">마켓플레이스에서 다른 사용자가 만든 스킬을 검색하고 설치 가능</p>
-            <p style="color: var(--text-sub); font-size: 0.9rem;">예: /commit-smart, /review-pr, /debug 등 바로 사용 가능한 워크플로우</p>
+            <p style="color: var(--text-sub); font-size: 0.88rem;">예: /commit-smart, /review-pr, /debug 등 바로 사용 가능한 워크플로우</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" id="slide-6">
-      <span class="section-tag">EXTEND</span>
-      <h1 class="slide-title">MCP — 외부 도구 연결하기</h1>
-      <p class="slide-subtitle">Model Context Protocol — AI가 외부 서비스를 사용하는 표준</p>
+    <!-- ── Section 6: MCP ── -->
+    <section id="mcp">
+      <div class="section-inner">
+        <p class="section-tag">EXTEND</p>
+        <h1 class="section-title">MCP</h1>
+        <p class="section-lead">AI가 외부 서비스를 연결하는 표준 프로토콜</p>
 
-      <!-- Connection diagram -->
-      <div style="display: flex; align-items: center; gap: 12px; max-width: 700px; width: 100%; margin-bottom: 24px; justify-content: center;">
-        <div class="card" style="flex: 1; text-align: center; border-color: var(--blue); padding: 16px;">
-          <p style="font-weight: 700; margin-bottom: 4px;">Claude Code</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">에이전트</p>
+        <!-- Connection diagram -->
+        <div class="flex-row mb-24" style="flex-wrap: nowrap;">
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--blue); padding: 14px;">
+            <p style="font-weight: 700; margin-bottom: 4px;">Claude Code</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">에이전트</p>
+          </div>
+          <span class="arrow">&#8596;</span>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--amber); padding: 14px;">
+            <p style="font-weight: 700; margin-bottom: 4px;">MCP Server</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">프로토콜 변환</p>
+          </div>
+          <span class="arrow">&#8596;</span>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--purple); padding: 14px;">
+            <p style="font-weight: 700; margin-bottom: 4px;">외부 서비스</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">GitHub, DB, Slack...</p>
+          </div>
         </div>
-        <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">&#8596;</div>
-        <div class="card" style="flex: 1; text-align: center; border-color: var(--amber); padding: 16px;">
-          <p style="font-weight: 700; margin-bottom: 4px;">MCP Server</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">프로토콜 변환</p>
-        </div>
-        <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">&#8596;</div>
-        <div class="card" style="flex: 1; text-align: center; border-color: var(--purple); padding: 16px;">
-          <p style="font-weight: 700; margin-bottom: 4px;">외부 서비스</p>
-          <p style="color: var(--text-sub); font-size: 0.8rem;">GitHub, DB, Slack...</p>
-        </div>
-      </div>
 
-      <!-- Config code block -->
-      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div><span class="code-prompt">$</span> <span class="code-cmd">claude mcp add</span> <span class="code-string">github</span> \</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-cmd">--transport</span> <span class="code-string">http</span> \</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-cmd">--url</span> <span class="code-string">https://api.github.com/mcp</span></div>
-      </div>
+        <!-- Config -->
+        <div class="code-block mb-24">
+          <div><span class="code-prompt">$</span> <span class="code-cmd">claude mcp add</span> <span class="code-string">github</span> <span class="code-cmd">--transport</span> <span class="code-string">http</span> <span class="code-cmd">--url</span> <span class="code-string">https://api.github.com/mcp</span></div>
+        </div>
 
-      <!-- Popular MCP server cards 2x2 -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">&#127758; Playwright</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">브라우저 자동화/테스트</p>
+        <!-- Popular MCPs -->
+        <p class="label-row mb-12">인기 MCP 서버</p>
+        <div class="grid-2 mb-20">
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">Playwright</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">브라우저 자동화/테스트</p>
+          </div>
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">PostgreSQL</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">DB 조회/마이그레이션</p>
+          </div>
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">Slack</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">메시지 전송/채널 관리</p>
+          </div>
+          <div class="card" style="padding: 14px 18px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">Web Search</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">웹 검색 결과 활용</p>
+          </div>
         </div>
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">&#128452; PostgreSQL</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">DB 조회/마이그레이션</p>
-        </div>
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">&#128172; Slack</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">메시지 전송/채널 관리</p>
-        </div>
-        <div class="card" style="padding: 16px;">
-          <p style="font-weight: 600; margin-bottom: 4px;">&#128269; Web Search</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">웹 검색 결과 활용</p>
-        </div>
-      </div>
 
-      <!-- Toggle: researcher examples -->
-      <div style="max-width: 600px; width: 100%;">
         <button class="toggle-btn" onclick="toggleSection(this)">&#9658; 연구자를 위한 활용 예시</button>
         <div class="toggle-content">
-          <div class="card" style="margin-top: 8px; border-radius: 8px;">
-            <p style="margin-bottom: 8px;">&#8226; 논문 데이터베이스 조회 — PubMed, arXiv 검색 자동화</p>
-            <p style="margin-bottom: 8px;">&#8226; 실험 결과 시각화 — matplotlib/plotly 그래프 자동 생성</p>
-            <p>&#8226; 서버 데이터 직접 접근 — SSH를 통한 원격 서버 조작</p>
+          <div class="card" style="margin-top: 8px;">
+            <p style="margin-bottom: 8px;">&#8226; 논문 데이터베이스 조회 &#8212; PubMed, arXiv 검색 자동화</p>
+            <p style="margin-bottom: 8px;">&#8226; 실험 결과 시각화 &#8212; matplotlib/plotly 그래프 자동 생성</p>
+            <p>&#8226; 서버 데이터 직접 접근 &#8212; SSH를 통한 원격 서버 조작</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" id="slide-7">
-      <span class="section-tag">ORCHESTRATE</span>
-      <h1 class="slide-title">Agent &amp; Multi-Agent — 더 큰 작업 맡기기</h1>
-      <p class="slide-subtitle">Claude가 스스로 하위 에이전트를 만들어 병렬로 작업을 처리</p>
+    <!-- ── Section 7: Agent ── -->
+    <section id="agent">
+      <div class="section-inner">
+        <p class="section-tag">ORCHESTRATE</p>
+        <h1 class="section-title">Agent &amp; Multi-Agent</h1>
+        <p class="section-lead">Claude가 하위 에이전트를 만들어 병렬 작업</p>
 
-      <!-- Worktree concept diagram -->
-      <div style="max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <!-- Top: main branch -->
-        <div style="display: flex; justify-content: center; margin-bottom: 0;">
-          <div class="card" style="border-color: var(--text-sub); padding: 12px 24px; text-align: center;">
-            <p style="font-weight: 700;">main branch</p>
+        <!-- Worktree concept -->
+        <div style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: center; margin-bottom: 4px;">
+            <div class="card" style="border-color: var(--text-sub); padding: 10px 28px; text-align: center;">
+              <p style="font-weight: 700;">main branch</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-around; padding: 0 80px 0 80px;">
+            <div style="width: 1px; height: 24px; background: #475569; transform: rotate(-15deg); transform-origin: top center;"></div>
+            <div style="width: 1px; height: 24px; background: #475569; transform: rotate(15deg); transform-origin: top center;"></div>
+          </div>
+          <div class="grid-2" style="margin-bottom: 4px;">
+            <div class="card" style="border-color: var(--green); text-align: center; padding: 12px;">
+              <p style="font-weight: 700; margin-bottom: 4px;">Worktree A</p>
+              <p style="color: var(--text-sub); font-size: 0.82rem;">Agent 1: 프론트엔드</p>
+            </div>
+            <div class="card" style="border-color: var(--blue); text-align: center; padding: 12px;">
+              <p style="font-weight: 700; margin-bottom: 4px;">Worktree B</p>
+              <p style="color: var(--text-sub); font-size: 0.82rem;">Agent 2: 백엔드</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 4px 0;">
+            <span style="color: var(--text-sub); font-size: 1.2rem;">&#8595;</span>
+          </div>
+          <div style="display: flex; justify-content: center;">
+            <div class="card" style="border-color: var(--amber); padding: 10px 36px; text-align: center;">
+              <p style="font-weight: 700;">결과 병합</p>
+            </div>
           </div>
         </div>
-        <!-- Branch lines -->
-        <div style="display: flex; justify-content: space-around; padding: 0 60px;">
-          <div style="width: 1px; height: 28px; background: #475569; transform: rotate(-20deg); transform-origin: top center;"></div>
-          <div style="width: 1px; height: 28px; background: #475569; transform: rotate(20deg); transform-origin: top center;"></div>
-        </div>
-        <!-- Two agent boxes -->
-        <div style="display: flex; gap: 16px; margin-bottom: 0;">
-          <div class="card" style="flex: 1; border-color: var(--green); padding: 14px; text-align: center;">
-            <p style="font-weight: 700; margin-bottom: 4px;">Worktree A</p>
-            <p style="color: var(--text-sub); font-size: 0.85rem;">Agent 1: 프론트엔드</p>
-          </div>
-          <div class="card" style="flex: 1; border-color: var(--blue); padding: 14px; text-align: center;">
-            <p style="font-weight: 700; margin-bottom: 4px;">Worktree B</p>
-            <p style="color: var(--text-sub); font-size: 0.85rem;">Agent 2: 백엔드</p>
-          </div>
-        </div>
-        <!-- Arrow down -->
-        <div style="display: flex; justify-content: center; padding: 4px 0;">
-          <div style="color: var(--text-sub); font-size: 1.4rem; line-height: 1;">&#8595;</div>
-        </div>
-        <!-- Merge box -->
-        <div style="display: flex; justify-content: center;">
-          <div class="card" style="border-color: var(--amber); padding: 12px 32px; text-align: center;">
-            <p style="font-weight: 700;">결과 병합</p>
-          </div>
-        </div>
-      </div>
 
-      <!-- Plan Mode card -->
-      <div class="card" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-          <span class="badge" style="background: rgba(56,189,248,0.2); color: var(--blue);">Shift+Tab</span>
-          <p style="font-weight: 700;">먼저 계획을 세우고, 승인 후 실행</p>
+        <!-- Comparison table -->
+        <div class="mb-20">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th>Subagent</th>
+                <th>Agent Teams</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>컨텍스트</td>
+                <td>자체 윈도우, 요약 반환</td>
+                <td>완전 독립 세션</td>
+              </tr>
+              <tr>
+                <td>통신</td>
+                <td>호출자에게만 보고</td>
+                <td>에이전트 간 직접 메시지</td>
+              </tr>
+              <tr>
+                <td>조율</td>
+                <td>메인 에이전트가 관리</td>
+                <td>공유 태스크 리스트</td>
+              </tr>
+              <tr>
+                <td>적합</td>
+                <td>집중된 단일 작업</td>
+                <td>복잡한 다각도 작업</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <p style="color: var(--text-sub); font-size: 0.9rem;">코드 수정 없이 탐색 &rarr; 계획 승인 &rarr; 구현 시작</p>
-      </div>
 
-      <!-- Comparison table -->
-      <div style="max-width: 700px; width: 100%; margin-bottom: 24px;">
-        <table class="info-table">
-          <thead>
-            <tr>
-              <th>항목</th>
-              <th>Subagent</th>
-              <th>Agent Teams</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>컨텍스트</td>
-              <td>자체 윈도우, 요약 반환</td>
-              <td>완전 독립 세션</td>
-            </tr>
-            <tr>
-              <td>통신</td>
-              <td>호출자에게만 보고</td>
-              <td>에이전트 간 직접 메시지</td>
-            </tr>
-            <tr>
-              <td>조율</td>
-              <td>메인 에이전트가 관리</td>
-              <td>공유 태스크 리스트</td>
-            </tr>
-            <tr>
-              <td>적합</td>
-              <td>집중된 단일 작업</td>
-              <td>복잡한 다각도 작업</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Toggle: Experimental Agent Teams -->
-      <div style="max-width: 700px; width: 100%; margin-bottom: 8px;">
-        <button class="toggle-btn" onclick="toggleSection(this)">&#9658; [Experimental] Agent Teams 상세</button>
+        <button class="toggle-btn mb-12" style="margin-bottom: 12px;" onclick="toggleSection(this)">&#9658; [Experimental] Agent Teams 상세</button>
         <div class="toggle-content">
-          <div class="card" style="margin-top: 8px; border-radius: 8px;">
+          <div class="card" style="margin-top: 8px; margin-bottom: 12px;">
             <div style="margin-bottom: 10px;"><span class="badge" style="background: rgba(245,158,11,0.2); color: var(--amber);">Experimental</span></div>
-            <p style="margin-bottom: 8px;">&#8226; 환경변수 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 로 활성화</p>
+            <p style="margin-bottom: 8px;">&#8226; 환경변수 <code style="color: var(--blue); font-family: monospace;">CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code> 로 활성화</p>
             <p style="margin-bottom: 8px;">&#8226; 여러 Claude 인스턴스가 팀으로 협업</p>
             <p>&#8226; tmux/iTerm2에서 분할 패널로 동시 관찰 가능</p>
           </div>
         </div>
-      </div>
 
-      <!-- Toggle: Headless / SDK -->
-      <div style="max-width: 700px; width: 100%;">
         <button class="toggle-btn" onclick="toggleSection(this)">&#9658; Headless / SDK 활용</button>
         <div class="toggle-content">
-          <div class="card" style="margin-top: 8px; border-radius: 8px;">
+          <div class="card" style="margin-top: 8px;">
             <p style="margin-bottom: 8px;">&#8226; <code style="color: var(--blue); font-family: monospace;">claude -p "프롬프트"</code>: 비대화형 실행 (스크립트, CI 파이프라인용)</p>
             <p style="margin-bottom: 8px;">&#8226; Claude Agent SDK: 커스텀 에이전트 애플리케이션 구축</p>
             <p>&#8226; 출력 포맷: <code style="color: var(--amber); font-family: monospace;">--output-format text|json|stream-json</code></p>
@@ -942,188 +946,99 @@
       </div>
     </section>
 
-    <section class="slide" id="slide-8">
-      <span class="section-tag">WRAP UP</span>
-      <h1 class="slide-title">마무리 — 어디서부터 시작할까?</h1>
-      <p class="slide-subtitle">오늘 배운 것을 정리하고, 첫 걸음을 내딛어 봅시다</p>
+    <!-- ── Section 8: 마무리 ── -->
+    <section id="wrapup">
+      <div class="section-inner">
+        <p class="section-tag">WRAP UP</p>
+        <h1 class="section-title">마무리</h1>
+        <p class="section-lead">어디서부터 시작할까?</p>
 
-      <!-- Staircase summary diagram -->
-      <div style="max-width: 700px; width: 100%; margin-bottom: 24px; overflow-x: auto;">
-        <div style="display: flex; align-items: flex-end; gap: 4px; min-width: 560px;">
-          <div style="width: 80px; height: 60px; background: var(--green); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">바이브<br>코딩</span>
-          </div>
-          <div style="width: 80px; height: 80px; background: var(--blue); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">Claude<br>Code</span>
-          </div>
-          <div style="width: 80px; height: 100px; background: var(--blue); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">설치</span>
-          </div>
-          <div style="width: 80px; height: 120px; background: var(--amber); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">CLAUDE<br>.md</span>
-          </div>
-          <div style="width: 80px; height: 140px; background: var(--amber); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">Hooks</span>
-          </div>
-          <div style="width: 80px; height: 160px; background: var(--amber); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">Skills</span>
-          </div>
-          <div style="width: 80px; height: 180px; background: var(--purple); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">MCP</span>
-          </div>
-          <div style="width: 80px; height: 200px; background: var(--purple); border-radius: 4px 4px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; flex-shrink: 0;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #0f172a; text-align: center; line-height: 1.2;">Agent</span>
+        <!-- Staircase summary -->
+        <div class="mb-24">
+          <div class="staircase">
+            <div class="stair-bar" style="height: 56px; background: var(--green);"><span>바이브<br>코딩</span></div>
+            <div class="stair-bar" style="height: 76px; background: var(--blue);"><span>Claude<br>Code</span></div>
+            <div class="stair-bar" style="height: 96px; background: var(--blue);"><span>설치</span></div>
+            <div class="stair-bar" style="height: 116px; background: var(--amber);"><span>CLAUDE<br>.md</span></div>
+            <div class="stair-bar" style="height: 136px; background: var(--amber);"><span>Hooks</span></div>
+            <div class="stair-bar" style="height: 156px; background: var(--amber);"><span>Skills</span></div>
+            <div class="stair-bar" style="height: 176px; background: var(--purple);"><span>MCP</span></div>
+            <div class="stair-bar" style="height: 196px; background: var(--purple);"><span>Agent</span></div>
           </div>
         </div>
+
+        <!-- First step card -->
+        <div class="card mb-24" style="border-left: 4px solid var(--green);">
+          <p style="font-weight: 700; margin-bottom: 12px;">첫 걸음: 내 프로젝트에서 Claude 실행하기</p>
+          <div class="code-block" style="margin: 0;">
+            <span class="code-prompt">$</span> <span class="code-cmd">cd</span> <span class="code-string">~/my-project</span> &amp;&amp; <span class="code-cmd">claude</span>
+          </div>
+        </div>
+
+        <!-- Resource links -->
+        <div class="grid-2 mb-32">
+          <a href="https://docs.anthropic.com/claude-code" target="_blank" rel="noopener" style="text-decoration: none;">
+            <div class="card" style="padding: 16px; transition: border-color 0.2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='#334155'">
+              <p style="font-weight: 600; margin-bottom: 4px;">공식 문서</p>
+              <p style="color: var(--text-sub); font-size: 0.82rem;">docs.anthropic.com/claude-code</p>
+            </div>
+          </a>
+          <div class="card" style="padding: 16px;">
+            <p style="font-weight: 600; margin-bottom: 4px;">Claude Code Tips</p>
+            <p style="color: var(--text-sub); font-size: 0.82rem;">커뮤니티 팁 모음</p>
+          </div>
+        </div>
+
+        <p style="font-size: 1.4rem; color: var(--text-sub); text-align: center;">질문이 있으신가요?</p>
       </div>
-
-      <!-- First step card -->
-      <div class="card" style="border-left: 4px solid var(--green); max-width: 500px; width: 100%; margin-bottom: 24px;">
-        <p style="font-weight: 700; margin-bottom: 12px;">첫 걸음: 내 프로젝트에서 Claude 실행하기</p>
-        <div class="code-block" style="margin: 0;">
-          <span class="code-prompt">$</span> <span class="code-cmd">cd</span> <span class="code-string">~/my-project</span> &amp;&amp; <span class="code-cmd">claude</span>
-        </div>
-      </div>
-
-      <!-- Reference resource cards -->
-      <div style="display: flex; gap: 16px; max-width: 600px; width: 100%; margin-bottom: 0;">
-        <div class="card" style="flex: 1; padding: 18px;">
-          <p style="font-weight: 600; margin-bottom: 6px;">&#128214; 공식 문서</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">docs.anthropic.com/claude-code</p>
-        </div>
-        <div class="card" style="flex: 1; padding: 18px;">
-          <p style="font-weight: 600; margin-bottom: 6px;">&#128161; Claude Code Tips</p>
-          <p style="color: var(--text-sub); font-size: 0.85rem;">커뮤니티 팁 모음</p>
-        </div>
-      </div>
-
-      <!-- Q&A text -->
-      <p style="font-size: 1.5rem; color: var(--text-sub); margin-top: 32px; text-align: center;">질문이 있으신가요?</p>
     </section>
 
-  </div>
-
-  <!-- Dot Indicators -->
-  <div class="dots">
-    <div class="dot active" data-index="0"></div>
-    <div class="dot" data-index="1"></div>
-    <div class="dot" data-index="2"></div>
-    <div class="dot" data-index="3"></div>
-    <div class="dot" data-index="4"></div>
-    <div class="dot" data-index="5"></div>
-    <div class="dot" data-index="6"></div>
-    <div class="dot" data-index="7"></div>
-    <div class="dot" data-index="8"></div>
-  </div>
-
-  <!-- Grid Overview -->
-  <div class="grid-overlay">
-    <div class="grid-item current" data-index="0">
-      <div class="grid-num">1</div>
-      <div class="grid-label">바이브 코딩이란?</div>
-    </div>
-    <div class="grid-item" data-index="1">
-      <div class="grid-num">2</div>
-      <div class="grid-label">Claude Code 소개</div>
-    </div>
-    <div class="grid-item" data-index="2">
-      <div class="grid-num">3</div>
-      <div class="grid-label">시작하기: 설치 &amp; 첫 대화</div>
-    </div>
-    <div class="grid-item" data-index="3">
-      <div class="grid-num">4</div>
-      <div class="grid-label">CLAUDE.md</div>
-    </div>
-    <div class="grid-item" data-index="4">
-      <div class="grid-num">5</div>
-      <div class="grid-label">Hooks — 자동화의 시작</div>
-    </div>
-    <div class="grid-item" data-index="5">
-      <div class="grid-num">6</div>
-      <div class="grid-label">Skills — 나만의 슬래시 커맨드</div>
-    </div>
-    <div class="grid-item" data-index="6">
-      <div class="grid-num">7</div>
-      <div class="grid-label">MCP — 외부 도구 연결하기</div>
-    </div>
-    <div class="grid-item" data-index="7">
-      <div class="grid-num">8</div>
-      <div class="grid-label">Agent &amp; Multi-Agent</div>
-    </div>
-    <div class="grid-item" data-index="8">
-      <div class="grid-num">9</div>
-      <div class="grid-label">어디서부터 시작할까?</div>
-    </div>
-  </div>
+  </main>
 
   <script>
-    let currentSlide = 0;
-    const totalSlides = 9;
-
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    const counter = document.getElementById('counter');
-    const gridOverlay = document.querySelector('.grid-overlay');
-    const gridItems = document.querySelectorAll('.grid-item');
-
-    function goToSlide(n) {
-      if (n < 0 || n >= totalSlides) return;
-
-      slides.forEach(function(s) { s.classList.remove('active'); });
-      slides[n].classList.add('active');
-
-      dots.forEach(function(d) { d.classList.remove('active'); });
-      dots[n].classList.add('active');
-
-      gridItems.forEach(function(g) { g.classList.remove('current'); });
-      gridItems[n].classList.add('current');
-
-      counter.textContent = (n + 1) + ' / ' + totalSlides;
-
-      slides[n].scrollTop = 0;
-      currentSlide = n;
-    }
-
-    function nextSlide() {
-      goToSlide(currentSlide + 1);
-    }
-
-    function prevSlide() {
-      goToSlide(currentSlide - 1);
-    }
-
-    function toggleGrid() {
-      gridOverlay.classList.toggle('active');
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'ArrowRight') {
-        nextSlide();
-      } else if (e.key === 'ArrowLeft') {
-        prevSlide();
-      } else if (e.key === 'Escape') {
-        toggleGrid();
-      }
+    // ── Progress Bar ──
+    window.addEventListener('scroll', function () {
+      var scrolled = window.scrollY;
+      var total = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = total > 0 ? (scrolled / total) * 100 : 0;
+      document.getElementById('progress-bar').style.width = pct + '%';
     });
 
-    dots.forEach(function(dot, i) {
-      dot.addEventListener('click', function() { goToSlide(i); });
-    });
+    // ── Scroll Spy (IntersectionObserver) ──
+    var navLinks = document.querySelectorAll('.nav-links a');
 
-    gridItems.forEach(function(item, i) {
-      item.addEventListener('click', function() {
-        goToSlide(i);
-        gridOverlay.classList.remove('active');
+    var observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    };
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.getAttribute('id');
+          navLinks.forEach(function (link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('active');
+            }
+          });
+        }
       });
+    }, observerOptions);
+
+    document.querySelectorAll('section[id]').forEach(function (section) {
+      observer.observe(section);
     });
 
+    // ── Toggle ──
     function toggleSection(btn) {
       var content = btn.nextElementSibling;
       content.classList.toggle('open');
-      if (btn.textContent.includes('▸')) {
-        btn.textContent = btn.textContent.replace('▸', '▾');
+      if (btn.textContent.includes('\u25b8')) {
+        btn.textContent = btn.textContent.replace('\u25b8', '\u25be');
       } else {
-        btn.textContent = btn.textContent.replace('▾', '▸');
+        btn.textContent = btn.textContent.replace('\u25be', '\u25b8');
       }
     }
   </script>
