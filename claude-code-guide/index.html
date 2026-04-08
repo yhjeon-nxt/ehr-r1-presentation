@@ -712,7 +712,60 @@
     <section class="slide" id="slide-5">
       <span class="section-tag">CUSTOMIZE</span>
       <h1 class="slide-title">Skills — 나만의 슬래시 커맨드</h1>
-      <p class="slide-subtitle">Placeholder</p>
+      <p class="slide-subtitle">재사용 가능한 커스텀 워크플로우를 /명령어로 실행</p>
+
+      <!-- Folder structure -->
+      <div class="code-block" style="max-width: 500px; width: 100%; margin-bottom: 24px;">
+        <div><span class="code-comment"># 프로젝트 스킬 (git 공유)</span></div>
+        <div>.claude/</div>
+        <div>├── commands/</div>
+        <div>│&nbsp;&nbsp; ├── <span class="code-cmd">commit.md</span></div>
+        <div>│&nbsp;&nbsp; └── <span class="code-cmd">review.md</span></div>
+        <div>└── settings.json</div>
+        <div>&nbsp;</div>
+        <div><span class="code-comment"># 유저 스킬 (개인용)</span></div>
+        <div>~/.claude/</div>
+        <div>└── commands/</div>
+        <div>&nbsp;&nbsp;&nbsp; └── <span class="code-cmd">my-deploy.md</span></div>
+      </div>
+
+      <!-- SKILL.md example -->
+      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
+        <div><span class="code-comment">---</span></div>
+        <div><span class="code-cmd">name:</span> <span class="code-string">commit</span></div>
+        <div><span class="code-cmd">description:</span> <span class="code-string">변경사항 분석 후 커밋 메시지 자동 생성</span></div>
+        <div><span class="code-cmd">allowed-tools:</span> <span class="code-string">Bash Grep Read</span></div>
+        <div><span class="code-comment">---</span></div>
+        <div>staged changes를 분석하고 conventional commit 형식으로</div>
+        <div>커밋 메시지를 작성해주세요. <span class="code-cmd">$ARGUMENTS</span></div>
+      </div>
+
+      <!-- Project vs User comparison cards -->
+      <div style="display: flex; gap: 16px; max-width: 700px; width: 100%; margin-bottom: 24px;">
+        <div class="card" style="flex: 1; border-left: 4px solid var(--blue);">
+          <p style="font-weight: 700; color: var(--blue); margin-bottom: 12px;">프로젝트 스킬</p>
+          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">.claude/commands/</p>
+          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">git으로 팀 공유</p>
+          <p style="color: var(--text-sub); font-size: 0.85rem;">프로젝트 맥락에 특화</p>
+        </div>
+        <div class="card" style="flex: 1; border-left: 4px solid var(--purple);">
+          <p style="font-weight: 700; color: var(--purple); margin-bottom: 12px;">유저 스킬</p>
+          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">~/.claude/commands/</p>
+          <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 6px;">개인 전용</p>
+          <p style="color: var(--text-sub); font-size: 0.85rem;">모든 프로젝트에서 사용</p>
+        </div>
+      </div>
+
+      <!-- Toggle: community skills -->
+      <div style="max-width: 700px; width: 100%;">
+        <button class="toggle-btn" onclick="toggleSection(this)">▸ 커뮤니티 스킬이란?</button>
+        <div class="toggle-content">
+          <div class="card" style="margin-top: 8px; border-radius: 8px;">
+            <p style="margin-bottom: 8px;">마켓플레이스에서 다른 사용자가 만든 스킬을 검색하고 설치 가능</p>
+            <p style="color: var(--text-sub); font-size: 0.9rem;">예: /commit-smart, /review-pr, /debug 등 바로 사용 가능한 워크플로우</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="slide" id="slide-6">
