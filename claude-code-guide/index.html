@@ -454,7 +454,114 @@
     <section class="slide" id="slide-2">
       <span class="section-tag">GETTING STARTED</span>
       <h1 class="slide-title">시작하기: 설치 &amp; 첫 대화</h1>
-      <p class="slide-subtitle">Placeholder</p>
+      <p class="slide-subtitle">5분이면 시작할 수 있습니다</p>
+
+      <!-- Install code block -->
+      <div class="code-block" style="max-width: 600px; width: 100%; margin-bottom: 24px;">
+        <div><span class="code-prompt">$</span> <span class="code-cmd">npm install -g @anthropic-ai/claude-code</span></div>
+        <div><span class="code-prompt">$</span> <span class="code-cmd">claude</span></div>
+      </div>
+
+      <!-- Auth comparison cards -->
+      <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">인증 방법</p>
+      <div style="display: flex; gap: 16px; max-width: 700px; width: 100%; margin-bottom: 24px;">
+        <div class="card" style="flex: 1;">
+          <p style="font-weight: 700; margin-bottom: 6px;">API Key</p>
+          <p style="color: var(--text); font-size: 0.9rem; margin-bottom: 8px;">ANTHROPIC_API_KEY 환경변수 설정</p>
+          <p style="color: var(--text-sub); font-size: 0.8rem;">사용량 기반 과금</p>
+        </div>
+        <div class="card" style="flex: 1;">
+          <p style="font-weight: 700; margin-bottom: 6px;">Claude Max 구독</p>
+          <p style="color: var(--text); font-size: 0.9rem; margin-bottom: 8px;">claude 실행 시 브라우저 인증</p>
+          <p style="color: var(--text-sub); font-size: 0.8rem;">월정액 ($100/mo)</p>
+        </div>
+      </div>
+
+      <!-- Permission mode table -->
+      <div style="max-width: 700px; width: 100%; margin-bottom: 24px;">
+        <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Permission 모드</p>
+        <table class="info-table">
+          <thead>
+            <tr>
+              <th>모드</th>
+              <th>자동 승인</th>
+              <th>추천 상황</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>default</td>
+              <td>읽기만</td>
+              <td>처음 시작할 때</td>
+            </tr>
+            <tr>
+              <td>acceptEdits</td>
+              <td>읽기 + 편집</td>
+              <td>코드 작업할 때</td>
+            </tr>
+            <tr>
+              <td>plan</td>
+              <td>읽기만 (계획)</td>
+              <td>큰 작업 전 탐색</td>
+            </tr>
+            <tr>
+              <td>auto</td>
+              <td>전부</td>
+              <td>긴 자율 작업</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Workflow diagram -->
+      <div style="max-width: 700px; width: 100%; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--green); padding: 16px;">
+            <p style="font-weight: 700;">프롬프트 입력</p>
+          </div>
+          <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">→</div>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--blue); padding: 16px;">
+            <p style="font-weight: 700; margin-bottom: 4px;">도구 호출</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">Read, Edit, Bash...</p>
+          </div>
+          <div style="color: var(--text-sub); font-size: 1.4rem; flex-shrink: 0;">→</div>
+          <div class="card" style="flex: 1; text-align: center; border-color: var(--amber); padding: 16px;">
+            <p style="font-weight: 700;">결과 확인</p>
+          </div>
+        </div>
+        <p style="text-align: center; color: var(--text-sub); font-size: 0.85rem;">Claude가 자율적으로 도구를 선택하고 실행합니다</p>
+      </div>
+
+      <!-- Slash commands grid -->
+      <div style="max-width: 700px; width: 100%;">
+        <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Slash Commands</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+          <div class="card" style="padding: 14px;">
+            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/help</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">도움말</p>
+          </div>
+          <div class="card" style="padding: 14px;">
+            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/clear</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">대화 초기화</p>
+          </div>
+          <div class="card" style="padding: 14px;">
+            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/compact</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">컨텍스트 압축</p>
+          </div>
+          <div class="card" style="padding: 14px;">
+            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/cost</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">비용 확인</p>
+          </div>
+          <div class="card" style="padding: 14px;">
+            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/config</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">설정 보기</p>
+          </div>
+          <div class="card" style="padding: 14px;">
+            <p style="font-family: monospace; color: var(--blue); font-size: 0.85rem; margin-bottom: 4px;">/model</p>
+            <p style="color: var(--text-sub); font-size: 0.8rem;">모델 전환</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="slide" id="slide-3">
