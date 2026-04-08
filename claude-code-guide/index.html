@@ -569,6 +569,7 @@
       <li><a href="#hooks">Hooks</a></li>
       <li><a href="#agent">Agent</a></li>
       <li><a href="#plugins">Plugins</a></li>
+      <li><a href="#harness">Harness</a></li>
       <li><a href="#wrapup">마무리</a></li>
     </ul>
   </nav>
@@ -1444,7 +1445,151 @@
       </div>
     </section>
 
-    <!-- ── Section 9: 마무리 ── -->
+    <!-- ── Section 9: 하네스 엔지니어링 ── -->
+    <section id="harness">
+      <div class="section-inner">
+        <p class="section-tag">PUTTING IT ALL TOGETHER</p>
+        <h1 class="section-title">하네스 엔지니어링</h1>
+        <p class="section-lead">코드를 쓰는 것이 아니라, AI가 코드를 잘 쓰도록 환경을 설계하는 것</p>
+
+        <!-- What is harness -->
+        <div class="card mb-24" style="border-left: 4px solid var(--blue);">
+          <p style="font-weight:600;margin-bottom:8px;">하네스(Harness)란?</p>
+          <p style="color:var(--text-sub);font-size:0.9rem;">Claude Code를 둘러싼 모든 설정의 총체입니다. CLAUDE.md, Skills, MCP, Hooks, Agents, Plugins — 이것들을 조합하여 AI가 <strong style="color:var(--text);">내 프로젝트에 맞게</strong> 동작하도록 설계하는 것이 하네스 엔지니어링입니다.</p>
+        </div>
+
+        <!-- Harness = sum of parts diagram -->
+        <p class="label-row mb-12">하네스 구성 요소</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;">
+          <div style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:8px;padding:10px 16px;text-align:center;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--blue);">CLAUDE.md</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">지침</div>
+          </div>
+          <div style="color:var(--text-sub);display:flex;align-items:center;font-size:1.2rem;">+</div>
+          <div style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:8px;padding:10px 16px;text-align:center;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--blue);">Skills</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">워크플로우</div>
+          </div>
+          <div style="color:var(--text-sub);display:flex;align-items:center;font-size:1.2rem;">+</div>
+          <div style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:10px 16px;text-align:center;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--amber);">MCP</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">외부 연결</div>
+          </div>
+          <div style="color:var(--text-sub);display:flex;align-items:center;font-size:1.2rem;">+</div>
+          <div style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:10px 16px;text-align:center;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--amber);">Hooks</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">자동화</div>
+          </div>
+          <div style="color:var(--text-sub);display:flex;align-items:center;font-size:1.2rem;">+</div>
+          <div style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);border-radius:8px;padding:10px 16px;text-align:center;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--purple);">Agents</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">위임</div>
+          </div>
+          <div style="color:var(--text-sub);display:flex;align-items:center;font-size:1.2rem;">+</div>
+          <div style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);border-radius:8px;padding:10px 16px;text-align:center;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--purple);">Plugins</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">패키지</div>
+          </div>
+          <div style="color:var(--text-sub);display:flex;align-items:center;font-size:1.2rem;">=</div>
+          <div style="background:rgba(34,197,94,0.15);border:2px solid var(--green);border-radius:8px;padding:10px 20px;text-align:center;">
+            <div style="font-weight:700;font-size:0.9rem;color:var(--green);">Harness</div>
+            <div style="font-size:0.7rem;color:var(--text-sub);">나만의 AI 환경</div>
+          </div>
+        </div>
+
+        <!-- Paradigm shift -->
+        <p class="label-row mb-12">패러다임의 전환</p>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-bottom:32px;">
+          <div class="card" style="text-align:center;border-color:#475569;">
+            <p style="font-size:0.8rem;color:var(--text-sub);margin-bottom:4px;">기존</p>
+            <p style="font-weight:700;">"내가 코드를 잘 쓰는 것"</p>
+            <p style="font-size:0.82rem;color:var(--text-sub);margin-top:6px;">문법, 프레임워크, 디버깅 스킬</p>
+          </div>
+          <span style="color:var(--green);font-size:1.5rem;font-weight:700;">→</span>
+          <div class="card" style="text-align:center;border-color:var(--green);">
+            <p style="font-size:0.8rem;color:var(--green);margin-bottom:4px;">하네스 엔지니어링</p>
+            <p style="font-weight:700;">"AI가 코드를 잘 쓰도록<br>환경을 설계하는 것"</p>
+            <p style="font-size:0.82rem;color:var(--text-sub);margin-top:6px;">프롬프트, 자동화, 도구 연결, 안전장치</p>
+          </div>
+        </div>
+
+        <!-- 3 Principles -->
+        <p class="label-row mb-12">좋은 하네스의 3원칙</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:32px;">
+          <div class="card" style="text-align:center;padding:20px 16px;">
+            <div style="font-size:1.5rem;margin-bottom:8px;">🔄</div>
+            <p style="font-weight:700;margin-bottom:6px;color:var(--blue);">반복 제거</p>
+            <p style="font-size:0.8rem;color:var(--text-sub);">매번 같은 지시를 반복하지 않도록<br>CLAUDE.md와 Skills로 고정</p>
+          </div>
+          <div class="card" style="text-align:center;padding:20px 16px;">
+            <div style="font-size:1.5rem;margin-bottom:8px;">🛡</div>
+            <p style="font-weight:700;margin-bottom:6px;color:var(--amber);">안전장치</p>
+            <p style="font-size:0.8rem;color:var(--text-sub);">위험한 명령 차단, 시크릿 유출 방지<br>Hooks로 자동화된 가드레일</p>
+          </div>
+          <div class="card" style="text-align:center;padding:20px 16px;">
+            <div style="font-size:1.5rem;margin-bottom:8px;">👥</div>
+            <p style="font-weight:700;margin-bottom:6px;color:var(--purple);">팀 공유</p>
+            <p style="font-size:0.8rem;color:var(--text-sub);">프로젝트 .claude/ 폴더를 git에 커밋<br>팀 전체가 같은 하네스 사용</p>
+          </div>
+        </div>
+
+        <!-- Real harness example: file tree -->
+        <p class="label-row mb-12">실제 하네스 구성 예시</p>
+        <div class="code-block mb-24">
+          <div><span class="code-comment"># 프로젝트 루트의 .claude/ 폴더</span></div>
+          <div>.claude/</div>
+          <div>├── <span class="code-string">CLAUDE.md</span>          <span class="code-comment"># 프로젝트 규칙, 빌드 명령</span></div>
+          <div>├── <span class="code-string">settings.json</span>      <span class="code-comment"># hooks, MCP 서버 설정</span></div>
+          <div>├── commands/              <span class="code-comment"># 커스텀 슬래시 커맨드</span></div>
+          <div>│   ├── <span class="code-cmd">commit.md</span></div>
+          <div>│   └── <span class="code-cmd">review.md</span></div>
+          <div>├── skills/                <span class="code-comment"># 고급 스킬</span></div>
+          <div>│   └── deploy/</div>
+          <div>│       └── <span class="code-cmd">SKILL.md</span></div>
+          <div>└── agents/                <span class="code-comment"># 커스텀 에이전트</span></div>
+          <div>    ├── <span class="code-cmd">code-reviewer.md</span></div>
+          <div>    └── <span class="code-cmd">debugger.md</span></div>
+        </div>
+
+        <!-- Terminal mockup: harness in action -->
+        <p class="label-row mb-12">하네스가 동작하는 모습</p>
+        <div class="terminal mb-24">
+          <div class="terminal-bar">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">~/my-research-project</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="code-prompt">$</span> <span class="code-cmd">claude</span></div>
+            <div style="color:var(--text-sub);font-size:0.78rem;">  Reading CLAUDE.md...                  <span class="code-comment">← 프로젝트 규칙 로드</span></div>
+            <div style="color:var(--text-sub);font-size:0.78rem;">  Loading 3 MCP servers...              <span class="code-comment">← 외부 도구 연결</span></div>
+            <div style="color:var(--text-sub);font-size:0.78rem;">  Loading 2 custom agents...            <span class="code-comment">← 에이전트 준비</span></div>
+            <div style="color:var(--text-sub);font-size:0.78rem;">  SessionStart hooks executed...         <span class="code-comment">← 자동화 실행</span></div>
+            <div style="margin-top:8px;"><span class="prompt-sign">❯</span> <span class="user-input">실험 데이터 분석하고 결과 시각화해줘</span></div>
+            <div class="tool-call">  ↳ MCP: PostgreSQL 쿼리로 데이터 조회</div>
+            <div class="tool-call">  ↳ Agent: code-reviewer가 분석 코드 검증</div>
+            <div class="tool-call">  ↳ Write: plot.py 생성</div>
+            <div class="tool-call">  ↳ Bash: python plot.py</div>
+            <div class="tool-call">  ↳ Hook: PostToolUse → 코드 포맷팅 자동 실행</div>
+            <div class="success" style="margin-top:4px;">  ✓ results/ 폴더에 분석 결과 + 시각화 저장 완료</div>
+            <div style="margin-top:8px;"><span class="prompt-sign">❯</span> <span style="color:var(--blue);font-weight:600;">/commit</span></div>
+            <div class="tool-call">  ↳ Skill: 변경사항 분석 → 커밋 메시지 생성</div>
+            <div class="tool-call">  ↳ Hook: PreToolUse → 시크릿 스캔 통과 ✓</div>
+            <div class="success">  ✓ feat: 실험 데이터 분석 및 시각화 추가</div>
+          </div>
+        </div>
+
+        <!-- Key insight -->
+        <div class="card" style="border-left:4px solid var(--green);">
+          <p style="font-weight:600;margin-bottom:8px;color:var(--green);">핵심 인사이트</p>
+          <p style="color:var(--text-sub);font-size:0.9rem;margin-bottom:8px;">하네스 엔지니어링의 목표는 <strong style="color:var(--text);">"claude 하나만 치면 모든 것이 준비되는 환경"</strong>을 만드는 것입니다.</p>
+          <p style="color:var(--text-sub);font-size:0.9rem;">한 번 잘 설계해두면, AI는 매번 프로젝트 규칙을 알고, 안전장치 안에서 작동하며, 필요한 도구에 접근하고, 반복 작업을 자동으로 처리합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 10: 마무리 ── -->
     <section id="wrapup">
       <div class="section-inner">
         <p class="section-tag">WRAP UP</p>
