@@ -609,31 +609,66 @@
 
     /* ===== INTRO STEP ===== */
     .intro-step {
-      margin-bottom: 56px;
+      position: relative;
+      margin-bottom: 72px;
+      padding-top: 40px;
+      border-top: 2px solid #e2e8f0;
       scroll-margin-top: 80px;
+    }
+
+    .intro-step:first-of-type {
+      border-top: none;
+      padding-top: 8px;
     }
 
     .intro-step:last-child {
       margin-bottom: 0;
     }
 
+    .intro-step-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .intro-step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #2563eb;
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+
+    .intro-step-heading {
+      flex: 1;
+      min-width: 0;
+    }
+
     .intro-step-label {
-      display: inline-block;
+      display: block;
       font-size: 0.72rem;
       font-weight: 700;
       color: #2563eb;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .intro-step-title {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: #1e293b;
       letter-spacing: -0.02em;
-      margin-bottom: 16px;
-      line-height: 1.35;
+      margin: 0;
+      line-height: 1.3;
     }
 
     .intro-step-terminal {
@@ -679,7 +714,10 @@
       .section-title { font-size: 1.5rem; }
       .intro-flow-nav { padding: 12px 14px; gap: 6px; }
       .intro-flow-arrow { display: none; }
-      .intro-step-title { font-size: 1.15rem; }
+      .intro-step { margin-bottom: 56px; padding-top: 32px; }
+      .intro-step-header { gap: 14px; margin-bottom: 20px; }
+      .intro-step-number { width: 40px; height: 40px; font-size: 1.05rem; }
+      .intro-step-title { font-size: 1.2rem; }
     }
 
     @media (max-width: 640px) {
@@ -773,8 +811,13 @@
 
         <!-- STEP 1 -->
         <div id="step-1" class="intro-step">
-          <span class="intro-step-label">STEP 1 · 질병 맥락</span>
-          <h3 class="intro-step-title">알츠하이머병과 조기 진단의 숙제</h3>
+          <div class="intro-step-header">
+            <div class="intro-step-number">1</div>
+            <div class="intro-step-heading">
+              <span class="intro-step-label">STEP 1 · 질병 맥락</span>
+              <h3 class="intro-step-title">알츠하이머병과 조기 진단의 숙제</h3>
+            </div>
+          </div>
           <div class="info-card">
             <p class="info-card-body">
               알츠하이머병(AD)은 노인성 치매의 주요 원인이 되는 진행성 신경퇴행 질환이다. 병리학적으로 세 가지가 동시에 관찰된다: 아밀로이드 &beta;(A&beta;) 펩타이드로 구성된 <strong>노인성 플라크(senile plaques)</strong>, 과인산화된 tau 단백질이 축적된 <strong>신경원섬유매듭(neurofibrillary tangles, NFTs)</strong>, 그리고 <strong>뇌 위축</strong>.
@@ -788,8 +831,13 @@
 
         <!-- STEP 2 -->
         <div id="step-2" class="intro-step">
-          <span class="intro-step-label">STEP 2 · PET 이미징의 한계</span>
-          <h3 class="intro-step-title">표준 검사법의 벽</h3>
+          <div class="intro-step-header">
+            <div class="intro-step-number">2</div>
+            <div class="intro-step-heading">
+              <span class="intro-step-label">STEP 2 · PET 이미징의 한계</span>
+              <h3 class="intro-step-title">표준 검사법의 벽</h3>
+            </div>
+          </div>
           <div class="info-card">
             <p class="info-card-body">
               양전자방출단층촬영(PET) 이미징은 살아있는 환자의 뇌에서 A&beta;와 tau 병리를 정확히 검출할 수 있는 유일한 방법이다. PET 연구가 밝혀낸 핵심은 <strong>A&beta;는 임상 발현 20년 전부터, tau는 임상 발현 시점과 거의 동시에</strong> 검출된다는 시간적 비대칭이다.
@@ -803,8 +851,13 @@
 
         <!-- STEP 3 -->
         <div id="step-3" class="intro-step">
-          <span class="intro-step-label">STEP 3 · 혈액 p-tau217의 등장</span>
-          <h3 class="intro-step-title">20년의 창(window) — 혈액으로 잡아낸 조기 신호</h3>
+          <div class="intro-step-header">
+            <div class="intro-step-number">3</div>
+            <div class="intro-step-heading">
+              <span class="intro-step-label">STEP 3 · 혈액 p-tau217의 등장</span>
+              <h3 class="intro-step-title">20년의 창(window) — 혈액으로 잡아낸 조기 신호</h3>
+            </div>
+          </div>
           <div class="info-card">
             <p class="info-card-body">
               뇌척수액(CSF) 기반 p-tau 측정이 먼저 개발되었고, 이후 <strong>혈액 기반</strong>으로 확장되었다. p-tau181, p-tau205, p-tau217, p-tau231 등 서로 다른 인산화 부위가 모두 AD 환자에서 상승하지만, 그중 <strong>p-tau217이 가장 민감한 혈액 바이오마커</strong>로 자리 잡았다.
@@ -889,8 +942,13 @@
 
         <!-- STEP 4 -->
         <div id="step-4" class="intro-step">
-          <span class="intro-step-label">STEP 4 · 두 가지 근본적 갭</span>
-          <h3 class="intro-step-title">답하지 못한 두 질문</h3>
+          <div class="intro-step-header">
+            <div class="intro-step-number">4</div>
+            <div class="intro-step-heading">
+              <span class="intro-step-label">STEP 4 · 두 가지 근본적 갭</span>
+              <h3 class="intro-step-title">답하지 못한 두 질문</h3>
+            </div>
+          </div>
           <div class="grid-2">
             <div class="limitation-card">
               <h3 class="card-title">Gap A · 공간 정보의 부재</h3>
@@ -910,8 +968,13 @@
 
         <!-- STEP 5 -->
         <div id="step-5" class="intro-step">
-          <span class="intro-step-label">STEP 5 · 이 연구의 접근</span>
-          <h3 class="intro-step-title">3가지 구체적 질문으로 좁힌 스코프</h3>
+          <div class="intro-step-header">
+            <div class="intro-step-number">5</div>
+            <div class="intro-step-heading">
+              <span class="intro-step-label">STEP 5 · 이 연구의 접근</span>
+              <h3 class="intro-step-title">3가지 구체적 질문으로 좁힌 스코프</h3>
+            </div>
+          </div>
           <div class="info-card" style="margin-bottom:24px;">
             <p class="info-card-body">
               <strong>부위 선택:</strong> 중전두회(middle frontal gyrus)의 전두피질(FC)을 선택했다. 이 영역은 <strong>A&beta; 플라크가 NFT보다 앞서 형성</strong>되는 곳이므로, preclinical 단계의 가장 이른 p-tau217 신호를 잡아내기에 최적이다.
