@@ -537,7 +537,16 @@
     }
 
     /* ===== INTRO FLOW NAV ===== */
+    /* Override the global `nav { position: fixed; ... }` rule that would
+       otherwise float this in-flow nav on top of the page header. */
     .intro-flow-nav {
+      position: static;
+      top: auto;
+      left: auto;
+      right: auto;
+      height: auto;
+      border-bottom: none;
+      z-index: auto;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
