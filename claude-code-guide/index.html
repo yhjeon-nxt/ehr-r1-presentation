@@ -41,12 +41,15 @@
     --amber:  #fbbf24;
     --purple: #a78bfa;
     --rose:   #fb7185;
+    --cyan:   #22d3ee;
 
     /* Tinted surfaces */
     --blue-soft:   rgba(96,165,250,0.12);
     --green-soft:  rgba(52,211,153,0.12);
     --amber-soft:  rgba(251,191,36,0.12);
     --purple-soft: rgba(167,139,250,0.12);
+    --rose-soft:   rgba(251,113,133,0.12);
+    --cyan-soft:   rgba(34,211,238,0.12);
 
     /* Type */
     --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -416,6 +419,7 @@
   }
 
   /* Per-section accent (keeps the current rotation) */
+  #trends   { --accent: var(--cyan);   --accent-soft: var(--cyan-soft); }
   #intro    { --accent: var(--amber);  --accent-soft: var(--amber-soft); }
   #about    { --accent: var(--blue);   --accent-soft: var(--blue-soft); }
   #start    { --accent: var(--green);  --accent-soft: var(--green-soft); }
@@ -1013,6 +1017,388 @@
   .big-fig .desc { color: var(--text-2); font-size: 14.5px; }
 
   /* =========================================================
+     CHAPTERS LAYOUT  (default)
+     ========================================================= */
+  /* Chapter mode hides long-scroll main; shows chapter browser or detail view */
+  body[data-layout="chapters"] main { display: none; }
+  body[data-layout="chapters"]:not([data-view="detail"]) #chapters { display: block; }
+  body[data-layout="chapters"][data-view="detail"] main { display: block; }
+  body[data-layout="chapters"][data-view="detail"] #chapters { display: none; }
+  body[data-layout="chapters"][data-view="detail"] main > section:not(.in-chapter) { display: none; }
+  body[data-layout="chapters"][data-view="detail"] main > section.hero { display: none; }
+  body[data-layout="long-scroll"] #chapters { display: none; }
+
+  /* Tabs layout: show only active section */
+  body[data-layout="tabs"] #chapters { display: none; }
+  body[data-layout="tabs"] main > section.hero { display: block; }
+  body[data-layout="tabs"] main > section:not(.hero) { display: none; }
+  body[data-layout="tabs"] main > section.tab-active { display: block; }
+
+  #chapters { display: none; padding-top: 58px; }
+
+  .ch-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 24px 48px;
+    border-bottom: 1px solid var(--line-soft);
+    background:
+      radial-gradient(1200px 500px at 82% -10%, rgba(96,165,250,0.12), transparent 60%),
+      radial-gradient(900px 400px at 10% 110%, rgba(167,139,250,0.10), transparent 60%),
+      var(--bg);
+  }
+  .ch-hero-inner {
+    max-width: var(--measure-ultra);
+    margin: 0 auto;
+    position: relative;
+  }
+  .ch-hero .hero-grid-bg { position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(148,163,184,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148,163,184,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8), transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8), transparent 75%);
+  }
+  .ch-hero-meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 11px; color: var(--text-sub);
+    text-transform: uppercase; letter-spacing: 0.14em;
+    margin-bottom: 22px; position: relative;
+  }
+  .ch-hero-meta .pulse {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px;
+    background: rgba(96,165,250,0.06); color: var(--text-2);
+  }
+  .ch-hero-meta .pulse::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 0 3px rgba(52,211,153,0.2);
+    animation: hero-pulse 2s infinite;
+  }
+  .ch-hero-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-dim); }
+  .ch-hero-title {
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.02; font-weight: 700; letter-spacing: -0.035em;
+    margin-bottom: 16px; position: relative; max-width: 22ch;
+  }
+  .ch-hero-title .accent {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    color: var(--blue); letter-spacing: -0.02em;
+  }
+  .ch-hero-lead {
+    font-size: clamp(15px, 1.3vw, 18px);
+    color: var(--text-2); max-width: 52ch; position: relative;
+  }
+
+  /* Chapter index bar */
+  .ch-index-bar {
+    display: flex; align-items: center; gap: 16px;
+    max-width: var(--measure-ultra);
+    margin: 0 auto;
+    padding: 24px 24px 8px;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .ch-index-bar .line { flex: 1; height: 1px; background: var(--line-soft); }
+
+  /* Chapter grid */
+  .ch-grid {
+    max-width: var(--measure-ultra);
+    margin: 0 auto;
+    padding: 16px 24px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 980px) { .ch-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .ch-grid { grid-template-columns: 1fr; } }
+
+  .ch-card {
+    position: relative;
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 22px 20px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+    text-align: left;
+    color: inherit;
+    min-height: 240px;
+    display: flex; flex-direction: column;
+  }
+  .ch-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--ch-color, var(--blue));
+    opacity: 0.9;
+  }
+  .ch-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(500px 200px at 110% -20%, color-mix(in oklab, var(--ch-color, var(--blue)) 18%, transparent), transparent 60%);
+    pointer-events: none;
+  }
+  .ch-card:hover {
+    border-color: color-mix(in oklab, var(--ch-color, var(--blue)) 60%, var(--line));
+    transform: translateY(-2px);
+    box-shadow: 0 30px 50px -24px rgba(0,0,0,0.8);
+  }
+  .ch-card:focus-visible { outline-offset: 4px; }
+  .ch-card-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px; position: relative;
+  }
+  .ch-card-num {
+    font-family: var(--serif); font-style: italic;
+    font-size: 42px; font-weight: 400;
+    color: var(--ch-color, var(--blue));
+    line-height: 1; letter-spacing: -0.04em;
+  }
+  .ch-card-tag {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .ch-card-title {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.15; margin-bottom: 10px;
+    position: relative;
+  }
+  .ch-card-sub {
+    font-size: 13.5px; color: var(--text-sub);
+    line-height: 1.55; margin-bottom: 16px;
+    position: relative;
+    flex: 1;
+  }
+  .ch-card-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: 4px;
+    border-top: 1px dashed rgba(148,163,184,0.18);
+    padding-top: 12px;
+    position: relative;
+  }
+  .ch-card-list li {
+    display: grid; grid-template-columns: 24px 1fr auto;
+    gap: 10px; align-items: baseline;
+    font-size: 12.5px; color: var(--text-2);
+  }
+  .ch-card-list li .n {
+    font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .ch-card-list li .arr {
+    font-family: var(--mono); color: var(--text-dim);
+    opacity: 0; transition: opacity .15s;
+  }
+  .ch-card:hover .ch-card-list li .arr { opacity: 1; color: var(--ch-color, var(--blue)); }
+
+  /* Chapter colors */
+  .ch-card[data-ch="0"] { --ch-color: var(--cyan); }
+  .ch-card[data-ch="1"] { --ch-color: var(--amber); }
+  .ch-card[data-ch="2"] { --ch-color: var(--green); }
+  .ch-card[data-ch="3"] { --ch-color: var(--blue); }
+  .ch-card[data-ch="4"] { --ch-color: var(--amber); }
+  .ch-card[data-ch="5"] { --ch-color: var(--purple); }
+  .ch-card[data-ch="6"] { --ch-color: var(--rose); }
+
+  /* Prologue card — sits above main chapter grid */
+  .ch-prologue {
+    max-width: var(--measure-ultra);
+    margin: 0 auto;
+    padding: 16px 24px 0;
+  }
+  .ch-card-prologue {
+    width: 100%;
+    background:
+      radial-gradient(600px 260px at 85% 50%, color-mix(in oklab, var(--cyan) 10%, transparent), transparent 70%),
+      var(--surface);
+    border-style: dashed;
+    border-color: color-mix(in oklab, var(--cyan) 45%, var(--line));
+  }
+  .ch-card-prologue::before {
+    content: "";
+    position: absolute; inset: 0;
+    border-top: 2px solid var(--cyan);
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0.9;
+  }
+  .ch-card-prologue .ch-card-tag { color: var(--cyan); }
+  /* Spread style: prologue collapses into same full-bleed row as other cards */
+  body[data-ch-style="spread"] .ch-prologue {
+    max-width: none;
+    padding: 0;
+  }
+  body[data-ch-style="spread"] .ch-card-prologue {
+    border-radius: 0;
+    border-left: 0; border-right: 0; border-top: 0;
+    border-bottom: 1px dashed color-mix(in oklab, var(--cyan) 45%, var(--line));
+    min-height: 180px;
+    padding: 36px max(24px, calc((100vw - var(--measure-ultra)) / 2 + 24px));
+    display: grid;
+    grid-template-columns: 120px 1fr 1.1fr;
+    gap: 40px;
+    align-items: center;
+    background:
+      radial-gradient(600px 260px at 85% 50%, color-mix(in oklab, var(--cyan) 8%, transparent), transparent 70%),
+      var(--surface);
+  }
+  body[data-ch-style="spread"] .ch-card-prologue::before { display: none; }
+
+  /* Chapter detail bar — shown over the scrolled section view */
+  #ch-detail-bar {
+    position: fixed;
+    top: 58px; left: 0; right: 0;
+    height: 48px;
+    background: color-mix(in oklab, var(--bg) 80%, transparent);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid var(--line-soft);
+    z-index: 900;
+    display: none;
+    align-items: center;
+    gap: 16px;
+    padding: 0 max(20px, calc((100vw - var(--measure-ultra)) / 2));
+    font-family: var(--mono);
+    font-size: 11.5px;
+  }
+  body[data-layout="chapters"][data-view="detail"] #ch-detail-bar { display: flex; }
+  body[data-layout="chapters"][data-view="detail"] main { padding-top: 106px; }
+  #ch-detail-bar .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-sub);
+    font-size: 12px; letter-spacing: 0.02em;
+    padding: 5px 10px; border-radius: 6px;
+    border: 1px solid var(--line);
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  #ch-detail-bar .back-btn:hover { color: var(--text); border-color: var(--line-2); background: rgba(255,255,255,0.03); }
+  #ch-detail-bar .ch-label {
+    color: var(--text);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  #ch-detail-bar .ch-label .dot-ch {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--ch-detail-color, var(--blue));
+    margin-right: 8px; vertical-align: middle;
+  }
+  #ch-detail-bar .ch-prev, #ch-detail-bar .ch-next {
+    color: var(--text-sub); padding: 5px 10px; border-radius: 6px;
+    font-size: 11px; letter-spacing: 0.08em;
+    transition: color .15s, background .15s;
+  }
+  #ch-detail-bar .ch-prev:hover, #ch-detail-bar .ch-next:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  #ch-detail-bar .ch-nav-right { margin-left: auto; display: flex; gap: 4px; align-items: center; }
+
+  /* Tab-mode strip replaces section navigation */
+  #tab-strip {
+    position: fixed;
+    top: 58px; left: 0; right: 0;
+    height: 44px;
+    background: color-mix(in oklab, var(--bg) 80%, transparent);
+    backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid var(--line-soft);
+    z-index: 900;
+    display: none;
+    align-items: center;
+    padding: 0 24px;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  #tab-strip::-webkit-scrollbar { display: none; }
+  body[data-layout="tabs"] #tab-strip { display: flex; }
+  body[data-layout="tabs"] main { padding-top: 102px; }
+  #tab-strip button {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px; font-size: 12px; color: var(--text-sub);
+    border-radius: 6px; white-space: nowrap;
+    font-family: var(--sans); font-weight: 500;
+    transition: color .15s, background .15s;
+  }
+  #tab-strip button .num { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
+  #tab-strip button:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  #tab-strip button.active { color: var(--text); background: rgba(96,165,250,0.10); }
+  #tab-strip button.active .num { color: var(--blue); }
+
+  /* Spread chapter style: minimal, large, editorial */
+  body[data-ch-style="spread"] .ch-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0 0 40px;
+    max-width: none;
+  }
+  body[data-ch-style="spread"] .ch-card {
+    border-radius: 0;
+    border-left: 0; border-right: 0; border-top: 0;
+    min-height: 180px;
+    padding: 36px max(24px, calc((100vw - var(--measure-ultra)) / 2 + 24px));
+    display: grid;
+    grid-template-columns: 120px 1fr 1.1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  body[data-ch-style="spread"] .ch-card::before { display: none; }
+  body[data-ch-style="spread"] .ch-card::after {
+    background: linear-gradient(90deg, color-mix(in oklab, var(--ch-color, var(--blue)) 10%, transparent) 0%, transparent 30%);
+  }
+  body[data-ch-style="spread"] .ch-card-head {
+    flex-direction: column; align-items: flex-start;
+    margin: 0; gap: 8px;
+  }
+  body[data-ch-style="spread"] .ch-card-num { font-size: 72px; }
+  body[data-ch-style="spread"] .ch-card-title { font-size: 32px; margin: 0; }
+  body[data-ch-style="spread"] .ch-card-sub { font-size: 15px; margin: 0; }
+  body[data-ch-style="spread"] .ch-card-list { border: 0; padding: 0; }
+  body[data-ch-style="spread"] .ch-card:hover { transform: none; background: color-mix(in oklab, var(--ch-color, var(--blue)) 4%, var(--surface)); }
+  @media (max-width: 820px) {
+    body[data-ch-style="spread"] .ch-card {
+      grid-template-columns: 1fr; gap: 16px; padding: 28px 24px;
+    }
+    body[data-ch-style="spread"] .ch-card-num { font-size: 52px; }
+    body[data-ch-style="spread"] .ch-card-title { font-size: 26px; }
+  }
+
+  /* Section breaks (long-scroll only, optional) */
+  body[data-breaks="on"][data-layout="long-scroll"] .section-break {
+    display: grid;
+    place-items: center;
+    min-height: 60vh;
+    padding: 80px 24px;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    background:
+      radial-gradient(700px 300px at 50% 50%, color-mix(in oklab, var(--break-color, var(--blue)) 10%, transparent), transparent 70%),
+      var(--bg-alt);
+    text-align: center;
+  }
+  .section-break { display: none; }
+  .section-break .n {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(64px, 9vw, 128px); color: var(--break-color, var(--blue));
+    line-height: 1; letter-spacing: -0.04em; margin-bottom: 12px;
+  }
+  .section-break .label {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--text-sub);
+    margin-bottom: 8px;
+  }
+  .section-break .title {
+    font-size: clamp(24px, 3vw, 36px); font-weight: 700;
+    letter-spacing: -0.02em; color: var(--text); max-width: 20ch; margin: 0 auto;
+  }
+
+  /* Hide main top nav when in chapter browser (not in detail view) */
+  body[data-layout="chapters"]:not([data-view="detail"]) nav.topnav { display: none; }
+  body[data-layout="chapters"]:not([data-view="detail"]) #progress-bar { display: none; }
+  body[data-layout="chapters"]:not([data-view="detail"]) #chapters { padding-top: 0; }
+
+  /* =========================================================
      FOOTER
      ========================================================= */
   footer.site-foot {
@@ -1026,7 +1412,7 @@
   }
 </style>
 </head>
-<body data-variant="editorial">
+<body data-variant="editorial" data-layout="chapters" data-ch-style="cards" data-breaks="off">
 
 <!-- Progress -->
 <div id="progress-bar" aria-hidden="true"></div>
@@ -1060,6 +1446,156 @@
     <li><a href="#wrapup"><span class="num">12</span>마무리</a></li>
   </ul>
 </nav>
+
+<!-- ========================================================
+     CHAPTERS BROWSER (default layout)
+     ======================================================== -->
+<div id="chapters" aria-label="챕터 목록">
+  <div class="ch-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="ch-hero-inner">
+      <div class="ch-hero-meta">
+        <span class="pulse">Research Onboarding · 2026</span>
+        <span class="dot"></span>
+        <span>Prologue + 6 Chapters · 13 Sections</span>
+        <span class="dot"></span>
+        <span>For AI researchers &amp; engineers</span>
+      </div>
+      <h1 class="ch-hero-title">코드를 쓰지 않고,<br/><span class="accent">vibe</span>로 빌드하기.</h1>
+      <p class="ch-hero-lead">자연어 대화로 소프트웨어를 만드는 새로운 방식과, 터미널에서 돌아가는 에이전트 Claude Code를 실전처럼 다루기 위한 프롤로그 + 6장 구성의 가이드.</p>
+    </div>
+  </div>
+
+  <div class="ch-index-bar">
+    <span>Contents</span>
+    <span class="line"></span>
+    <span>Prologue · Chapter 1 — 6</span>
+  </div>
+
+  <!-- Prologue card — sits above the main grid, full width -->
+  <div class="ch-prologue">
+    <button class="ch-card ch-card-prologue" data-ch="0" data-sections="trends">
+      <div class="ch-card-head">
+        <div class="ch-card-num">00</div>
+        <div class="ch-card-tag">Context · Prologue</div>
+      </div>
+      <div class="ch-card-title">LLM의 최근 트렌드</div>
+      <p class="ch-card-sub">'챗봇'이던 LLM이 agent·collaborator가 된 2년. 수렴한 벤치마크, 쏟아지는 새 숫자, 그리고 심상치 않았던 11월의 12일.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">00</span><span>지금 LLM은 어디까지 왔나</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+  </div>
+
+  <div class="ch-grid">
+    <button class="ch-card" data-ch="1" data-sections="intro-detail">
+      <div class="ch-card-head">
+        <div class="ch-card-num">01</div>
+        <div class="ch-card-tag">Introduction</div>
+      </div>
+      <div class="ch-card-title">바이브 코딩이란?</div>
+      <p class="ch-card-sub">코드 대신 자연어로 소프트웨어를 만드는 새로운 방식.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">01</span><span>바이브 코딩 개념</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card" data-ch="2" data-sections="about,start">
+      <div class="ch-card-head">
+        <div class="ch-card-num">02</div>
+        <div class="ch-card-tag">Getting Started</div>
+      </div>
+      <div class="ch-card-title">Claude Code 시작하기</div>
+      <p class="ch-card-sub">터미널에서 돌아가는 AI 코딩 에이전트. 5분 설치부터 첫 세션까지.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">02</span><span>About — 에이전트 소개</span><span class="arr">→</span></li>
+        <li><span class="n">03</span><span>Start — 설치와 인증</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card" data-ch="3" data-sections="claudemd,memory,skills">
+      <div class="ch-card-head">
+        <div class="ch-card-num">03</div>
+        <div class="ch-card-tag">Customize</div>
+      </div>
+      <div class="ch-card-title">내 프로젝트에 맞게</div>
+      <p class="ch-card-sub">CLAUDE.md · Memory · Skills — AI가 당신의 프로젝트를 이해하게 만드는 세 장치.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">04</span><span>CLAUDE.md</span><span class="arr">→</span></li>
+        <li><span class="n">05</span><span>Memory</span><span class="arr">→</span></li>
+        <li><span class="n">06</span><span>Skills</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card" data-ch="4" data-sections="mcp,hooks,plugins">
+      <div class="ch-card-head">
+        <div class="ch-card-num">04</div>
+        <div class="ch-card-tag">Extend &amp; Automate</div>
+      </div>
+      <div class="ch-card-title">도구를 확장하기</div>
+      <p class="ch-card-sub">MCP로 외부 연결, Hooks로 자동화, Plugins로 패키지화.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">07</span><span>MCP</span><span class="arr">→</span></li>
+        <li><span class="n">08</span><span>Hooks</span><span class="arr">→</span></li>
+        <li><span class="n">10</span><span>Plugins</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card" data-ch="5" data-sections="agent">
+      <div class="ch-card-head">
+        <div class="ch-card-num">05</div>
+        <div class="ch-card-tag">Orchestrate</div>
+      </div>
+      <div class="ch-card-title">Agent &amp; Multi-Agent</div>
+      <p class="ch-card-sub">하위 에이전트로 작업을 위임하고, worktree로 병렬 실행.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">09</span><span>Agent · Multi-Agent · Teams</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card" data-ch="6" data-sections="harness,wrapup">
+      <div class="ch-card-head">
+        <div class="ch-card-num">06</div>
+        <div class="ch-card-tag">Synthesis</div>
+      </div>
+      <div class="ch-card-title">하네스 엔지니어링</div>
+      <p class="ch-card-sub">모든 것을 합치는 사고방식, 그리고 어디서부터 시작할지.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">11</span><span>Harness</span><span class="arr">→</span></li>
+        <li><span class="n">12</span><span>마무리</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+  </div>
+</div>
+
+<!-- Detail mode bar -->
+<div id="ch-detail-bar" aria-label="챕터 상세 네비게이션">
+  <button class="back-btn" id="ch-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2L3 6l4 4"/></svg>
+    <span>Contents</span>
+  </button>
+  <span class="ch-label"><span class="dot-ch"></span><span id="ch-label-text">Chapter 1</span></span>
+  <div class="ch-nav-right">
+    <button class="ch-prev" id="ch-prev">← Prev</button>
+    <button class="ch-next" id="ch-next">Next →</button>
+  </div>
+</div>
+
+<!-- Tabs mode strip -->
+<div id="tab-strip" role="tablist" aria-label="섹션 탭">
+  <button data-tab="intro-detail"><span class="num">01</span>Intro</button>
+  <button data-tab="about"><span class="num">02</span>About</button>
+  <button data-tab="start"><span class="num">03</span>Start</button>
+  <button data-tab="claudemd"><span class="num">04</span>CLAUDE.md</button>
+  <button data-tab="memory"><span class="num">05</span>Memory</button>
+  <button data-tab="skills"><span class="num">06</span>Skills</button>
+  <button data-tab="mcp"><span class="num">07</span>MCP</button>
+  <button data-tab="hooks"><span class="num">08</span>Hooks</button>
+  <button data-tab="agent"><span class="num">09</span>Agent</button>
+  <button data-tab="plugins"><span class="num">10</span>Plugins</button>
+  <button data-tab="harness"><span class="num">11</span>Harness</button>
+  <button data-tab="wrapup"><span class="num">12</span>마무리</button>
+</div>
 
 <main>
 
@@ -1104,8 +1640,197 @@
   </div>
 </section>
 
+<!-- ========================================================
+     00 · TRENDS (Prologue — LLM의 최근 트렌드)
+     Ported from vibe-coding-edu CH 00
+     ======================================================== -->
+<section id="trends" class="alt" aria-label="LLM의 최근 트렌드" data-chapter="0">
+  <div class="section-inner wide">
+    <div class="section-head">
+      <div class="section-index">00<span class="slash">/</span><span class="total">12</span></div>
+      <div>
+        <span class="section-tag">Context · Prologue</span>
+        <h2 class="section-title">LLM의 최근 트렌드</h2>
+        <p class="section-lead">'챗봇'이던 LLM이 agent·collaborator가 된 2년. 수렴한 벤치마크, 쏟아지는 새 숫자, 그리고 심상치 않았던 11월의 12일.</p>
+      </div>
+    </div>
+
+    <!-- Block 1: 요즘 LLM 어디까지 왔나 -->
+    <p class="label-row">여러분은 요즘 LLM이 어디까지 왔는지 알고 계신가요?</p>
+    <p class="mb-24" style="font-size: 16px; color: var(--text-2); max-width: 68ch;">
+      많은 사람의 머릿속 LLM — 대체로 2년 전에 멈춰 있음. 그때의 정의 — <em style="font-family: var(--serif); font-style: italic; color: var(--text);">"말 잘하는 챗봇"</em>. 지난 2년, 실체는 두어 번 바뀌고 속도는 또 한 번 빨라짐. 이 장은 그 2년, 그리고 오늘부터의 이야기.
+    </p>
+
+    <!-- Block 2: 커뮤니티 반복 문장 (bullets) -->
+    <p class="label-row">요즘 커뮤니티는 이렇게 말합니다</p>
+    <p class="mb-12" style="color: var(--text-2);">
+      2026 — '챗봇'이라는 단어는 거의 안 씀. 대신 반복되는 문장들:
+    </p>
+    <div class="grid-2 mb-24">
+      <div class="card accent-left" style="border-left-color: var(--cyan);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">Agent</p>
+        <p style="font-weight: 600; color: var(--text); margin-bottom: 6px;">"LLM은 이제 agent"</p>
+        <p class="muted small">tool calling · 자율 실행 루프가 chat UI 밖, CLI·IDE 안에서 돌아감</p>
+      </div>
+      <div class="card accent-left" style="border-left-color: var(--cyan);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">Collaborator</p>
+        <p style="font-weight: 600; color: var(--text); margin-bottom: 6px;">"LLM은 이제 collaborator"</p>
+        <p class="muted small">단발 응답이 아니라 수십 분짜리 과제를 쪼개서 끝냄</p>
+      </div>
+    </div>
+
+    <!-- Block 3: 벤치마크 세대교체 (compare) -->
+    <p class="label-row">벤치마크도 세대교체 중입니다</p>
+    <p class="mb-12" style="color: var(--text-2);">
+      예전 지표 — 거의 포화. 지금 쳐다보는 숫자는 전혀 다른 종류.
+    </p>
+    <div class="grid-2 mb-24">
+      <div class="card" style="padding: 20px 22px;">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 10px;">수렴해버린 벤치마크</p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 12px; font-size: 14px; line-height: 1.85; color: var(--text-2);">
+          <li>• MMLU — 90%+ 대에서 모두 평탄화</li>
+          <li>• HumanEval — 사실상 포화</li>
+          <li>• GSM8K — 소형 모델도 해결</li>
+          <li>• BBH — 상위권 격차 소멸</li>
+          <li>• ARC-Challenge — 더 이상 변별력 없음</li>
+        </ul>
+        <p class="muted small" style="font-family: var(--mono); border-top: 1px dashed var(--line-soft); padding-top: 10px;"># '누가 더 잘 대답하는가'는<br/># 거의 구분되지 않는다</p>
+      </div>
+      <div class="card accent-left" style="padding: 20px 22px; border-left-color: var(--cyan);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px;">지금 쓰는 벤치마크</p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 12px; font-size: 14px; line-height: 1.85; color: var(--text-2);">
+          <li>▸ SWE-bench Verified — 실제 GitHub 이슈 수리</li>
+          <li>▸ τ-bench — 멀티턴 툴 호출·에이전트</li>
+          <li>▸ HLE — 박사급 종합 시험 (Humanity's Last Exam)</li>
+          <li>▸ Aider Polyglot — 멀티파일·다국어 편집</li>
+          <li>▸ Terminal-Bench — 터미널 자율 작업</li>
+          <li>▸ METR Long-Horizon — 장시간 자율성</li>
+          <li>▸ ARC-AGI-2 — 일반화·추상 추론</li>
+          <li>▸ GPQA Diamond — 박사 수준 과학 QA</li>
+        </ul>
+        <p class="muted small" style="font-family: var(--mono); border-top: 1px dashed var(--line-soft); padding-top: 10px;"># 전부 '실제로 일을 끝내는가'<br/># 를 측정한다</p>
+      </div>
+    </div>
+
+    <!-- Block 4: 차트 -->
+    <p class="label-row">그리고, 속도가 너무 빠릅니다</p>
+    <p class="mb-12" style="color: var(--text-2);">
+      세 벤치마크 궤적 — MMLU(종합 지식, 거의 포화), SWE-bench Verified(GitHub 이슈 패치, 코딩), HLE(박사급 종합). 세로축 점수(%), 가로축 출시 시점.
+      <span class="muted small" style="display: inline-block; margin-left: 6px;">△ Anthropic · ○ OpenAI · ◇ Google</span>
+    </p>
+    <figure class="diagram-frame mb-12" style="padding: 22px 22px 18px;">
+      <figcaption style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">▸ FIG. 01 · CHART</figcaption>
+      <p style="font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 2px;">세 벤치마크, 다른 궤적</p>
+      <p class="muted small" style="margin-bottom: 14px;">MMLU · SWE-bench Verified · HLE — 출시 시점 기준 공개 스코어 (%)</p>
+      <div id="chart-trends" role="img" aria-labelledby="chart-trends-caption"></div>
+      <p id="chart-trends-caption" class="muted small" style="margin-top: 14px; max-width: 62ch;">
+        MMLU — 3년 동안 6점 남짓, 위쪽 천장에 붙어 평탄. SWE-bench — 2% → 93%로 MMLU 선을 위로 가로지름 (2026년 4월 Mythos Preview). HLE — 아직 절반 선, 포화까지 한참.
+      </p>
+    </figure>
+
+    <!-- Block 5: Dialog 재연 (2024 ChatGPT scene) -->
+    <p class="label-row">필자가 기억하는 '똑똑한 구글' 시절</p>
+    <p class="mb-12" style="color: var(--text-2);">
+      내가 LLM을 진지하게 쓰기 시작한 때 — GPT-4o. 사용법은 단순 — 브라우저 탭 하나 더. 코드 복붙 → 물어봄 → 스택트레이스 붙여넣음 → 답 복붙 → 에디터. 딱 거기까지.
+    </p>
+    <div class="terminal mb-12">
+      <div class="terminal-bar">
+        <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+        <span class="terminal-title">chat.openai.com · circa 2024 · REPLAY</span>
+      </div>
+      <div class="terminal-body" style="padding: 18px 20px;">
+        <div style="margin-bottom: 12px;">
+          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">나</div>
+          <div style="color: var(--text-2); font-family: var(--sans); font-size: 14px; line-height: 1.65;">
+            numpy로 2개 배열 아다마르 곱 뒤에 배치 차원으로 합치려는데 ValueError가 납니다.<br/>
+            <code style="color: var(--rose); font-size: 12.5px;">ValueError: operands could not be broadcast together with shapes (32,128) (128,32)</code>
+          </div>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">GPT-4o</div>
+          <div style="color: var(--text-2); font-family: var(--sans); font-size: 14px; line-height: 1.65;">
+            transpose 방향이 반대입니다. <code style="font-size: 12.5px;">(128,32)</code> 쪽을 <code style="font-size: 12.5px;">.T</code>로 돌리거나, 의도가 배치별 가중합이면 <code style="color: var(--amber); font-size: 12.5px;">np.einsum('bi,bi->b', A, B)</code> 한 줄이 더 안전합니다.
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">나</div>
+          <div style="color: var(--text-2); font-family: var(--sans); font-size: 14px; line-height: 1.65;">
+            ㅇㅋ 고맙다 → <span class="muted small">(복붙 → 실행 → 됐다)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="muted small mb-24" style="max-width: 62ch; font-style: italic;">
+      그때는 이것도 혁신. 15분짜리 Stack Overflow → 2분짜리 복붙. 그래도 전제는 그대로 — 운전대는 나, AI는 조수석 동승자.
+    </p>
+
+    <!-- Block 6: NOV 12→24 timeline -->
+    <p class="label-row">심상치 않다고 느낀 2025년 11월의 12일</p>
+    <p class="mb-12" style="color: var(--text-2);">
+      2025.11.12 → 11.24, 딱 12일. OpenAI·Google·Anthropic 세 주력이 연달아. 출시 노트에 반복된 단어 — <em style="font-family: var(--serif); font-style: italic;">long-horizon agent · autonomous task completion · multi-file reasoning · 30-minute unattended work</em>. 한 모델의 점프가 아니라, 업계 전체의 정렬.
+    </p>
+    <div class="card mb-12" style="padding: 18px 22px;">
+      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;">▸ NOV 12 → NOV 24, 2025</p>
+      <p class="muted small mb-16">3 MODELS · 12 DAYS · SAME DIRECTION</p>
+      <div class="timeline">
+        <div class="timeline-item hook-point">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span style="font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 0.12em;">NOV 12</span>
+            <span style="font-weight: 700; font-size: 15px;">GPT-5.1</span>
+            <span class="muted small">OpenAI</span>
+          </div>
+          <p class="muted small" style="color: var(--text-2); max-width: 70ch;">
+            thinking 모드가 기본으로 내재화. Instant / Thinking 두 축으로 응답 속도·스타일을 세팅하고, 툴 호출 안정성과 장시간 자율 작업이 확 올라옴.
+          </p>
+        </div>
+        <div class="timeline-item hook-point">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span style="font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 0.12em;">NOV 18</span>
+            <span style="font-weight: 700; font-size: 15px;">Gemini 3 Pro</span>
+            <span class="muted small">Google</span>
+          </div>
+          <p class="muted small" style="color: var(--text-2); max-width: 70ch;">
+            멀티모달·긴 컨텍스트·추론이 동시에 한 단계. 노트북 한 권 분량을 한 컨텍스트에서 돌려버림. 출시와 동시에 Search·Workspace·AI Studio에 바로 투입.
+          </p>
+        </div>
+        <div class="timeline-item hook-point">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span style="font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 0.12em;">NOV 24</span>
+            <span style="font-weight: 700; font-size: 15px;">Claude Opus 4.5</span>
+            <span class="muted small">Anthropic</span>
+          </div>
+          <p class="muted small" style="color: var(--text-2); max-width: 70ch;">
+            에이전트 루프 신뢰성에 초점. 30분 넘는 자율 코딩 과제를 끊지 않고 끝내기 시작. 그러면서 전세대 대비 가격은 2/3 인하.
+          </p>
+        </div>
+      </div>
+    </div>
+    <p class="muted small mb-24" style="max-width: 62ch; font-style: italic;">
+      한 개였으면 '또 새 모델이네'. 세 개가 2주에 걸쳐 같은 말을 하니 — 체감이 달라짐.
+    </p>
+
+    <!-- Block 7: Closing → bridge to Chapter 1 -->
+    <figure class="card accent-left mb-24" style="padding: 22px 24px; border-left-color: var(--cyan);">
+      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">그렇게 코딩 에이전트의 시대가 시작됐습니다</p>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--text); font-style: italic; text-wrap: balance;">
+        코딩 에이전트 — 그 전부터 있었음. 바뀐 건 역할. '신기한 장난감' → '연구 생산성을 바꾸는 도구'. 품질은 일부 구간에서 시니어 엔지니어를 따라잡고, 툴·워크플로우는 한 해 만에 폭발.
+      </p>
+      <p class="muted small" style="margin-top: 10px; font-family: var(--mono); letter-spacing: 0.06em;">→ 다음 장부터 — Claude Code 중심으로 '바이브 코딩'이 실제로 뭘 가리키는지</p>
+    </figure>
+
+    <!-- Links -->
+    <p class="label-row">더 읽을 거리</p>
+    <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 18px; font-size: 13.5px;">
+      <li><a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener" style="color: var(--cyan); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--cyan) 40%, transparent); text-underline-offset: 3px;">Karpathy — Vibe coding 원전 트윗 ↗</a></li>
+      <li><a href="https://www.swebench.com" target="_blank" rel="noopener" style="color: var(--cyan); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--cyan) 40%, transparent); text-underline-offset: 3px;">SWE-bench — 실제 코드 벤치마크 ↗</a></li>
+      <li><a href="https://metr.org" target="_blank" rel="noopener" style="color: var(--cyan); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--cyan) 40%, transparent); text-underline-offset: 3px;">METR — Long-horizon agent 평가 ↗</a></li>
+      <li><a href="https://simonwillison.net" target="_blank" rel="noopener" style="color: var(--cyan); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--cyan) 40%, transparent); text-underline-offset: 3px;">Simon Willison's Weblog ↗</a></li>
+    </ul>
+  </div>
+</section>
+
 <!-- The original intro content now lives here, under the hero, as a sub-opening with the real intro material -->
-<section id="intro-detail" aria-label="바이브 코딩이란?">
+<section id="intro-detail" aria-label="바이브 코딩이란?" data-chapter="1">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">01<span class="slash">/</span><span class="total">12</span></div>
@@ -1195,7 +1920,7 @@
 <!-- ========================================================
      02 · ABOUT
      ======================================================== -->
-<section id="about" class="alt">
+<section id="about" class="alt" data-chapter="2">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">02<span class="slash">/</span><span class="total">12</span></div>
@@ -1292,7 +2017,7 @@
 <!-- ========================================================
      03 · START
      ======================================================== -->
-<section id="start">
+<section id="start" data-chapter="2">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">03<span class="slash">/</span><span class="total">12</span></div>
@@ -1376,7 +2101,9 @@
 <!-- ========================================================
      04 · CLAUDE.md  (Light-break section in variant B)
      ======================================================== -->
-<section id="claudemd">
+<section class="section-break" style="--break-color: var(--blue);" aria-hidden="true"><div><div class="label">Chapter 03</div><div class="n">04—06</div><div class="title">Customize</div></div></section>
+
+<section id="claudemd" data-chapter="3">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">04<span class="slash">/</span><span class="total">12</span></div>
@@ -1438,7 +2165,7 @@
 <!-- ========================================================
      05 · MEMORY  (editorial: wide, full-bleed diagram)
      ======================================================== -->
-<section id="memory" class="alt">
+<section id="memory" class="alt" data-chapter="3">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">05<span class="slash">/</span><span class="total">12</span></div>
@@ -1607,7 +2334,7 @@
 <!-- ========================================================
      06 · SKILLS
      ======================================================== -->
-<section id="skills">
+<section id="skills" data-chapter="3">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">06<span class="slash">/</span><span class="total">12</span></div>
@@ -1714,7 +2441,9 @@
 <!-- ========================================================
      07 · MCP
      ======================================================== -->
-<section id="mcp" class="alt">
+<section class="section-break" style="--break-color: var(--amber);" aria-hidden="true"><div><div class="label">Chapter 04</div><div class="n">07—10</div><div class="title">Extend &amp; Automate</div></div></section>
+
+<section id="mcp" class="alt" data-chapter="4">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">07<span class="slash">/</span><span class="total">12</span></div>
@@ -1830,7 +2559,7 @@
 <!-- ========================================================
      08 · HOOKS
      ======================================================== -->
-<section id="hooks">
+<section id="hooks" data-chapter="4">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">08<span class="slash">/</span><span class="total">12</span></div>
@@ -1965,7 +2694,9 @@
 <!-- ========================================================
      09 · AGENT
      ======================================================== -->
-<section id="agent" class="alt">
+<section class="section-break" style="--break-color: var(--purple);" aria-hidden="true"><div><div class="label">Chapter 05</div><div class="n">09</div><div class="title">Orchestrate</div></div></section>
+
+<section id="agent" class="alt" data-chapter="5">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">09<span class="slash">/</span><span class="total">12</span></div>
@@ -2075,7 +2806,7 @@
 <!-- ========================================================
      10 · PLUGINS
      ======================================================== -->
-<section id="plugins">
+<section id="plugins" data-chapter="4">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">10<span class="slash">/</span><span class="total">12</span></div>
@@ -2164,7 +2895,9 @@
 <!-- ========================================================
      11 · HARNESS (wide, the centerpiece)
      ======================================================== -->
-<section id="harness" class="alt">
+<section class="section-break" style="--break-color: var(--rose);" aria-hidden="true"><div><div class="label">Chapter 06</div><div class="n">11—12</div><div class="title">Synthesis</div></div></section>
+
+<section id="harness" class="alt" data-chapter="6">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">11<span class="slash">/</span><span class="total">12</span></div>
@@ -2307,7 +3040,7 @@
 <!-- ========================================================
      12 · WRAP UP
      ======================================================== -->
-<section id="wrapup">
+<section id="wrapup" data-chapter="6">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">12<span class="slash">/</span><span class="total">12</span></div>
@@ -2372,6 +3105,28 @@
   </header>
   <div class="tw-body">
     <div class="tw-row">
+      <div class="label">Layout</div>
+      <div class="seg" id="seg-layout">
+        <button data-l="chapters" class="active">Chapters</button>
+        <button data-l="long-scroll">Long scroll</button>
+        <button data-l="tabs">Tabs</button>
+      </div>
+    </div>
+    <div class="tw-row">
+      <div class="label">Chapter style</div>
+      <div class="seg" id="seg-chstyle">
+        <button data-s="cards" class="active">Cards</button>
+        <button data-s="spread">Spread</button>
+      </div>
+    </div>
+    <div class="tw-row">
+      <div class="label">Section breaks <span style="color: var(--text-dim); font-size: 9px;">(long-scroll)</span></div>
+      <div class="seg" id="seg-breaks">
+        <button data-b="off" class="active">Off</button>
+        <button data-b="on">On</button>
+      </div>
+    </div>
+    <div class="tw-row" style="border-top: 1px solid var(--line); padding-top: 12px;">
       <div class="label">Variant</div>
       <div class="seg" id="seg-variant">
         <button data-v="refined">A · Refined</button>
@@ -2405,19 +3160,40 @@
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "variant": "editorial",
   "accent": "full",
-  "width": "comfortable"
+  "width": "comfortable",
+  "layout": "chapters",
+  "chStyle": "spread",
+  "breaks": "on"
 }/*EDITMODE-END*/;
 
 let state = Object.assign({}, TWEAK_DEFAULTS);
 
+// Chapter definitions — ordered sections per chapter
+const CHAPTERS = {
+  0: { sections: ['trends'], title: 'Context · Prologue', color: 'var(--cyan)' },
+  1: { sections: ['intro-detail'], title: 'Introduction', color: 'var(--amber)' },
+  2: { sections: ['about','start'], title: 'Getting Started', color: 'var(--green)' },
+  3: { sections: ['claudemd','memory','skills'], title: 'Customize', color: 'var(--blue)' },
+  4: { sections: ['mcp','hooks','plugins'], title: 'Extend & Automate', color: 'var(--amber)' },
+  5: { sections: ['agent'], title: 'Orchestrate', color: 'var(--purple)' },
+  6: { sections: ['harness','wrapup'], title: 'Synthesis', color: 'var(--rose)' }
+};
+
+let currentChapter = null;
+
 function applyState() {
   document.body.setAttribute('data-variant', state.variant);
+  document.body.setAttribute('data-layout', state.layout);
+  document.body.setAttribute('data-ch-style', state.chStyle);
+  document.body.setAttribute('data-breaks', state.breaks);
+
   const s = document.getElementById('tweaks-style');
   let css = '';
   if (state.accent === 'blue') {
     css += `
-      #intro, #claudemd, #skills, #wrapup { --accent: var(--blue); --accent-soft: var(--blue-soft); }
-      #about, #start, #memory, #mcp, #hooks, #agent, #plugins, #harness { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+      #trends, #intro, #claudemd, #skills, #wrapup,
+      #about, #start, #memory, #mcp, #hooks, #agent, #plugins, #harness
+      { --accent: var(--blue); --accent-soft: var(--blue-soft); }
     `;
   }
   if (state.width === 'compact') {
@@ -2425,11 +3201,95 @@ function applyState() {
   }
   s.textContent = css;
 
-  // Reflect in panel
   document.querySelectorAll('#seg-variant button').forEach(b => b.classList.toggle('active', b.dataset.v === state.variant));
   document.querySelectorAll('#seg-accent button').forEach(b => b.classList.toggle('active', b.dataset.a === state.accent));
   document.querySelectorAll('#seg-width button').forEach(b => b.classList.toggle('active', b.dataset.w === state.width));
+  document.querySelectorAll('#seg-layout button').forEach(b => b.classList.toggle('active', b.dataset.l === state.layout));
+  document.querySelectorAll('#seg-chstyle button').forEach(b => b.classList.toggle('active', b.dataset.s === state.chStyle));
+  document.querySelectorAll('#seg-breaks button').forEach(b => b.classList.toggle('active', b.dataset.b === state.breaks));
+
+  // Reset view on layout change
+  if (state.layout !== 'chapters') {
+    document.body.removeAttribute('data-view');
+    currentChapter = null;
+  }
+  if (state.layout === 'tabs') {
+    // Activate first tab if none active
+    const active = document.querySelector('#tab-strip button.active');
+    if (!active) activateTab('intro-detail');
+  } else {
+    document.querySelectorAll('main > section').forEach(s => s.classList.remove('tab-active'));
+  }
 }
+
+function enterChapter(ch) {
+  currentChapter = parseInt(ch, 10);
+  const chDef = CHAPTERS[currentChapter];
+  if (!chDef) return;
+
+  // Mark which sections belong to this chapter
+  document.querySelectorAll('main > section').forEach(s => s.classList.remove('in-chapter'));
+  chDef.sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('in-chapter');
+  });
+
+  // Update detail bar
+  const card = document.querySelector(`.ch-card[data-ch="${currentChapter}"]`);
+  const color = card ? getComputedStyle(card).getPropertyValue('--ch-color') || chDef.color : chDef.color;
+  const bar = document.getElementById('ch-detail-bar');
+  bar.style.setProperty('--ch-detail-color', color.trim());
+  document.getElementById('ch-label-text').textContent = `Chapter ${String(currentChapter).padStart(2,'0')} · ${chDef.title}`;
+
+  document.getElementById('ch-prev').style.visibility = currentChapter > 0 ? 'visible' : 'hidden';
+  document.getElementById('ch-next').style.visibility = currentChapter < 6 ? 'visible' : 'hidden';
+
+  document.body.setAttribute('data-view', 'detail');
+  window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
+}
+
+function exitChapter() {
+  document.body.removeAttribute('data-view');
+  currentChapter = null;
+  window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
+}
+
+function activateTab(id) {
+  document.querySelectorAll('main > section').forEach(s => s.classList.remove('tab-active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('tab-active');
+  document.querySelectorAll('#tab-strip button').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  window.scrollTo({ top: 0 });
+}
+
+// Wire chapter cards
+document.querySelectorAll('.ch-card').forEach(card => {
+  card.addEventListener('click', () => enterChapter(card.dataset.ch));
+});
+
+// Detail bar buttons
+document.getElementById('ch-back').addEventListener('click', exitChapter);
+document.getElementById('ch-prev').addEventListener('click', () => {
+  if (currentChapter > 0) enterChapter(currentChapter - 1);
+});
+document.getElementById('ch-next').addEventListener('click', () => {
+  if (currentChapter < 6) enterChapter(currentChapter + 1);
+});
+
+// Tab strip
+document.getElementById('tab-strip').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  activateTab(b.dataset.tab);
+});
+
+// Keyboard
+document.addEventListener('keydown', (e) => {
+  if (state.layout !== 'chapters') return;
+  if (document.body.getAttribute('data-view') !== 'detail') return;
+  if (e.key === 'Escape') exitChapter();
+  else if (e.key === 'ArrowLeft' && currentChapter > 0) enterChapter(currentChapter - 1);
+  else if (e.key === 'ArrowRight' && currentChapter < 6) enterChapter(currentChapter + 1);
+});
 
 // Edit mode protocol
 window.addEventListener('message', (e) => {
@@ -2459,6 +3319,18 @@ document.getElementById('seg-accent').addEventListener('click', (e) => {
 document.getElementById('seg-width').addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
   persist({ width: b.dataset.w });
+});
+document.getElementById('seg-layout').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  persist({ layout: b.dataset.l });
+});
+document.getElementById('seg-chstyle').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  persist({ chStyle: b.dataset.s });
+});
+document.getElementById('seg-breaks').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  persist({ breaks: b.dataset.b });
 });
 document.getElementById('tw-close').addEventListener('click', () => {
   document.getElementById('tweaks').classList.remove('visible');
@@ -2548,6 +3420,206 @@ const reveal = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('section .card, section .terminal, section .code-block, section .diagram-frame, section table.info-table')
   .forEach((el) => { el.classList.add('reveal'); reveal.observe(el); });
+
+// =========================================================
+//  TRENDS CHART (Chapter 00)
+//  Vanilla SVG. 3 series · provider markers · offset labels.
+// =========================================================
+(function renderTrendsChart() {
+  const root = document.getElementById('chart-trends');
+  if (!root) return;
+
+  const DATA = {
+    xMin: new Date('2023-01-01').getTime(),
+    xMax: new Date('2026-06-01').getTime(),
+    yMin: 0, yMax: 100,
+    series: [
+      {
+        name: 'MMLU (5-shot)',
+        color: 'var(--text-sub)',
+        dashed: true,
+        points: [
+          { date: '2023-03-14', y: 86.4, label: 'MMLU 86 (GPT-4)',      provider: 'openai',    dy: -14 },
+          { date: '2024-03-04', y: 86.8, label: 'Claude 3 Opus',        provider: 'anthropic', hide: true },
+          { date: '2025-08-07', y: 91.2, label: 'GPT-5',                provider: 'openai',    hide: true },
+          { date: '2025-11-18', y: 92.0, label: 'Gemini 3 Pro',         provider: 'google',    hide: true },
+          { date: '2026-04-16', y: 92.5, label: 'MMLU 92 (Opus 4.7)',   provider: 'anthropic', dy: -14, dx: 12, anchor: 'start' }
+        ]
+      },
+      {
+        name: 'SWE-bench Verified',
+        color: 'var(--amber)',
+        points: [
+          { date: '2023-03-14', y: 2,    label: 'GPT-4',          provider: 'openai',    dy: 20 },
+          { date: '2024-03-04', y: 11,   label: 'Claude 3 Opus',  provider: 'anthropic', dy: 20 },
+          { date: '2024-06-20', y: 33,   label: '3.5 Sonnet',     provider: 'anthropic', dy: 20 },
+          { date: '2024-10-22', y: 49,   label: '3.5 Sonnet v2',  provider: 'anthropic', dy: 20 },
+          { date: '2025-02-24', y: 63,   label: 'Claude 3.7',     provider: 'anthropic', dy: -14 },
+          { date: '2025-08-07', y: 74,   label: 'GPT-5',          provider: 'openai',    dy: 22, dx: -4, anchor: 'end' },
+          { date: '2025-09-29', y: 77,   label: 'Sonnet 4.5',     provider: 'anthropic', dy: -14, dx: -6, anchor: 'end' },
+          { date: '2025-11-18', y: 76,   label: 'Gemini 3 Pro',   provider: 'google',    dy: 24 },
+          { date: '2025-11-24', y: 80,   label: 'Opus 4.5',       provider: 'anthropic', dy: -16, dx: 10 },
+          { date: '2026-02-05', y: 80.8, label: 'Opus 4.6',       provider: 'anthropic', dy: 24, dx: -4, anchor: 'end' },
+          { date: '2026-02-19', y: 80.6, label: 'Gemini 3.1 Pro', provider: 'google',    dy: -32, dx: 4, anchor: 'start' },
+          { date: '2026-04-07', y: 93.9, label: 'Mythos Preview', provider: 'openai',    dy: -14, dx: -8, anchor: 'end' },
+          { date: '2026-04-16', y: 87.6, label: 'Opus 4.7',       provider: 'anthropic', dy: 24, dx: 10 }
+        ]
+      },
+      {
+        name: "HLE (Humanity's Last Exam)",
+        color: 'var(--purple)',
+        points: [
+          { date: '2025-02-24', y: 9,  label: 'Claude 3.7',     provider: 'anthropic', dy: 18 },
+          { date: '2025-08-07', y: 25, label: 'GPT-5',          provider: 'openai',    dy: -12, dx: -4, anchor: 'end' },
+          { date: '2025-09-29', y: 19, label: 'Sonnet 4.5',     provider: 'anthropic', dy: 18 },
+          { date: '2025-11-18', y: 37, label: 'Gemini 3 Pro',   provider: 'google',    dy: -14 },
+          { date: '2025-11-24', y: 30, label: 'Opus 4.5',       provider: 'anthropic', dy: 20, dx: 10 },
+          { date: '2026-04-07', y: 48, label: 'Mythos Preview', provider: 'openai',    dy: -14, dx: -4, anchor: 'end' },
+          { date: '2026-04-16', y: 42, label: 'Opus 4.7',       provider: 'anthropic', dy: 20, dx: 10 }
+        ]
+      }
+    ]
+  };
+
+  // Layout
+  const W = 800, H = 360;
+  const PAD = { t: 36, r: 24, b: 48, l: 44 };
+  const plotW = W - PAD.l - PAD.r;
+  const plotH = H - PAD.t - PAD.b;
+
+  const sx = (t) => PAD.l + ((t - DATA.xMin) / (DATA.xMax - DATA.xMin)) * plotW;
+  const sy = (v) => PAD.t + (1 - (v - DATA.yMin) / (DATA.yMax - DATA.yMin)) * plotH;
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.setAttribute('role', 'img');
+  svg.style.width = '100%';
+  svg.style.height = 'auto';
+  svg.style.fontFamily = 'var(--mono)';
+  svg.style.fontSize = '10px';
+  svg.style.overflow = 'visible';
+
+  function el(tag, attrs, text) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  // Grid lines + y-axis labels (0, 25, 50, 75, 100)
+  [0, 25, 50, 75, 100].forEach(v => {
+    svg.appendChild(el('line', {
+      x1: PAD.l, x2: W - PAD.r, y1: sy(v), y2: sy(v),
+      stroke: 'var(--line-soft)', 'stroke-width': 1,
+      'stroke-dasharray': v === 0 ? '0' : '2 4'
+    }));
+    svg.appendChild(el('text', {
+      x: PAD.l - 8, y: sy(v) + 3,
+      'text-anchor': 'end', fill: 'var(--text-sub)',
+      'font-size': 10
+    }, v + '%'));
+  });
+
+  // X axis year labels
+  [2023, 2024, 2025, 2026].forEach(year => {
+    const tx = sx(new Date(year + '-01-01').getTime());
+    svg.appendChild(el('line', {
+      x1: tx, x2: tx, y1: H - PAD.b, y2: H - PAD.b + 4,
+      stroke: 'var(--line-2)', 'stroke-width': 1
+    }));
+    svg.appendChild(el('text', {
+      x: tx, y: H - PAD.b + 18,
+      'text-anchor': 'middle', fill: 'var(--text-sub)',
+      'font-size': 10
+    }, year));
+  });
+
+  // Axis baselines
+  svg.appendChild(el('line', {
+    x1: PAD.l, x2: W - PAD.r, y1: H - PAD.b, y2: H - PAD.b,
+    stroke: 'var(--line-2)', 'stroke-width': 1
+  }));
+
+  // Provider marker renderer
+  function marker(provider, cx, cy, color) {
+    const g = el('g', { transform: `translate(${cx},${cy})` });
+    const common = { fill: 'var(--bg)', stroke: color, 'stroke-width': 1.6 };
+    if (provider === 'anthropic') {
+      g.appendChild(el('polygon', Object.assign({ points: '0,-5.5 5,4.5 -5,4.5' }, common)));
+    } else if (provider === 'google') {
+      g.appendChild(el('polygon', Object.assign({ points: '0,-5.5 5.5,0 0,5.5 -5.5,0' }, common)));
+    } else {
+      g.appendChild(el('circle', Object.assign({ r: 4.5, cx: 0, cy: 0 }, common)));
+    }
+    return g;
+  }
+
+  // Series
+  DATA.series.forEach((s) => {
+    const pts = s.points.map(p => {
+      const t = new Date(p.date).getTime();
+      return { ...p, cx: sx(t), cy: sy(p.y) };
+    });
+    const d = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p.cx + ' ' + p.cy).join(' ');
+    svg.appendChild(el('path', {
+      d, fill: 'none', stroke: s.color, 'stroke-width': s.dashed ? 1.5 : 2.2,
+      'stroke-dasharray': s.dashed ? '5 4' : '0',
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+      opacity: s.dashed ? 0.7 : 1
+    }));
+    pts.forEach(p => {
+      svg.appendChild(marker(p.provider, p.cx, p.cy, s.color));
+      if (!p.hide) {
+        const dx = p.dx || 0, dy = p.dy || -10;
+        const anchor = p.anchor || 'middle';
+        svg.appendChild(el('text', {
+          x: p.cx + dx, y: p.cy + dy,
+          'text-anchor': anchor, fill: 'var(--text-2)',
+          'font-size': 10.5, 'font-family': 'var(--sans)'
+        }, p.label));
+      }
+    });
+  });
+
+  // Legend (top-right)
+  const legend = el('g', { transform: `translate(${W - PAD.r - 6}, ${PAD.t - 22})` });
+  const legendItems = [
+    { name: 'MMLU', color: 'var(--text-sub)', dashed: true },
+    { name: 'SWE-bench', color: 'var(--amber)' },
+    { name: 'HLE', color: 'var(--purple)' }
+  ];
+  let offset = 0;
+  legendItems.reverse().forEach((l) => {
+    const width = l.name.length * 6.5 + 20;
+    offset -= width;
+    const g = el('g', { transform: `translate(${offset}, 0)` });
+    g.appendChild(el('line', {
+      x1: 0, x2: 14, y1: 6, y2: 6,
+      stroke: l.color, 'stroke-width': l.dashed ? 1.5 : 2.2,
+      'stroke-dasharray': l.dashed ? '4 3' : '0'
+    }));
+    g.appendChild(el('text', {
+      x: 18, y: 9, fill: 'var(--text-2)',
+      'font-size': 10.5, 'font-family': 'var(--sans)'
+    }, l.name));
+    legend.appendChild(g);
+  });
+  svg.appendChild(legend);
+
+  root.appendChild(svg);
+
+  // Accessibility: data table fallback (visually hidden)
+  const tbl = document.createElement('table');
+  tbl.setAttribute('aria-label', '벤치마크 점수 데이터');
+  tbl.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;';
+  const rows = [['Series','Date','Model','Score (%)']];
+  DATA.series.forEach(s => s.points.forEach(p => rows.push([s.name, p.date, p.label, p.y])));
+  tbl.innerHTML = '<thead><tr>' + rows[0].map(h => `<th>${h}</th>`).join('') + '</tr></thead>' +
+    '<tbody>' + rows.slice(1).map(r => '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>').join('') + '</tbody>';
+  root.appendChild(tbl);
+})();
 </script>
 
 </body>
