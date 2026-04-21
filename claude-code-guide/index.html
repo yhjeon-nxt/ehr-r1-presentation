@@ -727,6 +727,74 @@
     pointer-events: none;
   }
 
+  /* Benchmark small-multiples */
+  .bench-legend {
+    display: flex; flex-wrap: wrap; gap: 18px;
+    margin-bottom: 14px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+  }
+  .bench-legend .lg-item {
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .bench-legend .lg-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--bg) 80%, transparent);
+  }
+  .bench-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .bench-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .bench-grid { grid-template-columns: 1fr; }
+  }
+  .bench-panel {
+    background: color-mix(in oklab, var(--bg) 60%, var(--surface));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 14px 14px 12px;
+    position: relative;
+  }
+  .bench-panel[data-saturated="true"]::after {
+    content: "SATURATED";
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    padding: 2px 6px;
+    border: 1px dashed var(--line-2);
+    border-radius: 3px;
+  }
+  .bench-panel .bp-head {
+    margin-bottom: 6px;
+  }
+  .bench-panel .bp-name {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .bench-panel .bp-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--text-sub);
+    margin-top: 2px;
+  }
+  .bench-panel svg { width: 100%; height: auto; display: block; }
+  .bench-panel circle.dot:hover { r: 7; cursor: default; }
+
   /* Cycle */
   .cycle-diagram {
     display: flex; justify-content: center; align-items: center;
@@ -1813,16 +1881,33 @@
     <!-- Block 4: 차트 -->
     <p class="label-row">그리고, 속도가 너무 빠릅니다</p>
     <p class="mb-12" style="color: var(--text-2);">
-      세 벤치마크 궤적 — MMLU(종합 지식, 거의 포화), SWE-bench Verified(GitHub 이슈 패치, 코딩), HLE(박사급 종합). 세로축 점수(%), 가로축 출시 시점.
-      <span class="muted small" style="display: inline-block; margin-left: 6px;">△ Anthropic · ○ OpenAI · ◇ Google</span>
+      과거 표준(MMLU)이 포화되면서 변별력은 새 지표로 이동했습니다. 아래는 6개 벤치마크 snapshot — 위쪽은 <em style="font-family: var(--serif); font-style: italic;">지식 → 과학 → 코딩</em>, 아래쪽은 <em style="font-family: var(--serif); font-style: italic;">터미널 → 멀티턴 agent → frontier exam</em>.
+      <span class="muted small" style="display: inline-block; margin-left: 6px;">색 = 회사 · 점 = 모델 출시 snapshot</span>
     </p>
     <figure class="diagram-frame mb-12" style="padding: 22px 22px 18px;">
-      <figcaption style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">▸ FIG. 01 · CHART</figcaption>
-      <p style="font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 2px;">세 벤치마크, 다른 궤적</p>
-      <p class="muted small" style="margin-bottom: 14px;">MMLU · SWE-bench Verified · HLE — 출시 시점 기준 공개 스코어 (%)</p>
-      <div id="chart-trends" role="img" aria-labelledby="chart-trends-caption"></div>
-      <p id="chart-trends-caption" class="muted small" style="margin-top: 14px; max-width: 62ch;">
-        MMLU — 3년 동안 6점 남짓, 위쪽 천장에 붙어 평탄. SWE-bench — 2% → 93%로 MMLU 선을 위로 가로지름 (2026년 4월 Mythos Preview). HLE — 아직 절반 선, 포화까지 한참.
+      <figcaption style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">▸ FIG. 01 · BENCHMARK SMALL-MULTIPLES</figcaption>
+      <p style="font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 2px;">6개 벤치마크, 다른 포화도</p>
+      <p class="muted small" style="margin-bottom: 14px;">MMLU · GPQA · SWE-bench · Terminal-Bench · τ-bench · HLE — 출시 시점 × 공개 스코어 (%)</p>
+
+      <!-- Shared provider legend -->
+      <div class="bench-legend" aria-hidden="true">
+        <span class="lg-item"><span class="lg-dot" style="background: var(--amber);"></span>Anthropic</span>
+        <span class="lg-item"><span class="lg-dot" style="background: var(--green);"></span>OpenAI</span>
+        <span class="lg-item"><span class="lg-dot" style="background: var(--blue);"></span>Google</span>
+      </div>
+
+      <!-- 3×2 (desktop) / 1×6 (mobile) small-multiples grid -->
+      <div id="bench-grid" class="bench-grid" role="img" aria-labelledby="bench-grid-caption">
+        <div class="bench-panel" data-bench="mmlu"></div>
+        <div class="bench-panel" data-bench="gpqa"></div>
+        <div class="bench-panel" data-bench="swe"></div>
+        <div class="bench-panel" data-bench="terminal"></div>
+        <div class="bench-panel" data-bench="tau"></div>
+        <div class="bench-panel" data-bench="hle"></div>
+      </div>
+
+      <p id="bench-grid-caption" class="muted small" style="margin-top: 14px; max-width: 62ch;">
+        왼쪽 두 개(MMLU · GPQA)는 이미 천장(90%+). 가운데 두 개(SWE-bench · Terminal-Bench)는 2% → 80%대로 가파르게 차오르는 중. τ-bench는 Anthropic 주도로 빠르게 상승 중이고, HLE는 아직 절반 이하 — 포화까지 한참 남았습니다. 선을 긋지 않은 건 각 모델이 독립 출시이기 때문 — '연결'보다 '분포'를 보여주려는 의도.
       </p>
     </figure>
 
@@ -3679,85 +3764,119 @@ document.querySelectorAll('section .card, section .terminal, section .code-block
   .forEach((el) => { el.classList.add('reveal'); reveal.observe(el); });
 
 // =========================================================
-//  TRENDS CHART (Chapter 00)
-//  Vanilla SVG. 3 series · provider markers · offset labels.
+//  BENCHMARK GRID (Chapter 00)
+//  Small-multiples scatter. 6 panels. Provider = hue (no shape).
+//  No connecting lines — each model is an independent snapshot.
 // =========================================================
-(function renderTrendsChart() {
-  const root = document.getElementById('chart-trends');
-  if (!root) return;
+(function renderBenchmarkGrid() {
+  const grid = document.getElementById('bench-grid');
+  if (!grid) return;
 
-  const DATA = {
-    xMin: new Date('2023-01-01').getTime(),
-    xMax: new Date('2026-06-01').getTime(),
-    yMin: 0, yMax: 100,
-    series: [
-      {
-        name: 'MMLU (5-shot)',
-        color: 'var(--text-sub)',
-        dashed: true,
-        points: [
-          { date: '2023-03-14', y: 86.4, label: 'MMLU 86 (GPT-4)',      provider: 'openai',    dy: -14 },
-          { date: '2024-03-04', y: 86.8, label: 'Claude 3 Opus',        provider: 'anthropic', hide: true },
-          { date: '2025-08-07', y: 91.2, label: 'GPT-5',                provider: 'openai',    hide: true },
-          { date: '2025-11-18', y: 92.0, label: 'Gemini 3 Pro',         provider: 'google',    hide: true },
-          { date: '2026-04-16', y: 92.5, label: 'MMLU 92 (Opus 4.7)',   provider: 'anthropic', dy: -14, dx: 12, anchor: 'start' }
-        ]
-      },
-      {
-        name: 'SWE-bench Verified',
-        color: 'var(--amber)',
-        points: [
-          { date: '2023-03-14', y: 2,    label: 'GPT-4',          provider: 'openai',    dy: 20 },
-          { date: '2024-03-04', y: 11,   label: 'Claude 3 Opus',  provider: 'anthropic', dy: 20 },
-          { date: '2024-06-20', y: 33,   label: '3.5 Sonnet',     provider: 'anthropic', dy: 20 },
-          { date: '2024-10-22', y: 49,   label: '3.5 Sonnet v2',  provider: 'anthropic', dy: 20 },
-          { date: '2025-02-24', y: 63,   label: 'Claude 3.7',     provider: 'anthropic', dy: -14 },
-          { date: '2025-08-07', y: 74,   label: 'GPT-5',          provider: 'openai',    dy: 22, dx: -4, anchor: 'end' },
-          { date: '2025-09-29', y: 77,   label: 'Sonnet 4.5',     provider: 'anthropic', dy: -14, dx: -6, anchor: 'end' },
-          { date: '2025-11-18', y: 76,   label: 'Gemini 3 Pro',   provider: 'google',    dy: 24 },
-          { date: '2025-11-24', y: 80,   label: 'Opus 4.5',       provider: 'anthropic', dy: -16, dx: 10 },
-          { date: '2026-02-05', y: 80.8, label: 'Opus 4.6',       provider: 'anthropic', dy: 24, dx: -4, anchor: 'end' },
-          { date: '2026-02-19', y: 80.6, label: 'Gemini 3.1 Pro', provider: 'google',    dy: -32, dx: 4, anchor: 'start' },
-          { date: '2026-04-07', y: 93.9, label: 'Mythos Preview', provider: 'openai',    dy: -14, dx: -8, anchor: 'end' },
-          { date: '2026-04-16', y: 87.6, label: 'Opus 4.7',       provider: 'anthropic', dy: 24, dx: 10 }
-        ]
-      },
-      {
-        name: "HLE (Humanity's Last Exam)",
-        color: 'var(--purple)',
-        points: [
-          { date: '2025-02-24', y: 9,  label: 'Claude 3.7',     provider: 'anthropic', dy: 18 },
-          { date: '2025-08-07', y: 25, label: 'GPT-5',          provider: 'openai',    dy: -12, dx: -4, anchor: 'end' },
-          { date: '2025-09-29', y: 19, label: 'Sonnet 4.5',     provider: 'anthropic', dy: 18 },
-          { date: '2025-11-18', y: 37, label: 'Gemini 3 Pro',   provider: 'google',    dy: -14 },
-          { date: '2025-11-24', y: 30, label: 'Opus 4.5',       provider: 'anthropic', dy: 20, dx: 10 },
-          { date: '2026-04-07', y: 48, label: 'Mythos Preview', provider: 'openai',    dy: -14, dx: -4, anchor: 'end' },
-          { date: '2026-04-16', y: 42, label: 'Opus 4.7',       provider: 'anthropic', dy: 20, dx: 10 }
-        ]
-      }
-    ]
+  const HUE = {
+    anthropic: 'var(--amber)',
+    openai:    'var(--green)',
+    google:    'var(--blue)'
+  };
+  const PROVIDER_LABEL = {
+    anthropic: 'Anthropic',
+    openai:    'OpenAI',
+    google:    'Google'
   };
 
-  // Layout
-  const W = 800, H = 360;
-  const PAD = { t: 36, r: 24, b: 48, l: 44 };
-  const plotW = W - PAD.l - PAD.r;
-  const plotH = H - PAD.t - PAD.b;
+  // X-axis range shared across panels
+  const X_MIN = new Date('2023-01-01').getTime();
+  const X_MAX = new Date('2026-06-01').getTime();
 
-  const sx = (t) => PAD.l + ((t - DATA.xMin) / (DATA.xMax - DATA.xMin)) * plotW;
-  const sy = (v) => PAD.t + (1 - (v - DATA.yMin) / (DATA.yMax - DATA.yMin)) * plotH;
+  const BENCH = [
+    {
+      key: 'mmlu',
+      name: 'MMLU',
+      sub: '예전 표준 · 포화',
+      saturated: true,
+      points: [
+        { date: '2023-03-14', y: 86.4, model: 'GPT-4',        provider: 'openai' },
+        { date: '2024-03-04', y: 86.8, model: 'Claude 3 Opus', provider: 'anthropic' },
+        { date: '2025-08-07', y: 91.2, model: 'GPT-5',        provider: 'openai' },
+        { date: '2025-11-18', y: 92.0, model: 'Gemini 3 Pro', provider: 'google' },
+        { date: '2026-04-16', y: 92.5, model: 'Opus 4.7',     provider: 'anthropic' }
+      ]
+    },
+    {
+      key: 'gpqa',
+      name: 'GPQA Diamond',
+      sub: 'PhD 과학 QA · 포화 근접',
+      saturated: true,
+      points: [
+        { date: '2023-03-14', y: 39.4, model: 'GPT-4',          provider: 'openai' },
+        { date: '2024-03-04', y: 50.4, model: 'Claude 3 Opus',  provider: 'anthropic' },
+        { date: '2024-06-20', y: 59.4, model: '3.5 Sonnet',     provider: 'anthropic' },
+        { date: '2024-09-12', y: 77.3, model: 'OpenAI o1',      provider: 'openai' },
+        { date: '2025-08-07', y: 87.3, model: 'GPT-5',          provider: 'openai' },
+        { date: '2025-11-18', y: 91.9, model: 'Gemini 3 Pro',   provider: 'google' },
+        { date: '2026-02-05', y: 91.3, model: 'Opus 4.6',       provider: 'anthropic' },
+        { date: '2026-02-19', y: 94.1, model: 'Gemini 3.1 Pro', provider: 'google' }
+      ]
+    },
+    {
+      key: 'swe',
+      name: 'SWE-bench Verified',
+      sub: '코딩 agent · GitHub 이슈 수리',
+      points: [
+        { date: '2023-03-14', y: 2,    model: 'GPT-4',          provider: 'openai' },
+        { date: '2024-03-04', y: 11,   model: 'Claude 3 Opus',  provider: 'anthropic' },
+        { date: '2024-06-20', y: 33,   model: '3.5 Sonnet',     provider: 'anthropic' },
+        { date: '2024-10-22', y: 49,   model: '3.5 Sonnet v2',  provider: 'anthropic' },
+        { date: '2025-02-24', y: 63,   model: 'Claude 3.7',     provider: 'anthropic' },
+        { date: '2025-08-07', y: 74,   model: 'GPT-5',          provider: 'openai' },
+        { date: '2025-09-29', y: 77,   model: 'Sonnet 4.5',     provider: 'anthropic' },
+        { date: '2025-11-18', y: 76,   model: 'Gemini 3 Pro',   provider: 'google' },
+        { date: '2025-11-24', y: 80,   model: 'Opus 4.5',       provider: 'anthropic' },
+        { date: '2026-02-05', y: 80.8, model: 'Opus 4.6',       provider: 'anthropic' },
+        { date: '2026-02-19', y: 80.6, model: 'Gemini 3.1 Pro', provider: 'google' },
+        { date: '2026-04-07', y: 93.9, model: 'Mythos Preview', provider: 'openai' },
+        { date: '2026-04-16', y: 87.6, model: 'Opus 4.7',       provider: 'anthropic' }
+      ]
+    },
+    {
+      key: 'terminal',
+      name: 'Terminal-Bench 2.0',
+      sub: '터미널 자율 작업 · 신흥',
+      points: [
+        { date: '2026-02-19', y: 67.4, model: 'Gemini 3.1 Pro', provider: 'google' },
+        { date: '2026-03-01', y: 64.0, model: 'GPT-5.3 Codex',  provider: 'openai' },
+        { date: '2026-04-16', y: 68.5, model: 'Opus 4.7',       provider: 'anthropic' }
+      ]
+    },
+    {
+      key: 'tau',
+      name: 'τ-bench',
+      sub: '멀티턴 tool-calling agent',
+      points: [
+        { date: '2024-05-13', y: 50,   model: 'GPT-4o',         provider: 'openai' },
+        { date: '2024-06-20', y: 62,   model: '3.5 Sonnet',     provider: 'anthropic' },
+        { date: '2025-02-24', y: 70,   model: 'Claude 3.7',     provider: 'anthropic' },
+        { date: '2025-09-29', y: 86.2, model: 'Sonnet 4.5',     provider: 'anthropic' },
+        { date: '2026-02-05', y: 87.5, model: 'Sonnet 4.6',     provider: 'anthropic' },
+        { date: '2026-04-07', y: 89.2, model: 'Mythos Preview', provider: 'openai' }
+      ]
+    },
+    {
+      key: 'hle',
+      name: 'HLE',
+      sub: "박사급 종합 · 아직 절반",
+      points: [
+        { date: '2025-02-24', y: 9,  model: 'Claude 3.7',     provider: 'anthropic' },
+        { date: '2025-08-07', y: 25, model: 'GPT-5',          provider: 'openai' },
+        { date: '2025-09-29', y: 19, model: 'Sonnet 4.5',     provider: 'anthropic' },
+        { date: '2025-11-18', y: 37, model: 'Gemini 3 Pro',   provider: 'google' },
+        { date: '2025-11-24', y: 30, model: 'Opus 4.5',       provider: 'anthropic' },
+        { date: '2026-04-07', y: 48, model: 'Mythos Preview', provider: 'openai' },
+        { date: '2026-04-16', y: 42, model: 'Opus 4.7',       provider: 'anthropic' }
+      ]
+    }
+  ];
 
   const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-  svg.setAttribute('role', 'img');
-  svg.style.width = '100%';
-  svg.style.height = 'auto';
-  svg.style.fontFamily = 'var(--mono)';
-  svg.style.fontSize = '10px';
-  svg.style.overflow = 'visible';
-
   function el(tag, attrs, text) {
     const e = document.createElementNS(ns, tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -3765,117 +3884,108 @@ document.querySelectorAll('section .card, section .terminal, section .code-block
     return e;
   }
 
-  // Grid lines + y-axis labels (0, 25, 50, 75, 100)
-  [0, 25, 50, 75, 100].forEach(v => {
-    svg.appendChild(el('line', {
-      x1: PAD.l, x2: W - PAD.r, y1: sy(v), y2: sy(v),
-      stroke: 'var(--line-soft)', 'stroke-width': 1,
-      'stroke-dasharray': v === 0 ? '0' : '2 4'
-    }));
-    svg.appendChild(el('text', {
-      x: PAD.l - 8, y: sy(v) + 3,
-      'text-anchor': 'end', fill: 'var(--text-sub)',
-      'font-size': 10
-    }, v + '%'));
-  });
+  // Per-panel dimensions (viewBox). Aspect ~1.9 : 1.
+  const W = 380, H = 200;
+  const PAD = { t: 14, r: 12, b: 26, l: 30 };
 
-  // X axis year labels
-  [2023, 2024, 2025, 2026].forEach(year => {
-    const tx = sx(new Date(year + '-01-01').getTime());
+  function renderPanel(bench) {
+    const host = grid.querySelector(`.bench-panel[data-bench="${bench.key}"]`);
+    if (!host) return;
+    if (bench.saturated) host.setAttribute('data-saturated', 'true');
+
+    // Header
+    const head = document.createElement('div');
+    head.className = 'bp-head';
+    head.innerHTML = `<div class="bp-name">${bench.name}</div><div class="bp-sub">${bench.sub}</div>`;
+    host.appendChild(head);
+
+    // SVG
+    const plotW = W - PAD.l - PAD.r;
+    const plotH = H - PAD.t - PAD.b;
+    const sx = (t) => PAD.l + ((t - X_MIN) / (X_MAX - X_MIN)) * plotW;
+    const sy = (v) => PAD.t + (1 - v / 100) * plotH;
+
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svg.setAttribute('role', 'img');
+    const min = bench.points.reduce((a,p) => Math.min(a, p.y), 100);
+    const max = bench.points.reduce((a,p) => Math.max(a, p.y), 0);
+    svg.setAttribute('aria-label', `${bench.name} — ${bench.points.length}개 모델, 최저 ${Math.round(min)}%, 최고 ${Math.round(max)}%`);
+    svg.style.fontFamily = 'var(--mono)';
+    svg.style.overflow = 'visible';
+
+    // Horizontal grid + y labels (0, 50, 100 only — keeps panels clean)
+    [0, 50, 100].forEach(v => {
+      svg.appendChild(el('line', {
+        x1: PAD.l, x2: W - PAD.r, y1: sy(v), y2: sy(v),
+        stroke: 'var(--line-soft)', 'stroke-width': 1,
+        'stroke-dasharray': v === 0 ? '0' : '2 3'
+      }));
+      svg.appendChild(el('text', {
+        x: PAD.l - 6, y: sy(v) + 3,
+        'text-anchor': 'end', fill: 'var(--text-sub)',
+        'font-size': 9
+      }, v + '%'));
+    });
+
+    // X year ticks
+    [2023, 2024, 2025, 2026].forEach(year => {
+      const tx = sx(new Date(year + '-01-01').getTime());
+      if (tx < PAD.l || tx > W - PAD.r) return;
+      svg.appendChild(el('line', {
+        x1: tx, x2: tx, y1: H - PAD.b, y2: H - PAD.b + 3,
+        stroke: 'var(--line-2)', 'stroke-width': 1
+      }));
+      svg.appendChild(el('text', {
+        x: tx, y: H - PAD.b + 14,
+        'text-anchor': 'middle', fill: 'var(--text-sub)',
+        'font-size': 9
+      }, String(year).slice(2)));
+    });
+
+    // Baseline
     svg.appendChild(el('line', {
-      x1: tx, x2: tx, y1: H - PAD.b, y2: H - PAD.b + 4,
+      x1: PAD.l, x2: W - PAD.r, y1: H - PAD.b, y2: H - PAD.b,
       stroke: 'var(--line-2)', 'stroke-width': 1
     }));
-    svg.appendChild(el('text', {
-      x: tx, y: H - PAD.b + 18,
-      'text-anchor': 'middle', fill: 'var(--text-sub)',
-      'font-size': 10
-    }, year));
-  });
 
-  // Axis baselines
-  svg.appendChild(el('line', {
-    x1: PAD.l, x2: W - PAD.r, y1: H - PAD.b, y2: H - PAD.b,
-    stroke: 'var(--line-2)', 'stroke-width': 1
-  }));
+    // Dots — same shape for all, hue = provider
+    bench.points.forEach(p => {
+      const t = new Date(p.date).getTime();
+      const cx = sx(t), cy = sy(p.y);
+      const color = HUE[p.provider] || 'var(--text-sub)';
+      // Subtle glow behind
+      svg.appendChild(el('circle', {
+        cx, cy, r: 8,
+        fill: color, opacity: '0.18', 'pointer-events': 'none'
+      }));
+      const dot = el('circle', {
+        cx, cy, r: 5,
+        fill: color,
+        stroke: 'var(--bg-deep)', 'stroke-width': 1.2,
+        class: 'dot'
+      });
+      const title = document.createElementNS(ns, 'title');
+      title.textContent = `${p.model} · ${p.y}% · ${p.date}`;
+      dot.appendChild(title);
+      svg.appendChild(dot);
+    });
 
-  // Provider marker renderer
-  function marker(provider, cx, cy, color) {
-    const g = el('g', { transform: `translate(${cx},${cy})` });
-    const common = { fill: 'var(--bg)', stroke: color, 'stroke-width': 1.6 };
-    if (provider === 'anthropic') {
-      g.appendChild(el('polygon', Object.assign({ points: '0,-5.5 5,4.5 -5,4.5' }, common)));
-    } else if (provider === 'google') {
-      g.appendChild(el('polygon', Object.assign({ points: '0,-5.5 5.5,0 0,5.5 -5.5,0' }, common)));
-    } else {
-      g.appendChild(el('circle', Object.assign({ r: 4.5, cx: 0, cy: 0 }, common)));
-    }
-    return g;
+    host.appendChild(svg);
   }
 
-  // Series
-  DATA.series.forEach((s) => {
-    const pts = s.points.map(p => {
-      const t = new Date(p.date).getTime();
-      return { ...p, cx: sx(t), cy: sy(p.y) };
-    });
-    const d = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p.cx + ' ' + p.cy).join(' ');
-    svg.appendChild(el('path', {
-      d, fill: 'none', stroke: s.color, 'stroke-width': s.dashed ? 1.5 : 2.2,
-      'stroke-dasharray': s.dashed ? '5 4' : '0',
-      'stroke-linecap': 'round', 'stroke-linejoin': 'round',
-      opacity: s.dashed ? 0.7 : 1
-    }));
-    pts.forEach(p => {
-      svg.appendChild(marker(p.provider, p.cx, p.cy, s.color));
-      if (!p.hide) {
-        const dx = p.dx || 0, dy = p.dy || -10;
-        const anchor = p.anchor || 'middle';
-        svg.appendChild(el('text', {
-          x: p.cx + dx, y: p.cy + dy,
-          'text-anchor': anchor, fill: 'var(--text-2)',
-          'font-size': 10.5, 'font-family': 'var(--sans)'
-        }, p.label));
-      }
-    });
-  });
+  BENCH.forEach(renderPanel);
 
-  // Legend (top-right)
-  const legend = el('g', { transform: `translate(${W - PAD.r - 6}, ${PAD.t - 22})` });
-  const legendItems = [
-    { name: 'MMLU', color: 'var(--text-sub)', dashed: true },
-    { name: 'SWE-bench', color: 'var(--amber)' },
-    { name: 'HLE', color: 'var(--purple)' }
-  ];
-  let offset = 0;
-  legendItems.reverse().forEach((l) => {
-    const width = l.name.length * 6.5 + 20;
-    offset -= width;
-    const g = el('g', { transform: `translate(${offset}, 0)` });
-    g.appendChild(el('line', {
-      x1: 0, x2: 14, y1: 6, y2: 6,
-      stroke: l.color, 'stroke-width': l.dashed ? 1.5 : 2.2,
-      'stroke-dasharray': l.dashed ? '4 3' : '0'
-    }));
-    g.appendChild(el('text', {
-      x: 18, y: 9, fill: 'var(--text-2)',
-      'font-size': 10.5, 'font-family': 'var(--sans)'
-    }, l.name));
-    legend.appendChild(g);
-  });
-  svg.appendChild(legend);
-
-  root.appendChild(svg);
-
-  // Accessibility: data table fallback (visually hidden)
+  // Accessibility: hidden combined data table
   const tbl = document.createElement('table');
-  tbl.setAttribute('aria-label', '벤치마크 점수 데이터');
+  tbl.setAttribute('aria-label', '벤치마크 점수 데이터 (6개 벤치마크)');
   tbl.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;';
-  const rows = [['Series','Date','Model','Score (%)']];
-  DATA.series.forEach(s => s.points.forEach(p => rows.push([s.name, p.date, p.label, p.y])));
+  const rows = [['Benchmark','Date','Model','Provider','Score (%)']];
+  BENCH.forEach(b => b.points.forEach(p => rows.push([b.name, p.date, p.model, PROVIDER_LABEL[p.provider] || p.provider, p.y])));
   tbl.innerHTML = '<thead><tr>' + rows[0].map(h => `<th>${h}</th>`).join('') + '</tr></thead>' +
     '<tbody>' + rows.slice(1).map(r => '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>').join('') + '</tbody>';
-  root.appendChild(tbl);
+  grid.appendChild(tbl);
 })();
 </script>
 
