@@ -190,7 +190,7 @@ window.VIBE_DATA = {
       title: "바이브 코딩이란",
       titleEn: "What is Vibe Coding",
       summary: "코드를 '쓰는' 것이 아니라 '지시하는' 것. Karpathy가 던진 단어, 이제는 Claude Code라는 구체적 도구로 현실화된 방법론.",
-      readTime: "14 min",
+      readTime: "12 min",
       tag: "Foundation",
       sections: [
         {
@@ -198,118 +198,13 @@ window.VIBE_DATA = {
           body: "Vibe coding은 개발자가 코드를 한 줄 한 줄 타이핑하는 대신, AI에게 의도를 자연어로 전달하고 생성된 코드를 빠르게 검증·수정하는 방식의 개발 관행이다. 2025년 2월, Andrej Karpathy가 'There's a new kind of coding I call vibe coding, where you fully give in to the vibes, embrace exponentials, and forget that the code even exists'라고 쓰면서 이 용어가 정착했다. 'Vibe'는 프로그래머의 직관과 취향을 의미한다.",
         },
         {
-          heading: "기존 방식 vs 바이브 코딩",
-          body: "두 방식은 배타적이지 않다. 연구 코드(throwaway, prototype)에서는 vibe가 압도적으로 빠르고, production에서는 hybrid가 현실적이다.",
-          compare: {
-            before: {
-              label: "Traditional · 수 시간",
-              lines: [
-                "1. 문법 검색...",
-                "2. 코드 작성...",
-                "3. 에러 디버깅...",
-                "4. Stack Overflow 뒤지기...",
-                "",
-                "# 결과: 40 lines, 2시간 소요",
-              ],
-            },
-            after: {
-              label: "Vibe · 30초",
-              lines: [
-                "❯ CSV 파일 읽어서 bar chart로",
-                "  시각화해줘",
-                "↳ Read data.csv",
-                "↳ Write plot.py",
-                "↳ Bash: python plot.py",
-                "✓ chart.png 생성 완료",
-              ],
-            },
-          },
-        },
-        {
-          heading: "왜 AI 연구원에게 중요한가",
-          body: "연구 생산성의 병목이 '아이디어 → 코드' 구간에서 '실험 설계 → 해석' 구간으로 이동 중이다. 코드는 더 이상 시간의 bottleneck이 아니다.",
-          bullets: [
-            "실험 도구 자동화 — 데이터 처리, plotting, logging 파이프라인 전체 위임",
-            "데모·시각화 직접 제작 — figure polish, 인터랙티브 데모를 반나절에",
-            "반복 작업 스크립트화 — sweep, ablation, hyperparam search를 자연어로",
-            "Legacy 코드 온보딩 — 5만 라인 파이프라인을 이틀만에 이해",
-          ],
-        },
-        {
           heading: "도구 비교 — 무엇을 써야 하나",
-          body: "비슷한 도구가 여럿이지만 결이 다르다. 연구자에게는 터미널 기반 에이전트(Claude Code)가 압도적으로 유리하다 — 실험 서버에 SSH로 접속해도, Jupyter 옆에 띄워도, 스크립트에 엮어도 동일하게 작동하기 때문.",
+          body: "비슷한 도구가 여럿이지만 결이 다르다. 터미널 기반 에이전트(Claude Code)는 로컬 에디터·원격 서버·스크립트 어디에서도 동일하게 작동하여 레버리지가 가장 크다.",
           patterns: [
             { name: "Cursor", body: "VS Code fork 기반의 IDE. GUI 친화적이고 코드 에디터 내장. 로컬 개발에 강하지만 원격 서버 작업은 번거로움." },
             { name: "Windsurf", body: "IDE 형태, AI Flow 기반 자동 완성. Cursor와 유사한 포지션." },
-            { name: "Claude Code ★", body: "터미널에서 돌아가는 CLI 에이전트. 파일/Git/터미널/웹을 직접 다루는 에이전틱 루프. 원격 서버, tmux, 스크립팅에 자연스럽게 녹아듦 — 연구자의 워크플로우와 가장 잘 맞음." },
+            { name: "Claude Code ★", body: "터미널에서 돌아가는 CLI 에이전트. 파일/Git/터미널/웹을 직접 다루는 에이전틱 루프. 원격 서버·tmux·스크립팅에 자연스럽게 녹아듦." },
             { name: "GitHub Copilot", body: "IDE 플러그인, 자동완성 중심. 에이전트 기능은 상대적으로 약함." },
-          ],
-        },
-        {
-          heading: "Claude Code란",
-          body: "Claude Code는 터미널에서 돌아가는 AI 코딩 에이전트다. 단순히 텍스트를 생성하는 챗봇이 아니라, 사용자의 자연어 프롬프트를 받아 → 의도를 분석하고 → 적절한 도구(Read/Edit/Bash/Grep/WebFetch 등)를 선택해 → 실제로 실행한 뒤 → 결과를 검증하는 자율 루프를 돈다. 목표를 달성할 때까지 반복한다.",
-          code: `# 에이전트 동작 루프
-프롬프트 ──▶ 분석 ──▶ 도구 선택 ──▶ 실행 ──▶ 검증
- 사용자      의도     Read/Edit      파일      결과
- 요청        파악     Bash/Grep      수정      확인
-                                              │
-                                              └─▶ 반복`,
-        },
-        {
-          heading: "모델과 플랫폼",
-          body: "Claude Code는 모델과 실행 환경을 선택할 수 있다. 연구 실무에서는 대부분 Sonnet이 sweet spot이고, 복잡한 아키텍처 설계나 긴 추론이 필요할 때만 Opus로 스위치한다.",
-          patterns: [
-            { name: "Sonnet 4.5 (기본)", body: "빠르고 효율적. 일반 코딩 작업, 파일 편집, 디버깅의 99%를 커버. 대부분의 세션에서 이걸로 충분." },
-            { name: "Opus 4", body: "깊은 추론이 필요한 아키텍처 설계, 큰 리팩토링, 복잡한 논문 구현에 사용. 느리고 비싸지만 어려운 문제에 강함." },
-            { name: "Haiku 4.5", body: "가장 가볍고 빠름. 간단한 변환 작업이나 프리뷰·데모 용도." },
-            { name: "플랫폼", body: "CLI (claude 명령어), VS Code Extension, JetBrains Plugin, Web (claude.ai/code) — 어디서 쓰든 동일한 하네스 공유 가능." },
-          ],
-        },
-        {
-          heading: "5분 설치 가이드",
-          code: `# 1. 설치 (Node.js 18+ 필요)
-$ npm install -g @anthropic-ai/claude-code
-
-# 2. 프로젝트로 이동해서 실행
-$ cd ~/my-research-project
-$ claude
-
-╭──────────────────────────────────╮
-│  Claude Code v2.x                │
-│  Reading CLAUDE.md...            │
-╰──────────────────────────────────╯
-
-❯ 이 프로젝트 구조 설명해줘
-
-↳ Read: package.json, pyproject.toml
-↳ Glob: src/**/*.py
-
-이 프로젝트는 PyTorch 기반 학습 파이프라인입니다...
-
-# 3. 인증
-#   · API Key  : ANTHROPIC_API_KEY 환경변수 (사용량 과금)
-#   · Claude Max: 브라우저 인증 ($100/mo 월정액)`,
-        },
-        {
-          heading: "Permission 모드 — 어디까지 맡길 것인가",
-          body: "에이전트가 자율적으로 움직이는 만큼, '무엇을 자동 승인하고 무엇을 확인할지' 고르는 게 중요하다. 처음에는 default로 시작해서 신뢰가 쌓이면 auto로 올려가는 게 정석.",
-          patterns: [
-            { name: "default", body: "읽기만 자동 승인. 파일 편집·Bash 실행은 매번 확인. 처음 시작할 때 / 낯선 코드베이스." },
-            { name: "acceptEdits", body: "읽기 + 편집 자동. 가장 많이 쓰는 모드. 코드 작성·리팩토링 세션." },
-            { name: "plan", body: "읽기만 가능 (편집 금지). 큰 작업 전에 탐색·계획 수립 용도." },
-            { name: "auto (YOLO)", body: "전부 자동 승인. 긴 자율 작업, 백그라운드 실행. Hooks로 안전장치 필수." },
-          ],
-        },
-        {
-          heading: "Slash Commands — 세션 제어",
-          body: "대화 중 바로 쓸 수 있는 내장 명령어들. 긴 세션을 관리하는 필수 도구.",
-          bullets: [
-            "/help — 도움말과 사용 가능한 명령 목록",
-            "/clear — 대화 초기화 (컨텍스트 전체 리셋)",
-            "/compact — 컨텍스트 압축 (대화 요약만 남기고 토큰 절약)",
-            "/cost — 현재 세션의 토큰 비용 확인",
-            "/model — 모델 전환 (Sonnet ↔ Opus ↔ Haiku)",
-            "/config — 설정 보기, Permission 모드 변경",
           ],
         },
         {
@@ -337,13 +232,108 @@ $ claude
           },
         },
         {
+          heading: "기존 방식 vs 바이브 코딩",
+          body: "두 방식은 배타적이지 않다. throwaway·prototype 코드에서는 vibe가 압도적으로 빠르고, production에서는 hybrid가 현실적이다.",
+          compare: {
+            before: {
+              label: "Traditional · 수 시간",
+              lines: [
+                "1. 문법 검색...",
+                "2. 코드 작성...",
+                "3. 에러 디버깅...",
+                "4. Stack Overflow 뒤지기...",
+                "",
+                "# 결과: 40 lines, 2시간 소요",
+              ],
+            },
+            after: {
+              label: "Vibe · 30초",
+              lines: [
+                "❯ CSV 파일 읽어서 bar chart로",
+                "  시각화해줘",
+                "↳ Read data.csv",
+                "↳ Write plot.py",
+                "↳ Bash: python plot.py",
+                "✓ chart.png 생성 완료",
+              ],
+            },
+          },
+        },
+        {
+          heading: "Claude Code란",
+          body: "Claude Code는 터미널에서 돌아가는 AI 코딩 에이전트다. 단순히 텍스트를 생성하는 챗봇이 아니라, 사용자의 자연어 프롬프트를 받아 → 의도를 분석하고 → 적절한 도구(Read/Edit/Bash/Grep/WebFetch 등)를 선택해 → 실제로 실행한 뒤 → 결과를 검증하는 자율 루프를 돈다. 목표를 달성할 때까지 반복한다.",
+          code: `# 에이전트 동작 루프
+프롬프트 ──▶ 분석 ──▶ 도구 선택 ──▶ 실행 ──▶ 검증
+ 사용자      의도     Read/Edit      파일      결과
+ 요청        파악     Bash/Grep      수정      확인
+                                              │
+                                              └─▶ 반복`,
+        },
+        {
+          heading: "모델과 플랫폼",
+          body: "Claude Code는 모델과 실행 환경을 선택할 수 있다. 일상 작업은 대부분 Sonnet이 sweet spot이고, 복잡한 아키텍처 설계나 긴 추론이 필요할 때만 Opus로 스위치한다.",
+          patterns: [
+            { name: "Sonnet 4.5 (기본)", body: "빠르고 효율적. 일반 코딩 작업, 파일 편집, 디버깅의 99%를 커버. 대부분의 세션에서 이걸로 충분." },
+            { name: "Opus 4", body: "깊은 추론이 필요한 아키텍처 설계, 큰 리팩토링, 복잡한 구현에 사용. 느리고 비싸지만 어려운 문제에 강함." },
+            { name: "Haiku 4.5", body: "가장 가볍고 빠름. 간단한 변환 작업이나 프리뷰·데모 용도." },
+            { name: "플랫폼", body: "CLI (claude 명령어), VS Code Extension, JetBrains Plugin, Web (claude.ai/code) — 어디서 쓰든 동일한 하네스 공유 가능." },
+          ],
+        },
+        {
+          heading: "5분 설치 가이드",
+          code: `# 1. 설치 (Node.js 18+ 필요)
+$ npm install -g @anthropic-ai/claude-code
+
+# 2. 프로젝트로 이동해서 실행
+$ cd ~/my-project
+$ claude
+
+╭──────────────────────────────────╮
+│  Claude Code v2.x                │
+│  Reading CLAUDE.md...            │
+╰──────────────────────────────────╯
+
+❯ 이 프로젝트 구조 설명해줘
+
+↳ Read: package.json, pyproject.toml
+↳ Glob: src/**/*.py
+
+이 프로젝트는 Python 기반 데이터 파이프라인입니다...
+
+# 3. 인증
+#   · API Key  : ANTHROPIC_API_KEY 환경변수 (사용량 과금)
+#   · Claude Max: 브라우저 인증 ($100/mo 월정액)`,
+        },
+        {
+          heading: "Permission 모드 — 어디까지 맡길 것인가",
+          body: "에이전트가 자율적으로 움직이는 만큼, '무엇을 자동 승인하고 무엇을 확인할지' 고르는 게 중요하다. 처음에는 default로 시작해서 신뢰가 쌓이면 auto로 올려가는 게 정석.",
+          patterns: [
+            { name: "default", body: "읽기만 자동 승인. 파일 편집·Bash 실행은 매번 확인. 처음 시작할 때 / 낯선 코드베이스." },
+            { name: "acceptEdits", body: "읽기 + 편집 자동. 가장 많이 쓰는 모드. 코드 작성·리팩토링 세션." },
+            { name: "plan", body: "읽기만 가능 (편집 금지). 큰 작업 전에 탐색·계획 수립 용도." },
+            { name: "auto (YOLO)", body: "전부 자동 승인. 긴 자율 작업, 백그라운드 실행. Hooks로 안전장치 필수." },
+          ],
+        },
+        {
+          heading: "Slash Commands — 세션 제어",
+          body: "대화 중 바로 쓸 수 있는 내장 명령어들. 긴 세션을 관리하는 필수 도구. 다음 장에서 볼 Skills로는 '나만의 /명령어'도 만들 수 있다.",
+          bullets: [
+            "/help — 도움말과 사용 가능한 명령 목록",
+            "/clear — 대화 초기화 (컨텍스트 전체 리셋)",
+            "/compact — 컨텍스트 압축 (대화 요약만 남기고 토큰 절약)",
+            "/cost — 현재 세션의 토큰 비용 확인",
+            "/model — 모델 전환 (Sonnet ↔ Opus ↔ Haiku)",
+            "/config — 설정 보기, Permission 모드 변경",
+          ],
+        },
+        {
           heading: "바이브 코딩의 3원칙",
           bullets: [
             "의도를 명시하라 — '무엇'과 '왜'를 함께 전달. 에이전트는 목표가 선명할수록 잘 움직인다.",
             "짧은 루프 — Generate → Run → Observe → Refine. 커밋 단위를 작게.",
             "Context is king — 관련 파일, 에러 로그, 스키마, 샘플 출력을 먼저 붙여넣어라.",
             "검증은 사람의 몫 — 숫자·인용·API 시그니처는 반드시 직접 확인.",
-            "버려도 되는 코드에 과잉 설계하지 않기 — 연구 prototype은 prototype답게.",
+            "버려도 되는 코드에 과잉 설계하지 않기 — prototype은 prototype답게.",
           ],
         },
       ],
@@ -422,6 +412,10 @@ $ claude
               ],
             },
           },
+        },
+        {
+          heading: "Memory의 4가지 타입과 저장 구조",
+          body: "Claude는 대화 맥락을 4개 타입으로 분류해 각각의 파일로 저장한다. 파일은 프로젝트별 폴더 안에 마크다운으로 쌓이고, MEMORY.md가 인덱스 역할을 한다.",
           code: `# 프로젝트별 메모리 폴더
 ~/.claude/projects/<project>/memory/
 ├── MEMORY.md              # 인덱스 — 매 세션 자동 로드
@@ -466,7 +460,7 @@ type: feedback
         },
         {
           heading: "Skills — 재사용 가능한 /명령어",
-          body: "Skills는 두 가지 형태가 있다. 간단한 Commands (마크다운 파일 하나 = 커맨드 하나)와 고급 Skills (폴더 + SKILL.md, 보조 파일 포함). 같은 프롬프트를 3번 이상 친다면 Skill로 굳혀라.",
+          body: "앞 장에서 본 내장 Slash Commands(/help, /clear …)를 사용자가 직접 확장하는 장치. 두 가지 형태가 있다 — 간단한 Commands (마크다운 파일 하나 = 커맨드 하나)와 고급 Skills (폴더 + SKILL.md, 보조 파일 포함). 같은 프롬프트를 3번 이상 친다면 Skill로 굳혀라.",
           compare: {
             before: {
               label: "Commands · 가벼움",
