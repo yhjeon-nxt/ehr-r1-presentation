@@ -422,6 +422,11 @@
   #trends   { --accent: var(--cyan);   --accent-soft: var(--cyan-soft); }
   #intro    { --accent: var(--amber);  --accent-soft: var(--amber-soft); }
   #about    { --accent: var(--blue);   --accent-soft: var(--blue-soft); }
+  #ch04-placeholder     { --accent: var(--rose);  --accent-soft: var(--rose-soft); }
+  #claude-features      { --accent: var(--rose);  --accent-soft: var(--rose-soft); }
+  #essential-mcp        { --accent: var(--amber); --accent-soft: var(--amber-soft); }
+  #recommended-plugins  { --accent: var(--green); --accent-soft: var(--green-soft); }
+  #claude-design        { --accent: var(--blue);  --accent-soft: var(--blue-soft); }
   #start    { --accent: var(--green);  --accent-soft: var(--green-soft); }
   #claudemd { --accent: var(--blue);   --accent-soft: var(--blue-soft); }
   #memory   { --accent: var(--purple); --accent-soft: var(--purple-soft); }
@@ -1200,11 +1205,47 @@
   /* Chapter colors */
   .ch-card[data-ch="0"] { --ch-color: var(--cyan); }
   .ch-card[data-ch="1"] { --ch-color: var(--amber); }
-  .ch-card[data-ch="2"] { --ch-color: var(--green); }
-  .ch-card[data-ch="3"] { --ch-color: var(--blue); }
-  .ch-card[data-ch="4"] { --ch-color: var(--amber); }
-  .ch-card[data-ch="5"] { --ch-color: var(--purple); }
-  .ch-card[data-ch="6"] { --ch-color: var(--rose); }
+  .ch-card[data-ch="2"] { --ch-color: var(--blue); }
+  .ch-card[data-ch="3"] { --ch-color: var(--purple); }
+  .ch-card[data-ch="4"] { --ch-color: var(--rose); }
+  .ch-card[data-pick="A"] { --ch-color: var(--rose); }
+  .ch-card[data-pick="B"] { --ch-color: var(--amber); }
+  .ch-card[data-pick="C"] { --ch-color: var(--green); }
+  .ch-card[data-pick="D"] { --ch-color: var(--blue); }
+  .ch-card[data-epilogue] { --ch-color: var(--cyan); }
+
+  /* TBD card — muted + dashed border */
+  .ch-card-tbd {
+    border-style: dashed;
+    opacity: 0.7;
+  }
+  .ch-card-tbd:hover { opacity: 1; }
+  .ch-card-tbd .ch-card-title { color: var(--text-sub); }
+
+  /* Picks index bar — softer separator before picks grid */
+  .picks-bar {
+    margin-top: 16px;
+    padding-top: 28px;
+    border-top: 1px dashed var(--line);
+  }
+  .picks-bar span:first-child {
+    color: var(--amber);
+    font-weight: 700;
+  }
+
+  /* Pick cards — subtle distinguisher: slightly tinted tag */
+  .ch-card-pick .ch-card-tag {
+    color: var(--ch-color);
+    font-weight: 600;
+  }
+  .ch-card-pick .ch-card-num {
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  /* Epilogue wrap (mirrors prologue spacing) */
+  .ch-epilogue-wrap { margin-top: 16px; }
+  body[data-ch-style="spread"] .ch-epilogue-wrap { margin-top: 0; }
 
   /* Prologue card — sits above main chapter grid */
   .ch-prologue {
@@ -1457,19 +1498,19 @@
       <div class="ch-hero-meta">
         <span class="pulse">Research Onboarding · 2026</span>
         <span class="dot"></span>
-        <span>Prologue + 6 Chapters · 13 Sections</span>
+        <span>Prologue · 4 Chapters · Picks · Epilogue</span>
         <span class="dot"></span>
         <span>For AI researchers &amp; engineers</span>
       </div>
       <h1 class="ch-hero-title">코드를 쓰지 않고,<br/><span class="accent">vibe</span>로 빌드하기.</h1>
-      <p class="ch-hero-lead">자연어 대화로 소프트웨어를 만드는 새로운 방식과, 터미널에서 돌아가는 에이전트 Claude Code를 실전처럼 다루기 위한 프롤로그 + 6장 구성의 가이드.</p>
+      <p class="ch-hero-lead">자연어 대화로 소프트웨어를 만드는 새로운 방식과, 터미널에서 돌아가는 에이전트 Claude Code를 실전처럼 다루기 위한 가이드 — 프롤로그 · 본편 4장 · 큐레이션 픽 · 에필로그.</p>
     </div>
   </div>
 
   <div class="ch-index-bar">
     <span>Contents</span>
     <span class="line"></span>
-    <span>Prologue · Chapter 1 — 6</span>
+    <span>Prologue · Chapter 1 — 4</span>
   </div>
 
   <!-- Prologue card — sits above the main grid, full width -->
@@ -1493,76 +1534,128 @@
         <div class="ch-card-num">01</div>
         <div class="ch-card-tag">Introduction</div>
       </div>
-      <div class="ch-card-title">바이브 코딩이란?</div>
-      <p class="ch-card-sub">코드 대신 자연어로 소프트웨어를 만드는 새로운 방식.</p>
+      <div class="ch-card-title">Vibe coding이란</div>
+      <p class="ch-card-sub">코드 대신 자연어로 소프트웨어를 만드는 새로운 방식. Karpathy가 던진 단어, 이제는 구체적 도구로 현실화.</p>
       <ul class="ch-card-list">
-        <li><span class="n">01</span><span>바이브 코딩 개념</span><span class="arr">→</span></li>
+        <li><span class="n">01</span><span>정의 · 도구 비교 · 왜 연구자에게 중요한가</span><span class="arr">→</span></li>
       </ul>
     </button>
 
-    <button class="ch-card" data-ch="2" data-sections="about,start">
+    <button class="ch-card" data-ch="2" data-sections="about,start,claudemd,memory,skills,hooks,mcp,agent,plugins">
       <div class="ch-card-head">
         <div class="ch-card-num">02</div>
-        <div class="ch-card-tag">Getting Started</div>
+        <div class="ch-card-tag">Main Chapter</div>
       </div>
-      <div class="ch-card-title">Claude Code 시작하기</div>
-      <p class="ch-card-sub">터미널에서 돌아가는 AI 코딩 에이전트. 5분 설치부터 첫 세션까지.</p>
+      <div class="ch-card-title">Claude Code</div>
+      <p class="ch-card-sub">설치·실행부터 프로젝트 튜닝(CLAUDE.md · Memory · Skills), 자동화(Hooks), 확장(MCP · Agent · Plugins)까지 — 가이드의 본편.</p>
       <ul class="ch-card-list">
         <li><span class="n">02</span><span>About — 에이전트 소개</span><span class="arr">→</span></li>
         <li><span class="n">03</span><span>Start — 설치와 인증</span><span class="arr">→</span></li>
-      </ul>
-    </button>
-
-    <button class="ch-card" data-ch="3" data-sections="claudemd,memory,skills">
-      <div class="ch-card-head">
-        <div class="ch-card-num">03</div>
-        <div class="ch-card-tag">Customize</div>
-      </div>
-      <div class="ch-card-title">내 프로젝트에 맞게</div>
-      <p class="ch-card-sub">CLAUDE.md · Memory · Skills — AI가 당신의 프로젝트를 이해하게 만드는 세 장치.</p>
-      <ul class="ch-card-list">
         <li><span class="n">04</span><span>CLAUDE.md</span><span class="arr">→</span></li>
         <li><span class="n">05</span><span>Memory</span><span class="arr">→</span></li>
         <li><span class="n">06</span><span>Skills</span><span class="arr">→</span></li>
-      </ul>
-    </button>
-
-    <button class="ch-card" data-ch="4" data-sections="mcp,hooks,plugins">
-      <div class="ch-card-head">
-        <div class="ch-card-num">04</div>
-        <div class="ch-card-tag">Extend &amp; Automate</div>
-      </div>
-      <div class="ch-card-title">도구를 확장하기</div>
-      <p class="ch-card-sub">MCP로 외부 연결, Hooks로 자동화, Plugins로 패키지화.</p>
-      <ul class="ch-card-list">
         <li><span class="n">07</span><span>MCP</span><span class="arr">→</span></li>
         <li><span class="n">08</span><span>Hooks</span><span class="arr">→</span></li>
+        <li><span class="n">09</span><span>Agent</span><span class="arr">→</span></li>
         <li><span class="n">10</span><span>Plugins</span><span class="arr">→</span></li>
       </ul>
     </button>
 
-    <button class="ch-card" data-ch="5" data-sections="agent">
+    <button class="ch-card" data-ch="3" data-sections="harness">
       <div class="ch-card-head">
-        <div class="ch-card-num">05</div>
-        <div class="ch-card-tag">Orchestrate</div>
+        <div class="ch-card-num">03</div>
+        <div class="ch-card-tag">Meta</div>
       </div>
-      <div class="ch-card-title">Agent &amp; Multi-Agent</div>
-      <p class="ch-card-sub">하위 에이전트로 작업을 위임하고, worktree로 병렬 실행.</p>
+      <div class="ch-card-title">하네스 엔지니어링이란?</div>
+      <p class="ch-card-sub">도구를 합치는 사고방식. 코딩 → 프롬프트 엔지니어링 → 하네스 엔지니어링으로의 패러다임 전환.</p>
       <ul class="ch-card-list">
-        <li><span class="n">09</span><span>Agent · Multi-Agent · Teams</span><span class="arr">→</span></li>
+        <li><span class="n">11</span><span>Harness — 구성 요소 · 3 원칙 · 실전</span><span class="arr">→</span></li>
       </ul>
     </button>
 
-    <button class="ch-card" data-ch="6" data-sections="harness,wrapup">
+    <button class="ch-card ch-card-tbd" data-ch="4" data-sections="ch04-placeholder">
       <div class="ch-card-head">
-        <div class="ch-card-num">06</div>
-        <div class="ch-card-tag">Synthesis</div>
+        <div class="ch-card-num">04</div>
+        <div class="ch-card-tag">Coming Soon</div>
       </div>
-      <div class="ch-card-title">하네스 엔지니어링</div>
-      <p class="ch-card-sub">모든 것을 합치는 사고방식, 그리고 어디서부터 시작할지.</p>
+      <div class="ch-card-title">TBD</div>
+      <p class="ch-card-sub">이 챕터는 다음 이터레이션에서 확장 예정입니다.</p>
       <ul class="ch-card-list">
-        <li><span class="n">11</span><span>Harness</span><span class="arr">→</span></li>
-        <li><span class="n">12</span><span>마무리</span><span class="arr">→</span></li>
+        <li><span class="n">—</span><span>자리만 잡아두었습니다</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+  </div>
+
+  <!-- Picks index bar -->
+  <div class="ch-index-bar picks-bar">
+    <span>Picks</span>
+    <span class="line"></span>
+    <span>Curated Guides · A — D</span>
+  </div>
+
+  <div class="ch-grid picks-grid">
+    <button class="ch-card ch-card-pick" data-pick="A" data-sections="claude-features">
+      <div class="ch-card-head">
+        <div class="ch-card-num">A</div>
+        <div class="ch-card-tag">Claude-native</div>
+      </div>
+      <div class="ch-card-title">Claude만의 기능들</div>
+      <p class="ch-card-sub">Agent Teams · Telegram channels · ultrathink · ultraplan — 다른 CLI에는 없는 Claude Code 특유의 장치들.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">A1</span><span>Agent Teams (기존 Agent 섹션)</span><span class="arr">→</span></li>
+        <li><span class="n">A2</span><span>Channels — Telegram 원격 실행 <em style="opacity:.6;">· Coming</em></span><span class="arr">→</span></li>
+        <li><span class="n">A3</span><span>ultrathink / ultraplan <em style="opacity:.6;">· Coming</em></span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card ch-card-pick" data-pick="B" data-sections="essential-mcp">
+      <div class="ch-card-head">
+        <div class="ch-card-num">B</div>
+        <div class="ch-card-tag">Curated</div>
+      </div>
+      <div class="ch-card-title">필수 MCP</div>
+      <p class="ch-card-sub">어떤 MCP 서버를 먼저 깔아야 하는가. 작업 유형별 추천과 설치 예시. <em style="opacity:.6;">· Coming</em></p>
+      <ul class="ch-card-list">
+        <li><span class="n">B1</span><span>개발 필수 · 검색 · 디자인 · 데이터</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card ch-card-pick" data-pick="C" data-sections="recommended-plugins">
+      <div class="ch-card-head">
+        <div class="ch-card-num">C</div>
+        <div class="ch-card-tag">Curated</div>
+      </div>
+      <div class="ch-card-title">각광받는 플러그인</div>
+      <p class="ch-card-sub">커뮤니티에서 실제로 쓰이는 플러그인 모음과 왜 쓰는지. <em style="opacity:.6;">· Coming</em></p>
+      <ul class="ch-card-list">
+        <li><span class="n">C1</span><span>superpowers · octopus · claude-design · notion …</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+
+    <button class="ch-card ch-card-pick" data-pick="D" data-sections="claude-design">
+      <div class="ch-card-head">
+        <div class="ch-card-num">D</div>
+        <div class="ch-card-tag">Beyond CLI</div>
+      </div>
+      <div class="ch-card-title">Claude Design까지</div>
+      <p class="ch-card-sub">CLI 밖 Claude 에코시스템 — claude.ai/design 기반 디자인 iteration을 실제 코드베이스로 이어붙이기. <em style="opacity:.6;">· Coming</em></p>
+      <ul class="ch-card-list">
+        <li><span class="n">D1</span><span>디자인 번들 → 핸드오프 → 구현</span><span class="arr">→</span></li>
+      </ul>
+    </button>
+  </div>
+
+  <!-- Epilogue card — mirrors prologue at the bottom -->
+  <div class="ch-prologue ch-epilogue-wrap">
+    <button class="ch-card ch-card-prologue ch-card-epilogue" data-epilogue="true" data-sections="wrapup">
+      <div class="ch-card-head">
+        <div class="ch-card-num">∞</div>
+        <div class="ch-card-tag">Epilogue</div>
+      </div>
+      <div class="ch-card-title">마치며 · 첫 걸음</div>
+      <p class="ch-card-sub">지금까지 쌓인 것들의 계단 요약, 첫 시작 가이드, 그리고 더 읽을 거리.</p>
+      <ul class="ch-card-list">
+        <li><span class="n">★</span><span>Claude Code, 어디서부터 시작할지</span><span class="arr">→</span></li>
       </ul>
     </button>
   </div>
@@ -2103,7 +2196,7 @@
      ======================================================== -->
 <section class="section-break" style="--break-color: var(--blue);" aria-hidden="true"><div><div class="label">Chapter 03</div><div class="n">04—06</div><div class="title">Customize</div></div></section>
 
-<section id="claudemd" data-chapter="3">
+<section id="claudemd" data-chapter="2">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">04<span class="slash">/</span><span class="total">12</span></div>
@@ -2165,7 +2258,7 @@
 <!-- ========================================================
      05 · MEMORY  (editorial: wide, full-bleed diagram)
      ======================================================== -->
-<section id="memory" class="alt" data-chapter="3">
+<section id="memory" class="alt" data-chapter="2">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">05<span class="slash">/</span><span class="total">12</span></div>
@@ -2334,7 +2427,7 @@
 <!-- ========================================================
      06 · SKILLS
      ======================================================== -->
-<section id="skills" data-chapter="3">
+<section id="skills" data-chapter="2">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">06<span class="slash">/</span><span class="total">12</span></div>
@@ -2443,7 +2536,7 @@
      ======================================================== -->
 <section class="section-break" style="--break-color: var(--amber);" aria-hidden="true"><div><div class="label">Chapter 04</div><div class="n">07—10</div><div class="title">Extend &amp; Automate</div></div></section>
 
-<section id="mcp" class="alt" data-chapter="4">
+<section id="mcp" class="alt" data-chapter="2">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">07<span class="slash">/</span><span class="total">12</span></div>
@@ -2559,7 +2652,7 @@
 <!-- ========================================================
      08 · HOOKS
      ======================================================== -->
-<section id="hooks" data-chapter="4">
+<section id="hooks" data-chapter="2">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">08<span class="slash">/</span><span class="total">12</span></div>
@@ -2696,7 +2789,7 @@
      ======================================================== -->
 <section class="section-break" style="--break-color: var(--purple);" aria-hidden="true"><div><div class="label">Chapter 05</div><div class="n">09</div><div class="title">Orchestrate</div></div></section>
 
-<section id="agent" class="alt" data-chapter="5">
+<section id="agent" class="alt" data-chapter="2">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">09<span class="slash">/</span><span class="total">12</span></div>
@@ -2806,7 +2899,7 @@
 <!-- ========================================================
      10 · PLUGINS
      ======================================================== -->
-<section id="plugins" data-chapter="4">
+<section id="plugins" data-chapter="2">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">10<span class="slash">/</span><span class="total">12</span></div>
@@ -2897,7 +2990,7 @@
      ======================================================== -->
 <section class="section-break" style="--break-color: var(--rose);" aria-hidden="true"><div><div class="label">Chapter 06</div><div class="n">11—12</div><div class="title">Synthesis</div></div></section>
 
-<section id="harness" class="alt" data-chapter="6">
+<section id="harness" class="alt" data-chapter="3">
   <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">11<span class="slash">/</span><span class="total">12</span></div>
@@ -3040,7 +3133,7 @@
 <!-- ========================================================
      12 · WRAP UP
      ======================================================== -->
-<section id="wrapup" data-chapter="6">
+<section id="wrapup" data-epilogue="true">
   <div class="section-inner">
     <div class="section-head">
       <div class="section-index">12<span class="slash">/</span><span class="total">12</span></div>
@@ -3086,6 +3179,119 @@
     </div>
 
     <p style="font-family: var(--serif); font-style: italic; font-size: 32px; color: var(--text-2); text-align: center; letter-spacing: -0.02em;">질문이 있으신가요?</p>
+  </div>
+</section>
+
+<!-- ========================================================
+     STUB SECTIONS — Ch 04 TBD + Picks A/B/C/D
+     Placeholders only. Content to be filled in future iterations.
+     ======================================================== -->
+<section id="ch04-placeholder" data-chapter="4">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-index">04<span class="slash">/</span><span class="total">—</span></div>
+      <div>
+        <span class="section-tag">Coming Soon</span>
+        <h2 class="section-title">TBD — 미정 슬롯</h2>
+        <p class="section-lead">이 챕터는 다음 이터레이션에서 확장될 예정입니다. 지금은 자리만 잡아두었습니다.</p>
+      </div>
+    </div>
+    <div class="card accent-left" style="border-left-color: var(--rose);">
+      <p class="muted small">이후 채울 수 있는 후보: 실전 사례 모음 · 배포 / 운영 · Q&amp;A · 외부 리소스 큐레이션 등.</p>
+    </div>
+  </div>
+</section>
+
+<section id="claude-features" data-pick="A">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-index" style="color: var(--rose);">A<span class="slash">/</span><span class="total">Pick</span></div>
+      <div>
+        <span class="section-tag" style="color: var(--rose);">Claude-native</span>
+        <h2 class="section-title">Claude만의 기능들</h2>
+        <p class="section-lead">Claude Code가 다른 CLI·에이전트와 구별되는 고유 장치들. 이미 본편 Ch 02 Agent 섹션에 일부 있으며, 여기선 <em>심화</em> 관점에서 정리.</p>
+      </div>
+    </div>
+    <div class="grid-2 mb-24">
+      <div class="card accent-left" style="border-left-color: var(--rose);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rose); margin-bottom: 8px;">A1 · 기존 콘텐츠 재참조</p>
+        <p style="font-weight: 600; margin-bottom: 6px;">Agent Teams · Subagent · Worktree</p>
+        <p class="muted small">본편 Ch 02 → Agent 섹션에서 다뤘습니다. 이 Pick은 Teams를 언제 쓰면 좋은지, 실전 조합 패턴 중심으로 확장 예정.</p>
+      </div>
+      <div class="card accent-left" style="border-left-color: var(--rose); border-style: dashed;">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">A2 · Coming</p>
+        <p style="font-weight: 600; margin-bottom: 6px;">Channels — Telegram 원격 실행</p>
+        <p class="muted small">텔레그램 봇으로 Claude Code에 원격 명령을 내리고 결과를 받는 루트. 하루 종일 데스크 앞에 없어도 됨.</p>
+      </div>
+      <div class="card accent-left" style="border-left-color: var(--rose); border-style: dashed;">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">A3 · Coming</p>
+        <p style="font-weight: 600; margin-bottom: 6px;">ultrathink · ultraplan</p>
+        <p class="muted small">더 깊게 사고하고 · 더 촘촘한 계획을 세우게 하는 매직 키워드. 언제 쓰고, 언제 안 쓰는 게 나은가.</p>
+      </div>
+      <div class="card accent-left" style="border-left-color: var(--rose); border-style: dashed;">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">A4 · Open</p>
+        <p style="font-weight: 600; margin-bottom: 6px;">추가 후보</p>
+        <p class="muted small">컨텍스트 자동 압축 · 세션 재개 · 워크트리 자동화 등 — 필요에 따라 추가.</p>
+      </div>
+    </div>
+    <p class="muted small" style="font-style: italic; max-width: 62ch;">이 Pick은 스텁입니다. 각 카드가 짧은 가이드 하나로 확장될 예정입니다.</p>
+  </div>
+</section>
+
+<section id="essential-mcp" class="alt" data-pick="B">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-index" style="color: var(--amber);">B<span class="slash">/</span><span class="total">Pick</span></div>
+      <div>
+        <span class="section-tag" style="color: var(--amber);">Curated</span>
+        <h2 class="section-title">필수 MCP</h2>
+        <p class="section-lead">어떤 MCP 서버를 먼저 깔아야 하는가. 개념은 본편 Ch 02 → MCP 섹션에서, 여기선 <em>추천 선별</em>과 설치 레시피를 다룰 예정.</p>
+      </div>
+    </div>
+    <div class="card accent-left" style="border-left-color: var(--amber); border-style: dashed;">
+      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px;">B1 · Coming</p>
+      <p style="font-weight: 600; margin-bottom: 6px;">작업 유형별 MCP 추천 리스트</p>
+      <p class="muted small">개발 필수 (chrome-devtools · playwright · serena) · 검색 / 문서 (context7) · 디자인 (figma · stitch) · 데이터 (postgres · bigquery) · 생산성 (notion · telegram) — 각각 왜 쓰는가, 어떻게 깔고 쓰나.</p>
+    </div>
+    <p class="muted small mt-16" style="font-style: italic; max-width: 62ch; margin-top: 16px;">이 Pick은 스텁입니다.</p>
+  </div>
+</section>
+
+<section id="recommended-plugins" data-pick="C">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-index" style="color: var(--green);">C<span class="slash">/</span><span class="total">Pick</span></div>
+      <div>
+        <span class="section-tag" style="color: var(--green);">Curated</span>
+        <h2 class="section-title">각광받는 플러그인</h2>
+        <p class="section-lead">개념은 본편 Ch 02 → Plugins에서 다룹니다. 이 Pick은 커뮤니티에서 <em>실제로 쓰이는</em> 플러그인과 쓰는 이유를 정리.</p>
+      </div>
+    </div>
+    <div class="card accent-left" style="border-left-color: var(--green); border-style: dashed;">
+      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 8px;">C1 · Coming</p>
+      <p style="font-weight: 600; margin-bottom: 6px;">plugin shortlist</p>
+      <p class="muted small"><code>superpowers</code> · <code>octopus</code> · <code>claude-design</code> · <code>notion</code> · <code>telegram</code> · <code>figma</code> — 각 플러그인이 뭘 풀어주는지 / 언제 설치하면 좋은지.</p>
+    </div>
+    <p class="muted small mt-16" style="font-style: italic; max-width: 62ch; margin-top: 16px;">이 Pick은 스텁입니다.</p>
+  </div>
+</section>
+
+<section id="claude-design" class="alt" data-pick="D">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-index" style="color: var(--blue);">D<span class="slash">/</span><span class="total">Pick</span></div>
+      <div>
+        <span class="section-tag" style="color: var(--blue);">Beyond CLI</span>
+        <h2 class="section-title">Claude Design까지</h2>
+        <p class="section-lead">CLI 밖의 Claude 에코시스템. <code>claude.ai/design</code>으로 디자인을 iterate한 뒤 번들로 내보내 Claude Code가 바로 구현으로 이어받는 흐름.</p>
+      </div>
+    </div>
+    <div class="card accent-left" style="border-left-color: var(--blue); border-style: dashed;">
+      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px;">D1 · Coming</p>
+      <p style="font-weight: 600; margin-bottom: 6px;">디자인 번들 → 핸드오프 → 구현</p>
+      <p class="muted small">디자인을 HTML/CSS 프로토타입으로 받아 → Claude Code가 실제 코드베이스에 적용. 이 가이드 페이지 자체가 그렇게 만들어졌습니다.</p>
+    </div>
+    <p class="muted small mt-16" style="font-style: italic; max-width: 62ch; margin-top: 16px;">이 Pick은 스텁입니다.</p>
   </div>
 </section>
 
@@ -3171,15 +3377,25 @@ let state = Object.assign({}, TWEAK_DEFAULTS);
 // Chapter definitions — ordered sections per chapter
 const CHAPTERS = {
   0: { sections: ['trends'], title: 'Context · Prologue', color: 'var(--cyan)' },
-  1: { sections: ['intro-detail'], title: 'Introduction', color: 'var(--amber)' },
-  2: { sections: ['about','start'], title: 'Getting Started', color: 'var(--green)' },
-  3: { sections: ['claudemd','memory','skills'], title: 'Customize', color: 'var(--blue)' },
-  4: { sections: ['mcp','hooks','plugins'], title: 'Extend & Automate', color: 'var(--amber)' },
-  5: { sections: ['agent'], title: 'Orchestrate', color: 'var(--purple)' },
-  6: { sections: ['harness','wrapup'], title: 'Synthesis', color: 'var(--rose)' }
+  1: { sections: ['intro-detail'], title: 'Vibe Coding이란', color: 'var(--amber)' },
+  2: { sections: ['about','start','claudemd','memory','skills','hooks','mcp','agent','plugins'], title: 'Claude Code', color: 'var(--blue)' },
+  3: { sections: ['harness'], title: '하네스 엔지니어링', color: 'var(--purple)' },
+  4: { sections: ['ch04-placeholder'], title: 'Coming Soon', color: 'var(--rose)' }
 };
 
+// Picks — curated guides (not part of main arc)
+const PICKS = {
+  A: { sections: ['claude-features'],      title: 'Claude만의 기능들',   color: 'var(--rose)' },
+  B: { sections: ['essential-mcp'],         title: '필수 MCP',            color: 'var(--amber)' },
+  C: { sections: ['recommended-plugins'],   title: '각광받는 플러그인',    color: 'var(--green)' },
+  D: { sections: ['claude-design'],         title: 'Claude Design까지',   color: 'var(--blue)' }
+};
+
+const EPILOGUE_SECTIONS = ['wrapup'];
+
 let currentChapter = null;
+let currentPick = null;
+let inEpilogue = false;
 
 function applyState() {
   document.body.setAttribute('data-variant', state.variant);
@@ -3222,19 +3438,24 @@ function applyState() {
   }
 }
 
-function enterChapter(ch) {
-  currentChapter = parseInt(ch, 10);
-  const chDef = CHAPTERS[currentChapter];
-  if (!chDef) return;
-
-  // Mark which sections belong to this chapter
+function _applyCollection(sectionsToShow) {
   document.querySelectorAll('main > section').forEach(s => s.classList.remove('in-chapter'));
-  chDef.sections.forEach(id => {
+  sectionsToShow.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add('in-chapter');
   });
+  document.body.setAttribute('data-view', 'detail');
+  window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
+}
 
-  // Update detail bar
+function enterChapter(ch) {
+  currentChapter = parseInt(ch, 10);
+  currentPick = null; inEpilogue = false;
+  const chDef = CHAPTERS[currentChapter];
+  if (!chDef) return;
+
+  _applyCollection(chDef.sections);
+
   const card = document.querySelector(`.ch-card[data-ch="${currentChapter}"]`);
   const color = card ? getComputedStyle(card).getPropertyValue('--ch-color') || chDef.color : chDef.color;
   const bar = document.getElementById('ch-detail-bar');
@@ -3242,15 +3463,42 @@ function enterChapter(ch) {
   document.getElementById('ch-label-text').textContent = `Chapter ${String(currentChapter).padStart(2,'0')} · ${chDef.title}`;
 
   document.getElementById('ch-prev').style.visibility = currentChapter > 0 ? 'visible' : 'hidden';
-  document.getElementById('ch-next').style.visibility = currentChapter < 6 ? 'visible' : 'hidden';
+  document.getElementById('ch-next').style.visibility = currentChapter < 4 ? 'visible' : 'hidden';
+}
 
-  document.body.setAttribute('data-view', 'detail');
-  window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
+function enterPick(key) {
+  currentPick = key; currentChapter = null; inEpilogue = false;
+  const def = PICKS[key];
+  if (!def) return;
+
+  _applyCollection(def.sections);
+
+  const card = document.querySelector(`.ch-card[data-pick="${key}"]`);
+  const color = card ? getComputedStyle(card).getPropertyValue('--ch-color') || def.color : def.color;
+  const bar = document.getElementById('ch-detail-bar');
+  bar.style.setProperty('--ch-detail-color', color.trim());
+  document.getElementById('ch-label-text').textContent = `Pick ${key} · ${def.title}`;
+
+  document.getElementById('ch-prev').style.visibility = 'hidden';
+  document.getElementById('ch-next').style.visibility = 'hidden';
+}
+
+function enterEpilogue() {
+  inEpilogue = true; currentChapter = null; currentPick = null;
+
+  _applyCollection(EPILOGUE_SECTIONS);
+
+  const bar = document.getElementById('ch-detail-bar');
+  bar.style.setProperty('--ch-detail-color', 'var(--cyan)');
+  document.getElementById('ch-label-text').textContent = 'Epilogue · 마치며';
+
+  document.getElementById('ch-prev').style.visibility = 'hidden';
+  document.getElementById('ch-next').style.visibility = 'hidden';
 }
 
 function exitChapter() {
   document.body.removeAttribute('data-view');
-  currentChapter = null;
+  currentChapter = null; currentPick = null; inEpilogue = false;
   window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
 }
 
@@ -3262,18 +3510,22 @@ function activateTab(id) {
   window.scrollTo({ top: 0 });
 }
 
-// Wire chapter cards
+// Wire landing cards — route by type
 document.querySelectorAll('.ch-card').forEach(card => {
-  card.addEventListener('click', () => enterChapter(card.dataset.ch));
+  card.addEventListener('click', () => {
+    if (card.dataset.ch != null) enterChapter(card.dataset.ch);
+    else if (card.dataset.pick) enterPick(card.dataset.pick);
+    else if (card.dataset.epilogue === 'true') enterEpilogue();
+  });
 });
 
 // Detail bar buttons
 document.getElementById('ch-back').addEventListener('click', exitChapter);
 document.getElementById('ch-prev').addEventListener('click', () => {
-  if (currentChapter > 0) enterChapter(currentChapter - 1);
+  if (currentChapter != null && currentChapter > 0) enterChapter(currentChapter - 1);
 });
 document.getElementById('ch-next').addEventListener('click', () => {
-  if (currentChapter < 6) enterChapter(currentChapter + 1);
+  if (currentChapter != null && currentChapter < 4) enterChapter(currentChapter + 1);
 });
 
 // Tab strip
@@ -3287,8 +3539,8 @@ document.addEventListener('keydown', (e) => {
   if (state.layout !== 'chapters') return;
   if (document.body.getAttribute('data-view') !== 'detail') return;
   if (e.key === 'Escape') exitChapter();
-  else if (e.key === 'ArrowLeft' && currentChapter > 0) enterChapter(currentChapter - 1);
-  else if (e.key === 'ArrowRight' && currentChapter < 6) enterChapter(currentChapter + 1);
+  else if (e.key === 'ArrowLeft' && currentChapter != null && currentChapter > 0) enterChapter(currentChapter - 1);
+  else if (e.key === 'ArrowRight' && currentChapter != null && currentChapter < 4) enterChapter(currentChapter + 1);
 });
 
 // Edit mode protocol
