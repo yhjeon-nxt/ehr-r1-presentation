@@ -1757,7 +1757,7 @@
         <div class="ch-card-tag">Context · Prologue</div>
       </div>
       <div class="ch-card-title">LLM의 최근 트렌드</div>
-      <p class="ch-card-sub">'챗봇'이던 LLM이 agent·collaborator가 된 2년. 수렴한 벤치마크, 쏟아지는 새 숫자, 그리고 심상치 않았던 11월의 12일.</p>
+      <p class="ch-card-sub">'챗봇'이던 LLM이 agent·collaborator로 정의 교체 중. 수렴한 벤치마크, 쏟아지는 새 숫자, 그리고 2025년 11월의 12일.</p>
       <ul class="ch-card-list">
         <li><span class="n">00</span><span>지금 LLM은 어디까지 왔나</span><span class="arr">→</span></li>
       </ul>
@@ -1980,18 +1980,18 @@
       <div>
         <span class="section-tag">Context · Prologue</span>
         <h2 class="section-title">LLM의 최근 트렌드</h2>
-        <p class="section-lead">'챗봇'이던 LLM이 agent·collaborator가 된 2년. 수렴한 벤치마크, 쏟아지는 새 숫자, 그리고 심상치 않았던 11월의 12일.</p>
+        <p class="section-lead">'챗봇'이던 LLM이 agent·collaborator로 정의 교체 중. 수렴한 벤치마크, 쏟아지는 새 숫자, 그리고 2025년 11월의 12일.</p>
       </div>
     </div>
 
-    <!-- Block 1: 요즘 LLM 어디까지 왔나 -->
-    <p class="label-row">여러분은 요즘 LLM이 어디까지 왔는지 알고 계신가요?</p>
+    <!-- B1: 머릿속 LLM 리셋 -->
+    <p class="label-row">대중의 머릿속 LLM — 보통 2년 전</p>
     <p class="mb-24" style="font-size: 16px; color: var(--text-2); max-width: 68ch;">
-      많은 사람의 머릿속 LLM — 대체로 2년 전에 멈춰 있음. 그때의 정의 — <em style="font-family: var(--serif); font-style: italic; color: var(--text);">"말 잘하는 챗봇"</em>. 지난 2년, 실체는 두어 번 바뀌고 속도는 또 한 번 빨라짐. 이 장은 그 2년, 그리고 오늘부터의 이야기.
+      2024년 초의 이미지. 정의는 <em style="font-family: var(--serif); font-style: italic; color: var(--text);">"말 잘하는 챗봇"</em>. 지난 2년 실체는 두 번 바뀌고 속도는 한 번 더 가팔라짐. 이 장은 그 2년, 그리고 오늘부터의 지표.
     </p>
 
-    <!-- Block 2: 커뮤니티 반복 문장 (bullets) -->
-    <p class="label-row">요즘 커뮤니티는 이렇게 말합니다</p>
+    <!-- B2: 새 이름표 -->
+    <p class="label-row">새 이름표 — agent · collaborator</p>
     <p class="mb-12" style="color: var(--text-2);">
       2026 — '챗봇'이라는 단어는 거의 안 씀. 대신 반복되는 문장들:
     </p>
@@ -2008,44 +2008,10 @@
       </div>
     </div>
 
-    <!-- Block 3: 벤치마크 세대교체 (compare) -->
-    <p class="label-row">벤치마크도 세대교체 중입니다</p>
-    <p class="mb-12" style="color: var(--text-2);">
-      예전 지표 — 거의 포화. 지금 쳐다보는 숫자는 전혀 다른 종류.
-    </p>
-    <div class="grid-2 mb-24">
-      <div class="card" style="padding: 20px 22px;">
-        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 10px;">수렴해버린 벤치마크</p>
-        <ul style="list-style: none; padding: 0; margin: 0 0 12px; font-size: 14px; line-height: 1.85; color: var(--text-2);">
-          <li>• MMLU — 90%+ 대에서 모두 평탄화</li>
-          <li>• HumanEval — 사실상 포화</li>
-          <li>• GSM8K — 소형 모델도 해결</li>
-          <li>• BBH — 상위권 격차 소멸</li>
-          <li>• ARC-Challenge — 더 이상 변별력 없음</li>
-        </ul>
-        <p class="muted small" style="font-family: var(--mono); border-top: 1px dashed var(--line-soft); padding-top: 10px;"># '누가 더 잘 대답하는가'는<br/># 거의 구분되지 않는다</p>
-      </div>
-      <div class="card accent-left" style="padding: 20px 22px; border-left-color: var(--cyan);">
-        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px;">지금 쓰는 벤치마크</p>
-        <ul style="list-style: none; padding: 0; margin: 0 0 12px; font-size: 14px; line-height: 1.85; color: var(--text-2);">
-          <li>▸ SWE-bench Verified — 실제 GitHub 이슈 수리</li>
-          <li>▸ τ-bench — 멀티턴 툴 호출·에이전트</li>
-          <li>▸ HLE — 박사급 종합 시험 (Humanity's Last Exam)</li>
-          <li>▸ Aider Polyglot — 멀티파일·다국어 편집</li>
-          <li>▸ Terminal-Bench — 터미널 자율 작업</li>
-          <li>▸ METR Long-Horizon — 장시간 자율성</li>
-          <li>▸ ARC-AGI-2 — 일반화·추상 추론</li>
-          <li>▸ GPQA Diamond — 박사 수준 과학 QA</li>
-        </ul>
-        <p class="muted small" style="font-family: var(--mono); border-top: 1px dashed var(--line-soft); padding-top: 10px;"># 전부 '실제로 일을 끝내는가'<br/># 를 측정한다</p>
-      </div>
-    </div>
-
-    <!-- Block 4: 차트 -->
-    <p class="label-row">그리고, 속도가 너무 빠릅니다</p>
-    <p class="mb-12" style="color: var(--text-2);">
-      과거 표준(MMLU)이 포화되면서 변별력은 새 지표로 이동했습니다. 아래는 6개 벤치마크 snapshot — 위쪽은 <em style="font-family: var(--serif); font-style: italic;">지식 → 과학 → 코딩</em>, 아래쪽은 <em style="font-family: var(--serif); font-style: italic;">터미널 → 멀티턴 agent → frontier exam</em>.
-      <span class="muted small" style="display: inline-block; margin-left: 6px;">색 = 회사 · 점 = 모델 출시 snapshot</span>
+    <!-- B3: 벤치마크 세대교체 + scatter -->
+    <p class="label-row">벤치마크도 세대교체</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      예전 표준(MMLU · HumanEval · GSM8K · BBH) — 포화. 지금 변별력 있는 숫자는 '실제로 일을 끝내는가'를 묻는 종류로 이동 (SWE-bench · τ-bench · Terminal-Bench · HLE). 아래 FIG. 01은 6개 snapshot. <span class="muted small" style="display: inline-block;">색 = 회사 · 점 = 모델 출시 snapshot</span>
     </p>
     <figure class="diagram-frame mb-12" style="padding: 22px 22px 18px;">
       <figcaption style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">▸ FIG. 01 · BENCHMARK SMALL-MULTIPLES</figcaption>
@@ -2069,19 +2035,25 @@
       <div class="bench-indicator" id="bench-indicator" role="tablist" aria-label="벤치마크 선택"></div>
     </figure>
 
-    <!-- Block 5: Dialog 재연 (2024 ChatGPT scene) -->
-    <p class="label-row">필자가 기억하는 '똑똑한 구글' 시절</p>
-    <p class="mb-12" style="color: var(--text-2);">
-      내가 LLM을 진지하게 쓰기 시작한 때 — GPT-4o. 사용법은 단순 — 브라우저 탭 하나 더. 코드 복붙 → 물어봄 → 스택트레이스 붙여넣음 → 답 복붙 → 에디터. 딱 거기까지.
+    <!-- B4: 두 장면 — 2024 / 2025 -->
+    <p class="label-row">두 장면 — 2024 / 2025</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      2024 — 브라우저 탭 한 개 추가. 2025.11 — 12일 동안 세 곳이 같은 단어. 같은 도구의 두 시대.
     </p>
-    <div class="terminal mb-12">
+
+    <!-- Scene 1: 2024 browser-tab flow -->
+    <p class="scene-tag" style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-top: 10px; margin-bottom: 8px;">▸ 2024 · 브라우저 탭 플로우</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      GPT-4o 시절의 전형적인 사용 패턴. 코드 복붙 → 물어봄 → 스택트레이스 → 답 복붙 → 에디터.
+    </p>
+    <div class="terminal mb-24">
       <div class="terminal-bar">
         <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
         <span class="terminal-title">chat.openai.com · circa 2024 · REPLAY</span>
       </div>
       <div class="terminal-body" style="padding: 18px 20px;">
         <div style="margin-bottom: 12px;">
-          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">나</div>
+          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">USER</div>
           <div style="color: var(--text-2); font-family: var(--sans); font-size: 14px; line-height: 1.65;">
             numpy로 2개 배열 아다마르 곱 뒤에 배치 차원으로 합치려는데 ValueError가 납니다.<br/>
             <code style="color: var(--rose); font-size: 12.5px;">ValueError: operands could not be broadcast together with shapes (32,128) (128,32)</code>
@@ -2094,23 +2066,20 @@
           </div>
         </div>
         <div>
-          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">나</div>
+          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px;">USER</div>
           <div style="color: var(--text-2); font-family: var(--sans); font-size: 14px; line-height: 1.65;">
             ㅇㅋ 고맙다 → <span class="muted small">(복붙 → 실행 → 됐다)</span>
           </div>
         </div>
       </div>
     </div>
-    <p class="muted small mb-24" style="max-width: 62ch; font-style: italic;">
-      그때는 이것도 혁신. 15분짜리 Stack Overflow → 2분짜리 복붙. 그래도 전제는 그대로 — 운전대는 나, AI는 조수석 동승자.
-    </p>
 
-    <!-- Block 6: NOV 12→24 timeline -->
-    <p class="label-row">심상치 않다고 느낀 2025년 11월의 12일</p>
-    <p class="mb-12" style="color: var(--text-2);">
-      2025.11.12 → 11.24, 딱 12일. OpenAI·Google·Anthropic 세 주력이 연달아. 출시 노트에 반복된 단어 — <em style="font-family: var(--serif); font-style: italic;">long-horizon agent · autonomous task completion · multi-file reasoning · 30-minute unattended work</em>. 한 모델의 점프가 아니라, 업계 전체의 정렬.
+    <!-- Scene 2: 2025.11 alignment -->
+    <p class="scene-tag" style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-top: 6px; margin-bottom: 8px;">▸ 2025.11 · 12일의 정렬</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      OpenAI · Google · Anthropic 세 주력이 12일 안에 연달아. 출시 노트에 반복된 단어 — <em style="font-family: var(--serif); font-style: italic;">long-horizon agent · multi-file reasoning · 30-minute unattended work</em>. 한 모델의 점프가 아니라 업계 전체의 정렬.
     </p>
-    <div class="card mb-12" style="padding: 18px 22px;">
+    <div class="card mb-24" style="padding: 18px 22px;">
       <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;">▸ NOV 12 → NOV 24, 2025</p>
       <p class="muted small mb-16">3 MODELS · 12 DAYS · SAME DIRECTION</p>
       <div class="timeline">
@@ -2146,13 +2115,10 @@
         </div>
       </div>
     </div>
-    <p class="muted small mb-24" style="max-width: 62ch; font-style: italic;">
-      한 개였으면 '또 새 모델이네'. 세 개가 2주에 걸쳐 같은 말을 하니 — 체감이 달라짐.
-    </p>
 
-    <!-- Block 7: Closing → bridge to Chapter 1 -->
+    <!-- B5: Closing → bridge to Chapter 1 -->
     <figure class="card accent-left mb-24" style="padding: 22px 24px; border-left-color: var(--cyan);">
-      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">그렇게 코딩 에이전트의 시대가 시작됐습니다</p>
+      <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">코딩 에이전트의 시대</p>
       <p style="font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--text); font-style: italic; text-wrap: balance;">
         코딩 에이전트 — 그 전부터 있었음. 바뀐 건 역할. '신기한 장난감' → '연구 생산성을 바꾸는 도구'. 품질은 일부 구간에서 시니어 엔지니어를 따라잡고, 툴·워크플로우는 한 해 만에 폭발.
       </p>
