@@ -2752,30 +2752,140 @@
       </div>
     </div>
 
-    <button class="toggle-btn" onclick="toggleSection(this)">메모리 파일 형식 보기</button>
+    <button class="toggle-btn" onclick="toggleSection(this)">MEMORY.md</button>
     <div class="toggle-content">
-      <div class="code-block" style="margin-top: 12px; margin-bottom: 16px;">
+      <p class="muted small" style="margin-top: 12px; margin-bottom: 12px; line-height: 1.7;">
+        <code style="color: var(--purple);">MEMORY.md</code>는 세션마다 자동 로드되는 <em>인덱스</em>. 실제 내용은 주제별 파일에 들어가고, MEMORY.md에는 한 줄씩 링크만 남깁니다 (200줄 초과분은 로드되지 않음).
+      </p>
+
+      <!-- 1) MEMORY.md — the index -->
+      <div class="code-block" style="margin-bottom: 12px;">
+        <div class="code-chrome">
+          <span class="code-lang">md</span>
+          <span class="code-file">~/.claude/projects/&lt;project&gt;/memory/MEMORY.md</span>
+          <button class="code-copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-body">
+          <div><span class="code-comment"># Memory Index</span></div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment">## User</span></div>
+          <div>- [Role &amp; expertise](user_role.md) — Go 10년차, React는 처음</div>
+          <div>- [Workflow](user_workflow.md) — 터미널 중심, 응답은 간결하게</div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment">## Feedback</span></div>
+          <div>- [DB 목킹 금지](feedback_testing.md) — 마이그레이션 장애 전례</div>
+          <div>- [커밋 묶기 OK](feedback_pr_size.md) — 리팩터는 한 PR로</div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment">## Project</span></div>
+          <div>- [Auth 재작성 이유](project_auth_rewrite.md) — legal 컴플라이언스</div>
+          <div>- [코드 프리즈](project_freeze.md) — 2026-03-05 시작</div>
+          <div>&nbsp;</div>
+          <div><span class="code-comment">## Reference</span></div>
+          <div>- [Linear: INGEST](reference_linear.md) — 파이프라인 버그 트래커</div>
+          <div>- [Grafana: api-latency](reference_grafana.md) — 요청 경로 변경 시 확인</div>
+        </div>
+      </div>
+
+      <p class="muted small" style="margin-top: 16px; margin-bottom: 10px;">각 파일은 <code style="color: var(--purple);">frontmatter</code> + 본문 구조. 타입에 따라 Claude가 언제 이 기억을 꺼낼지 달라집니다.</p>
+
+      <!-- 2) user type -->
+      <div class="code-block" style="margin-bottom: 12px;">
+        <div class="code-chrome">
+          <span class="code-lang">md</span>
+          <span class="code-file">user_role.md</span>
+          <span style="font-family: var(--mono); font-size: 10px; color: var(--purple); margin-left: auto; margin-right: 8px; letter-spacing: 0.1em;">USER</span>
+          <button class="code-copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-body">
+          <div><span class="code-comment">---</span></div>
+          <div><span class="code-cmd">name:</span> <span class="code-string">Role &amp; expertise</span></div>
+          <div><span class="code-cmd">description:</span> <span class="code-string">Go 10년차 백엔드, React는 처음</span></div>
+          <div><span class="code-cmd">type:</span> <span class="code-string">user</span></div>
+          <div><span class="code-comment">---</span></div>
+          <div>&nbsp;</div>
+          <div>Go 10년차 백엔드 엔지니어. 이 프로젝트의 frontend(React/Next.js)는 처음.</div>
+          <div>&nbsp;</div>
+          <div>React 개념 설명 시 Go 유추로 전달: hooks ≈ goroutine 라이프사이클,</div>
+          <div>Context ≈ context.Context 전파, Suspense ≈ channel wait.</div>
+        </div>
+      </div>
+
+      <!-- 3) feedback type -->
+      <div class="code-block" style="margin-bottom: 12px;">
         <div class="code-chrome">
           <span class="code-lang">md</span>
           <span class="code-file">feedback_testing.md</span>
+          <span style="font-family: var(--mono); font-size: 10px; color: var(--amber); margin-left: auto; margin-right: 8px; letter-spacing: 0.1em;">FEEDBACK</span>
           <button class="code-copy" onclick="copyCode(this)">Copy</button>
         </div>
         <div class="code-body">
           <div><span class="code-comment">---</span></div>
           <div><span class="code-cmd">name:</span> <span class="code-string">DB 목킹 금지</span></div>
-          <div><span class="code-cmd">description:</span> <span class="code-string">테스트에서 실제 DB 사용 필수</span></div>
+          <div><span class="code-cmd">description:</span> <span class="code-string">통합 테스트는 실제 Postgres 사용</span></div>
           <div><span class="code-cmd">type:</span> <span class="code-string">feedback</span></div>
           <div><span class="code-comment">---</span></div>
           <div>&nbsp;</div>
           <div>통합 테스트에서 DB를 목킹하지 않는다.</div>
           <div>&nbsp;</div>
-          <div><span class="code-cmd">**Why:**</span> 목킹 테스트가 통과했지만 프로덕션</div>
-          <div>마이그레이션에서 장애 발생한 전례</div>
+          <div><span class="code-cmd">**Why:**</span> 2025-Q4 목킹 테스트는 전부 green이었는데</div>
+          <div>프로덕션 마이그레이션에서 스키마 불일치로 장애 — 사용자가 직접 겪음.</div>
           <div>&nbsp;</div>
-          <div><span class="code-cmd">**How to apply:**</span> 테스트 작성 시</div>
-          <div>항상 실제 DB 연결 사용</div>
+          <div><span class="code-cmd">**How to apply:**</span> DB를 건드리는 모든 테스트는</div>
+          <div>testcontainers로 실제 Postgres 인스턴스 연결. ORM 전체 mock 금지.</div>
+          <div>단, 외부 API 호출은 계속 mock OK.</div>
         </div>
       </div>
+
+      <!-- 4) project type -->
+      <div class="code-block" style="margin-bottom: 12px;">
+        <div class="code-chrome">
+          <span class="code-lang">md</span>
+          <span class="code-file">project_auth_rewrite.md</span>
+          <span style="font-family: var(--mono); font-size: 10px; color: var(--blue); margin-left: auto; margin-right: 8px; letter-spacing: 0.1em;">PROJECT</span>
+          <button class="code-copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-body">
+          <div><span class="code-comment">---</span></div>
+          <div><span class="code-cmd">name:</span> <span class="code-string">Auth 재작성 이유</span></div>
+          <div><span class="code-cmd">description:</span> <span class="code-string">Legal 컴플라이언스 — tech-debt 아님</span></div>
+          <div><span class="code-cmd">type:</span> <span class="code-string">project</span></div>
+          <div><span class="code-comment">---</span></div>
+          <div>&nbsp;</div>
+          <div>Auth 미들웨어 재작성의 진짜 이유는 legal 요구사항.</div>
+          <div>&nbsp;</div>
+          <div><span class="code-cmd">**Why:**</span> 기존 세션 토큰 저장 방식이 2026 개정</div>
+          <div>개인정보보호법을 충족하지 않음 (2026-02 legal 감사 결과). 데드라인 2026-06-30.</div>
+          <div>&nbsp;</div>
+          <div><span class="code-cmd">**How to apply:**</span> 스코프 결정 시 컴플라이언스를</div>
+          <div>개발자 편의성보다 우선. 기존 토큰 포맷 호환성 유지 금지 — 강제 로그아웃 OK.</div>
+        </div>
+      </div>
+
+      <!-- 5) reference type -->
+      <div class="code-block">
+        <div class="code-chrome">
+          <span class="code-lang">md</span>
+          <span class="code-file">reference_grafana.md</span>
+          <span style="font-family: var(--mono); font-size: 10px; color: var(--green); margin-left: auto; margin-right: 8px; letter-spacing: 0.1em;">REFERENCE</span>
+          <button class="code-copy" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-body">
+          <div><span class="code-comment">---</span></div>
+          <div><span class="code-cmd">name:</span> <span class="code-string">Grafana api-latency 대시보드</span></div>
+          <div><span class="code-cmd">description:</span> <span class="code-string">oncall이 보는 요청 경로 latency 보드</span></div>
+          <div><span class="code-cmd">type:</span> <span class="code-string">reference</span></div>
+          <div><span class="code-comment">---</span></div>
+          <div>&nbsp;</div>
+          <div>URL: <span class="code-string">grafana.internal/d/api-latency</span></div>
+          <div>&nbsp;</div>
+          <div>요청 핸들러(handlers/*.go, middleware/*.go)를 수정할 때는 먼저 이 보드 확인.</div>
+          <div>p95 &gt; 400ms 알람이 oncall을 페이지함 — 변경 전후 비교 필수.</div>
+        </div>
+      </div>
+
+      <p class="muted small" style="margin-top: 14px; line-height: 1.7;">
+        <strong style="color: var(--text);">핵심:</strong> <code style="color: var(--amber);">**Why:**</code>를 빼먹으면 엣지 케이스에서 오용됩니다. Claude는 규칙 자체만 보고 판단하므로, 왜 그 규칙이 있는지를 적어두면 비슷하지만 다른 상황에서 과잉 적용을 피할 수 있습니다.
+      </p>
     </div>
 
     <!-- Memory in action -->
@@ -2838,63 +2948,147 @@
       <div>
         <span class="section-tag">Customize</span>
         <h2 class="section-title">Skills</h2>
-        <p class="section-lead">재사용 가능한 커스텀 <code style="color: var(--blue); font-family: var(--mono);">/명령어</code>.</p>
+        <p class="section-lead">Claude가 스스로 꺼내 쓰는 재사용 도구. <code style="color: var(--blue); font-family: var(--mono);">/name</code>으로 직접 호출도 가능.</p>
       </div>
     </div>
 
-    <p class="label-row">Skills의 두 가지 형태</p>
+    <p class="label-row">Invocation — 누가 호출하는가</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      Skill의 핵심 축은 "간단 / 고급"이 아니라 "누가 호출하는가". description이 맞으면 Claude가 알아서 꺼내 쓰고, 프론트매터 한 줄로 수동 전용 제한도 가능.
+    </p>
     <div class="grid-2 mb-24">
-      <div>
-        <p style="font-weight: 600; color: var(--blue); margin-bottom: 10px; font-family: var(--mono); font-size: 13px;">① COMMANDS · 간단</p>
-        <div class="code-block">
-          <div class="code-chrome">
-            <span class="code-lang">tree</span>
-            <span class="code-file">.claude/commands/</span>
-          </div>
-          <div class="code-body">
-            <div><span class="code-comment"># 마크다운 파일 하나 = 커맨드 하나</span></div>
-            <div>├── <span class="code-cmd">commit.md</span></div>
-            <div>└── <span class="code-cmd">review.md</span></div>
-            <div>&nbsp;</div>
-            <div><span class="code-comment"># 실행: /commit, /review</span></div>
-          </div>
-        </div>
+      <div class="card">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 6px;">Default · Claude + User</p>
+        <p style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">자동 호출 허용</p>
+        <p class="muted small" style="color: var(--text-2); line-height: 1.65; margin-bottom: 10px;">
+          description 매칭으로 Claude가 필요할 때 스스로 꺼내 씀. 사용자도 <code style="color: var(--blue);">/name</code>으로 직접 호출 가능.
+        </p>
+        <p class="muted small" style="font-family: var(--mono); border-top: 1px dashed var(--line-soft); padding-top: 8px; color: var(--text-sub);">
+          용도: 코딩 컨벤션 · 리뷰 체크리스트 · 도메인 레퍼런스
+        </p>
       </div>
-      <div>
-        <p style="font-weight: 600; color: var(--purple); margin-bottom: 10px; font-family: var(--mono); font-size: 13px;">② SKILLS · 고급</p>
-        <div class="code-block">
-          <div class="code-chrome">
-            <span class="code-lang">tree</span>
-            <span class="code-file">.claude/skills/</span>
-          </div>
-          <div class="code-body">
-            <div><span class="code-comment"># 폴더 + SKILL.md = 스킬 하나</span></div>
-            <div>├── <span class="code-cmd">my-reviewer/</span></div>
-            <div>│   ├── <span class="code-string">SKILL.md</span></div>
-            <div>│   └── checklist.md</div>
-            <div>└── <span class="code-cmd">deploy/</span></div>
-            <div>    └── <span class="code-string">SKILL.md</span></div>
-          </div>
-        </div>
+      <div class="card accent-left" style="border-left-color: var(--amber);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px;">User Only</p>
+        <p style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">수동 호출 전용</p>
+        <p class="muted small" style="color: var(--text-2); line-height: 1.65; margin-bottom: 10px;">
+          <code style="color: var(--amber);">disable-model-invocation: true</code> — side effect 있거나 타이밍 제어가 필요한 작업. Claude가 멋대로 돌리면 안 되는 것.
+        </p>
+        <p class="muted small" style="font-family: var(--mono); border-top: 1px dashed var(--line-soft); padding-top: 8px; color: var(--text-sub);">
+          용도: /commit · /deploy · /send-slack · /release
+        </p>
       </div>
     </div>
 
-    <p class="label-row">SKILL.md 예시</p>
-    <div class="code-block mb-24">
-      <div class="code-chrome">
-        <span class="code-lang">md</span>
-        <span class="code-file">.claude/commands/commit.md</span>
-        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <p class="label-row">SKILL.md 예시 4종</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      모두 <code>~/.claude/skills/&lt;이름&gt;/SKILL.md</code>에 저장하면 <code>/&lt;이름&gt;</code>으로 호출됨. frontmatter가 invocation·도구·서브에이전트·인수를 제어.
+    </p>
+    <div class="grid-2 mb-24" style="gap: 14px;">
+      <!-- Example 1: 자동 호출 참조 -->
+      <div>
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 4px;">01 · 참조 · 자동 호출</p>
+        <p style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">api-conventions</p>
+        <p class="muted small" style="margin-bottom: 10px;">컨벤션. Claude가 API 작업 중 알아서 참조.</p>
+        <div class="code-block">
+          <div class="code-chrome">
+            <span class="code-lang">md</span>
+            <span class="code-file">skills/api-conventions/SKILL.md</span>
+            <button class="code-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-body">
+            <div><span class="code-comment">---</span></div>
+            <div><span class="code-cmd">name:</span> <span class="code-string">api-conventions</span></div>
+            <div><span class="code-cmd">description:</span> <span class="code-string">API 설계 규칙 — RESTful 네이밍, 에러 포맷, 요청 검증</span></div>
+            <div><span class="code-comment">---</span></div>
+            <div>&nbsp;</div>
+            <div>엔드포인트 작성 시:</div>
+            <div>- RESTful 네이밍 (명사 · 복수형)</div>
+            <div>- 에러: <span class="code-cmd">{ error: { code, message } }</span></div>
+            <div>- 요청 검증은 middleware 단</div>
+          </div>
+        </div>
       </div>
-      <div class="code-body">
-        <div><span class="code-comment">---</span></div>
-        <div><span class="code-cmd">name:</span> <span class="code-string">commit</span></div>
-        <div><span class="code-cmd">description:</span> <span class="code-string">변경사항 분석 후 커밋 메시지 자동 생성</span></div>
-        <div><span class="code-cmd">allowed-tools:</span> <span class="code-string">Bash Grep Read</span></div>
-        <div><span class="code-cmd">context:</span> <span class="code-string">fork</span> <span class="code-comment"># 별도 서브에이전트에서 실행</span></div>
-        <div><span class="code-comment">---</span></div>
-        <div>staged changes를 분석하고 conventional commit 형식으로</div>
-        <div>커밋 메시지를 작성해주세요. <span class="code-cmd">$ARGUMENTS</span></div>
+
+      <!-- Example 2: 수동 태스크 -->
+      <div>
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); margin-bottom: 4px;">02 · 태스크 · 수동 전용</p>
+        <p style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">commit</p>
+        <p class="muted small" style="margin-bottom: 10px;">side effect. Claude 자동 invoke 금지.</p>
+        <div class="code-block">
+          <div class="code-chrome">
+            <span class="code-lang">md</span>
+            <span class="code-file">skills/commit/SKILL.md</span>
+            <button class="code-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-body">
+            <div><span class="code-comment">---</span></div>
+            <div><span class="code-cmd">name:</span> <span class="code-string">commit</span></div>
+            <div><span class="code-cmd">description:</span> <span class="code-string">Conventional commit 자동 생성</span></div>
+            <div><span class="code-cmd">disable-model-invocation:</span> <span class="code-string">true</span></div>
+            <div><span class="code-cmd">allowed-tools:</span> <span class="code-string">Bash(git add *) Bash(git commit *)</span></div>
+            <div><span class="code-comment">---</span></div>
+            <div>&nbsp;</div>
+            <div>staged changes 분석 후 커밋:</div>
+            <div>1. <span class="code-cmd">git diff --staged</span>로 변경 읽기</div>
+            <div>2. <span class="code-cmd">type(scope): summary</span> 형식 제안</div>
+            <div>3. 승인 시 커밋. <span class="code-cmd">$ARGUMENTS</span>는 추가 컨텍스트</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 3: 서브에이전트 fork -->
+      <div>
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--purple); margin-bottom: 4px;">03 · 서브에이전트 · fork</p>
+        <p style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">deep-research</p>
+        <p class="muted small" style="margin-bottom: 10px;">별도 컨텍스트. 메인 세션 오염 방지.</p>
+        <div class="code-block">
+          <div class="code-chrome">
+            <span class="code-lang">md</span>
+            <span class="code-file">skills/deep-research/SKILL.md</span>
+            <button class="code-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-body">
+            <div><span class="code-comment">---</span></div>
+            <div><span class="code-cmd">name:</span> <span class="code-string">deep-research</span></div>
+            <div><span class="code-cmd">description:</span> <span class="code-string">토픽을 코드베이스 전반으로 조사</span></div>
+            <div><span class="code-cmd">context:</span> <span class="code-string">fork</span>   <span class="code-comment"># 별도 서브에이전트</span></div>
+            <div><span class="code-cmd">agent:</span> <span class="code-string">Explore</span> <span class="code-comment"># read-only 탐색 툴</span></div>
+            <div><span class="code-comment">---</span></div>
+            <div>&nbsp;</div>
+            <div><span class="code-cmd">$ARGUMENTS</span>에 대해 조사:</div>
+            <div>1. Glob · Grep으로 관련 파일 찾기</div>
+            <div>2. 핵심 패턴 식별</div>
+            <div>3. 파일 참조 포함해 요약</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 4: 인수 받기 -->
+      <div>
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">04 · 인수 · $ARGUMENTS</p>
+        <p style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">fix-issue</p>
+        <p class="muted small" style="margin-bottom: 10px;"><code>/fix-issue 123</code> 처럼 번호 받아 동작.</p>
+        <div class="code-block">
+          <div class="code-chrome">
+            <span class="code-lang">md</span>
+            <span class="code-file">skills/fix-issue/SKILL.md</span>
+            <button class="code-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="code-body">
+            <div><span class="code-comment">---</span></div>
+            <div><span class="code-cmd">name:</span> <span class="code-string">fix-issue</span></div>
+            <div><span class="code-cmd">description:</span> <span class="code-string">GitHub 이슈 수정 후 PR 제출</span></div>
+            <div><span class="code-cmd">argument-hint:</span> <span class="code-string">[issue-number]</span></div>
+            <div><span class="code-cmd">disable-model-invocation:</span> <span class="code-string">true</span></div>
+            <div><span class="code-cmd">allowed-tools:</span> <span class="code-string">Bash(gh *)</span></div>
+            <div><span class="code-comment">---</span></div>
+            <div>&nbsp;</div>
+            <div>GitHub 이슈 #<span class="code-cmd">$ARGUMENTS</span> 수정:</div>
+            <div>1. <span class="code-cmd">gh issue view $ARGUMENTS</span>로 이슈 읽기</div>
+            <div>2. 요구사항 → 구현 → 테스트</div>
+            <div>3. <span class="code-cmd">gh pr create</span>로 PR 제출</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2914,18 +3108,60 @@
       </div>
     </div>
 
-    <p class="label-row">Commands vs Skills 비교</p>
-    <table class="info-table mb-20">
-      <thead><tr><th></th><th>Commands</th><th>Skills</th></tr></thead>
-      <tbody>
-        <tr><td class="muted">위치</td><td><code style="color: var(--blue);">.claude/commands/*.md</code></td><td><code style="color: var(--blue);">.claude/skills/*/SKILL.md</code></td></tr>
-        <tr><td class="muted">구조</td><td>마크다운 파일 1개</td><td>폴더 (SKILL.md + 보조 파일)</td></tr>
-        <tr><td class="muted">설정</td><td>frontmatter 선택</td><td>frontmatter 필수 (name, description 등)</td></tr>
-        <tr><td class="muted">적합</td><td>간단한 프롬프트 템플릿</td><td>복잡한 워크플로우, 참조 파일 필요 시</td></tr>
-      </tbody>
-    </table>
+    <p class="label-row">구조 — 파일 하나 또는 디렉터리</p>
+    <p class="mb-12" style="color: var(--text-2); max-width: 68ch;">
+      프롬프트만 있으면 <code>SKILL.md</code> 하나로 끝. 스크립트·참조 문서·템플릿이 필요하면 디렉터리에 담아서 함께 번들.
+    </p>
+    <div class="grid-2 mb-24">
+      <div>
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">Minimal · 프롬프트만</p>
+        <div class="code-block">
+          <div class="code-chrome">
+            <span class="code-lang">tree</span>
+            <span class="code-file">~/.claude/skills/</span>
+          </div>
+          <div class="code-body">
+            <div>└── <span class="code-cmd">explain-code/</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="code-string">SKILL.md</span></div>
+            <div>&nbsp;</div>
+            <div><span class="code-comment"># 가벼운 참조 · 컨벤션</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px;">Bundled · 스크립트 · 참조 문서</p>
+        <div class="code-block">
+          <div class="code-chrome">
+            <span class="code-lang">tree</span>
+            <span class="code-file">~/.claude/skills/</span>
+          </div>
+          <div class="code-body">
+            <div>└── <span class="code-cmd">codebase-visualizer/</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="code-string">SKILL.md</span>     <span class="code-comment"># 오버뷰 (필수)</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;├── reference.md <span class="code-comment"># 상세 API 문서</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;├── examples/</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── sample.md</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;└── scripts/</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="code-string">visualize.py</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <button class="toggle-btn" onclick="toggleSection(this)">커뮤니티 스킬이란?</button>
+    <button class="toggle-btn" onclick="toggleSection(this)">과거 <code>.claude/commands/</code>는?</button>
+    <div class="toggle-content">
+      <div class="card accent-left" style="margin-top: 12px;">
+        <p class="mb-8">
+          예전에는 <code>.claude/commands/*.md</code>(간단)과 <code>.claude/skills/*/SKILL.md</code>(고급)이 별개였지만, 2025년 말 <strong style="color: var(--text);">merged</strong>. 지금은 둘 다 같은 <code>/name</code> 인터페이스를 만들고 동일하게 작동.
+        </p>
+        <p class="muted small mb-8">
+          Skills 쪽이 상위 호환 — 디렉터리 · 보조 파일 · invocation 제어 · 서브에이전트 fork까지 지원. 새로 만든다면 skills 권장.
+        </p>
+        <p class="muted small" style="font-family: var(--mono);"># 같은 이름 충돌 시 skills 승</p>
+      </div>
+    </div>
+
+    <button class="toggle-btn" onclick="toggleSection(this)" style="margin-top: 12px;">커뮤니티 스킬이란?</button>
     <div class="toggle-content">
       <div class="card accent-left" style="margin-top: 12px;">
         <p class="mb-8">마켓플레이스에서 다른 사용자가 만든 스킬을 검색하고 설치 가능.</p>
