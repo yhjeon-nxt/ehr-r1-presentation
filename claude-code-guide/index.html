@@ -3430,48 +3430,126 @@
       <div>
         <span class="section-tag">Orchestrate</span>
         <h2 class="section-title">Agent &amp; Multi-Agent</h2>
-        <p class="section-lead">Claude가 하위 에이전트를 만들어 병렬 작업.</p>
+        <p class="section-lead">별도의 컨텍스트 윈도우에서 Claude가 Claude에게 위임. 긴 탐색·리뷰·테스트를 격리해 돌리고 <em style="font-family: var(--serif); font-style: italic;">요약만</em> 메인 스레드로 회수합니다.</p>
+      </div>
+    </div>
+
+    <!-- Subagent: what & why -->
+    <p class="label-row">Subagent란?</p>
+    <p class="mb-12" style="max-width: 70ch; color: var(--text-2);">
+      독립된 system prompt · tool 목록 · permission을 가진 <strong>별도 Claude 인스턴스</strong>. 서브태스크를 자기 컨텍스트에서 처리하고 결론만 돌려줍니다. 메인 대화는 검색 결과 100개·로그 수천 줄에 오염되지 않은 채 설계·의사결정에 집중할 수 있습니다.
+    </p>
+    <div class="grid-3 mb-24">
+      <div class="card accent-left hover" style="border-left-color: var(--blue);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px;">01 · Context</p>
+        <p style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">메인 컨텍스트 보존</p>
+        <p class="muted small" style="line-height: 1.65;">
+          테스트 로그·grep 결과·MCP 응답이 서브 안에서 소비되고 메인에는 "7개 실패, 원인 X" 같은 요약만 남습니다.
+        </p>
+      </div>
+      <div class="card accent-left hover" style="border-left-color: var(--amber);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px;">02 · Guardrail</p>
+        <p style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">도구·권한 좁히기</p>
+        <p class="muted small" style="line-height: 1.65;">
+          리뷰어는 <code style="color: var(--amber);">Read·Grep</code>만, DB 리더는 read-only 쿼리만 — 에이전트별로 실수 반경을 한정합니다.
+        </p>
+      </div>
+      <div class="card accent-left hover" style="border-left-color: var(--green);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 6px;">03 · Cost</p>
+        <p style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">작업별로 모델 분리</p>
+        <p class="muted small" style="line-height: 1.65;">
+          탐색은 Haiku에 위임, 설계는 Opus 본스레드에. 서브마다 <code style="color: var(--green);">model:</code>을 바꿔 토큰·시간을 분산.
+        </p>
+      </div>
+    </div>
+
+    <!-- Built-in subagents -->
+    <p class="label-row">빌트인 서브에이전트 — 이미 돌고 있다</p>
+    <p class="mb-12" style="max-width: 70ch; color: var(--text-2);">
+      커스텀을 만들지 않아도 Claude Code는 세 종류를 기본 탑재합니다. 메인 스레드가 상황에 맞춰 자동 위임하므로 사용자가 의식하지 못한 채 돌아가는 경우가 많습니다.
+    </p>
+    <div class="grid-3 mb-24">
+      <div class="card">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;">Explore</p>
+        <p style="font-weight: 700; font-size: 14.5px; margin-bottom: 6px;">코드베이스 탐색 · Haiku · read-only</p>
+        <p class="muted small" style="line-height: 1.65;">
+          파일 탐색·코드 검색·구조 파악을 빠르게. Write/Edit는 차단. 호출 시 <code>quick · medium · very thorough</code>로 깊이를 지정.
+        </p>
+      </div>
+      <div class="card">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px;">Plan</p>
+        <p style="font-weight: 700; font-size: 14.5px; margin-bottom: 6px;">Plan Mode 리서치 · read-only</p>
+        <p class="muted small" style="line-height: 1.65;">
+          Plan mode에서 계획 수립용 컨텍스트를 수집합니다. 서브는 다른 서브를 스폰할 수 없어 이 격리가 무한 중첩을 막습니다.
+        </p>
+      </div>
+      <div class="card">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px;">general-purpose</p>
+        <p style="font-weight: 700; font-size: 14.5px; margin-bottom: 6px;">복합 작업 · all tools</p>
+        <p class="muted small" style="line-height: 1.65;">
+          탐색 + 수정 + 다단 추론이 섞인 작업. 커스텀 에이전트의 <code>description</code>이 모호할 때의 기본 위임 대상.
+        </p>
       </div>
     </div>
 
     <p class="label-row">커스텀 에이전트 만들기</p>
-    <div class="grid-2 mb-24">
+    <div class="grid-2 mb-16">
       <div>
-        <p style="font-weight: 600; color: var(--blue); margin-bottom: 10px; font-family: var(--mono); font-size: 13px;">폴더 구조</p>
+        <p style="font-weight: 600; color: var(--blue); margin-bottom: 10px; font-family: var(--mono); font-size: 13px;">스코프 · 우선순위</p>
         <div class="code-block">
           <div class="code-chrome">
             <span class="code-lang">tree</span>
-            <span class="code-file">.claude/agents/</span>
+            <span class="code-file">agent scope</span>
           </div>
           <div class="code-body">
+            <div><span class="code-comment"># managed > --agents CLI > project > user > plugin</span></div>
+            <div>./<span class="code-cmd">.claude/agents/</span>        <span class="code-comment"># 팀 공유 (git)</span></div>
             <div>├── <span class="code-cmd">code-reviewer.md</span></div>
             <div>├── <span class="code-cmd">debugger.md</span></div>
             <div>└── <span class="code-cmd">test-automator.md</span></div>
+            <div>~/<span class="code-cmd">.claude/agents/</span>       <span class="code-comment"># 개인용 · 전 프로젝트</span></div>
           </div>
         </div>
       </div>
       <div>
-        <p style="font-weight: 600; color: var(--purple); margin-bottom: 10px; font-family: var(--mono); font-size: 13px;">AGENT.md 예시</p>
+        <p style="font-weight: 600; color: var(--purple); margin-bottom: 10px; font-family: var(--mono); font-size: 13px;">code-reviewer.md</p>
         <div class="code-block">
           <div class="code-chrome">
             <span class="code-lang">md</span>
-            <span class="code-file">code-reviewer.md</span>
+            <span class="code-file">YAML frontmatter + system prompt</span>
           </div>
           <div class="code-body">
             <div><span class="code-comment">---</span></div>
             <div><span class="code-cmd">name:</span> <span class="code-string">code-reviewer</span></div>
-            <div><span class="code-cmd">description:</span> <span class="code-string">코드 리뷰 전문가</span></div>
-            <div><span class="code-cmd">tools:</span> <span class="code-string">Read Grep Bash</span></div>
-            <div><span class="code-cmd">model:</span> <span class="code-string">opus</span></div>
+            <div><span class="code-cmd">description:</span> <span class="code-string">코드 변경 후 적극 호출 — 리뷰 전문가</span></div>
+            <div><span class="code-cmd">tools:</span> <span class="code-string">Read, Grep, Glob, Bash</span></div>
+            <div><span class="code-cmd">model:</span> <span class="code-string">sonnet</span></div>
+            <div><span class="code-cmd">isolation:</span> <span class="code-string">worktree</span>   <span class="code-comment"># 격리 사본</span></div>
+            <div><span class="code-cmd">memory:</span> <span class="code-string">project</span>      <span class="code-comment"># 학습 누적</span></div>
             <div><span class="code-comment">---</span></div>
-            <div>보안, 성능, 유지보수성을</div>
+            <div>보안·성능·유지보수성을</div>
             <div>종합적으로 검토하세요.</div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Frontmatter reference -->
+    <table class="info-table mb-20">
+      <thead><tr><th>필드</th><th>필수</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td><code style="color: var(--blue);">name</code></td><td>✓</td><td class="muted">식별자 (소문자·하이픈)</td></tr>
+        <tr><td><code style="color: var(--blue);">description</code></td><td>✓</td><td class="muted">Claude가 위임 여부를 판단하는 핵심 — 구체적일수록 정확히 매칭</td></tr>
+        <tr><td><code style="color: var(--blue);">tools</code></td><td>-</td><td class="muted">allowlist. 생략 시 메인 세션 도구 전부 상속</td></tr>
+        <tr><td><code style="color: var(--blue);">model</code></td><td>-</td><td class="muted"><code>haiku · sonnet · opus · inherit</code></td></tr>
+        <tr><td><code style="color: var(--blue);">isolation</code></td><td>-</td><td class="muted"><code>worktree</code> — 임시 git worktree에서 실행, 변경 없으면 자동 정리</td></tr>
+        <tr><td><code style="color: var(--blue);">memory</code></td><td>-</td><td class="muted"><code>user · project · local</code> — 세션 간 지식 누적 디렉터리</td></tr>
+        <tr><td><code style="color: var(--blue);">permissionMode</code></td><td>-</td><td class="muted"><code>plan · acceptEdits · bypassPermissions</code> 등</td></tr>
+      </tbody>
+    </table>
+
     <div class="card accent-left mb-24" style="padding: 14px 18px;">
-      <p class="small"><strong>자동 위임:</strong> Claude가 요청 내용과 에이전트의 description을 매칭하여 자동으로 적합한 에이전트에게 작업을 위임합니다.</p>
+      <p class="small"><strong>자동 위임은 description 매칭:</strong> 메인 Claude가 요청 의도와 각 에이전트의 <code>description</code> 문구를 비교해 적합한 서브를 고릅니다. <code>/agents</code>로 GUI에서 생성·편집, 터미널에선 <code>claude agents</code>로 전체 목록 확인. <span class="muted">※ 서브는 다른 서브를 호출할 수 없음 — 무한 중첩 방지. (v2.1.63에서 Task 툴이 Agent로 리네임, 기존 <code>Task(...)</code>는 앨리어스로 유지.)</span></p>
     </div>
 
     <!-- Worktree diagram -->
@@ -3534,7 +3612,7 @@
      10 · PLUGINS
      ======================================================== -->
 <section id="plugins" data-chapter="2">
-  <div class="section-inner">
+  <div class="section-inner wide">
     <div class="section-head">
       <div class="section-index">10<span class="slash">/</span><span class="total">12</span></div>
       <div>
@@ -3578,25 +3656,38 @@
       </div>
     </div>
 
-    <p class="label-row">공식 마켓플레이스 주요 플러그인</p>
+    <p class="label-row">눈여겨볼 플러그인</p>
     <div class="grid-2 mb-24">
       <div class="card hover">
-        <p style="font-weight: 600; margin-bottom: 4px;">Code Intelligence</p>
-        <p class="muted small">Python, TypeScript, Go 등 LSP 기반 코드 분석</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <p style="font-weight: 600; margin: 0;">superpowers</p>
+          <span class="badge amber">공식 · 합류</span>
+        </div>
+        <p class="muted small">브레인스토밍 → 플래닝 → TDD → 디버깅까지 <em>방법론을 강제</em>하는 스킬 프레임워크. 29k★, 2026.01 공식 마켓플레이스 합류. <code>obra/superpowers</code></p>
       </div>
       <div class="card hover">
-        <p style="font-weight: 600; margin-bottom: 4px;">GitHub / GitLab</p>
-        <p class="muted small">PR, 이슈, CI/CD 통합</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <p style="font-weight: 600; margin: 0;">everything-claude-code</p>
+          <span class="badge purple">커뮤니티</span>
+        </div>
+        <p class="muted small">에이전트 하네스 최적화 번들 — instincts · memory · security · research-first 패턴을 한꺼번에 깔아줌. <code>affaan-m/everything-claude-code</code></p>
       </div>
       <div class="card hover">
-        <p style="font-weight: 600; margin-bottom: 4px;">Figma / Slack / Sentry</p>
-        <p class="muted small">디자인, 커뮤니케이션, 모니터링 연동</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <p style="font-weight: 600; margin: 0;">frontend-design</p>
+          <span class="badge green">Anthropic</span>
+        </div>
+        <p class="muted small">차별화된 고품질 프런트엔드 UI를 만들기 위한 디자인 원칙 · 컴포넌트 패턴 번들. Anthropic 공식 제작.</p>
       </div>
       <div class="card hover">
-        <p style="font-weight: 600; margin-bottom: 4px;">커뮤니티 플러그인</p>
-        <p class="muted small">superpowers, octopus 등 워크플로우 확장</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <p style="font-weight: 600; margin: 0;">claude-md-management · hookify</p>
+          <span class="badge green">Anthropic</span>
+        </div>
+        <p class="muted small">기본기 유지보수 — CLAUDE.md 정비 자동화, 커스텀 Hook을 대화로 생성. 공식 마켓 안의 작지만 필수 유틸.</p>
       </div>
     </div>
+    <p class="muted small mb-24" style="margin-top: -8px;">공식 마켓플레이스에는 <code>github · context7 · figma · linear · datadog · firebase · chrome-devtools-mcp</code> 등 실무 연동 플러그인도 프리셋으로 들어있음. <code>/plugin</code>의 Discover 탭에서 탐색.</p>
 
     <button class="toggle-btn" onclick="toggleSection(this)">settings.json 설정 예시</button>
     <div class="toggle-content">
@@ -3609,8 +3700,9 @@
         <div class="code-body">
           <div>{</div>
           <div>&nbsp;&nbsp;<span class="code-cmd">"enabledPlugins"</span>: {</div>
-          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"code-intel@official"</span>: <span class="code-kw">true</span>,</div>
-          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"github@official"</span>: <span class="code-kw">true</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"superpowers@claude-plugins-official"</span>: <span class="code-kw">true</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"frontend-design@claude-plugins-official"</span>: <span class="code-kw">true</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"github@claude-plugins-official"</span>: <span class="code-kw">true</span></div>
           <div>&nbsp;&nbsp;}</div>
           <div>}</div>
         </div>
