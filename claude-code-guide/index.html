@@ -2393,50 +2393,53 @@
     </div>
     <p class="muted small" style="text-align: center; margin-bottom: 28px;">목표를 달성할 때까지 자율적으로 반복합니다</p>
 
-    <!-- Models -->
-    <p class="label-row">모델 선택</p>
-    <div class="grid-2 mb-24">
-      <div class="card hover">
-        <span class="badge blue mb-8">기본</span>
-        <p style="font-weight: 700; margin: 6px 0 4px;">Sonnet 4.6</p>
-        <p class="muted small">빠르고 효율적 — 일반 코딩 작업</p>
-      </div>
-      <div class="card hover">
-        <span class="badge purple mb-8">고급</span>
-        <p style="font-weight: 700; margin: 6px 0 4px;">Opus 4.7</p>
-        <p class="muted small">깊은 추론 — 복잡한 아키텍처 설계</p>
-      </div>
-    </div>
-
     <!-- Platforms -->
-    <p class="label-row">사용 플랫폼</p>
+    <p class="label-row">한 계정, 여러 표면</p>
     <div class="grid-4 mb-24">
       <div class="card hover" style="padding: 14px 16px;">
         <p style="font-weight: 600;">CLI</p>
         <p class="muted small"><code style="color: var(--blue);">claude</code> 명령</p>
       </div>
       <div class="card hover" style="padding: 14px 16px;">
-        <p style="font-weight: 600;">VS Code</p>
-        <p class="muted small">Extension 설치</p>
+        <p style="font-weight: 600;">VS Code · JetBrains</p>
+        <p class="muted small">Extension · Plugin</p>
       </div>
       <div class="card hover" style="padding: 14px 16px;">
-        <p style="font-weight: 600;">JetBrains</p>
-        <p class="muted small">Plugin 설치</p>
+        <p style="font-weight: 600;">Desktop · Web</p>
+        <p class="muted small">Mac/Win · claude.ai/code</p>
       </div>
       <div class="card hover" style="padding: 14px 16px;">
-        <p style="font-weight: 600;">Web</p>
-        <p class="muted small">claude.ai/code</p>
+        <p style="font-weight: 600;">Mobile · Remote</p>
+        <p class="muted small">모바일 앱 · Remote Control</p>
       </div>
     </div>
 
-    <!-- Toggle -->
-    <button class="toggle-btn" onclick="toggleSection(this)">IDE 도구와 뭐가 다른가?</button>
-    <div class="toggle-content">
-      <div class="card accent-left" style="margin-top: 12px;">
-        <p class="mb-8"><strong class="muted">IDE 도구 (Cursor, Copilot):</strong> 에디터 안에서 코드 자동완성/수정</p>
-        <p><strong style="color: var(--blue);">Claude Code:</strong> 에이전트가 직접 파일 읽기/쓰기/실행, 멀티스텝 작업을 자율적으로 수행</p>
+    <!-- Cursor / Copilot 비교: 토글 대신 상시 노출 -->
+    <p class="label-row">Cursor · Copilot과 뭐가 다른가</p>
+    <div class="grid-3 mb-8">
+      <div class="card accent-left hover" style="border-left-color: var(--blue);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px;">01 · Harness</p>
+        <p style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">하네스가 두껍다</p>
+        <p class="muted small" style="line-height: 1.65;">
+          UI는 얇고 CLAUDE.md · Hooks · Skills · Subagent로 프롬프트·도구·세션을 사용자가 직접 설계. Cursor/Copilot의 "IDE 기능"이 아니라 <em>엔지니어링 대상</em>.
+        </p>
+      </div>
+      <div class="card accent-left hover" style="border-left-color: var(--purple);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px;">02 · Surface</p>
+        <p style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">멀티 표면에 산다</p>
+        <p class="muted small" style="line-height: 1.65;">
+          CLI·에디터·Desktop·Web·Mobile·Remote를 한 계정이 관통. 터미널에서 시작한 작업을 모바일에서 이어받고, 장시간 작업은 웹 세션에 맡기는 식.
+        </p>
+      </div>
+      <div class="card accent-left hover" style="border-left-color: var(--green);">
+        <p style="font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 6px;">03 · Autonomy</p>
+        <p style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">자율 루프가 돈다</p>
+        <p class="muted small" style="line-height: 1.65;">
+          Plan·Auto·Subagent·Hooks로 "20분 자율 작업 후 결과만 회수"가 실제 워크플로우. Cursor/Copilot은 편집 단위 자동완성, Claude Code는 <em>태스크 단위</em> 완주.
+        </p>
       </div>
     </div>
+    <p class="muted small" style="font-style: italic; margin-bottom: 0; max-width: 68ch;">세 축 모두 다음 섹션부터 이어집니다 — CLAUDE.md(하네스) · Memory·Skills·MCP(표면 통합) · Agent·Hooks(자율).</p>
   </div>
 </section>
 
@@ -2467,8 +2470,9 @@
       </div>
     </div>
 
-    <!-- First session terminal -->
-    <div class="terminal mb-24">
+    <!-- First session: /init writes CLAUDE.md -->
+    <p class="label-row">첫 세션 — <code>/init</code>이 CLAUDE.md를 쓴다</p>
+    <div class="terminal mb-12">
       <div class="terminal-bar">
         <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
         <span class="terminal-title">~/my-project</span>
@@ -2476,40 +2480,32 @@
       <div class="terminal-body">
         <div><span class="code-prompt">$</span> <span class="code-cmd">claude</span></div>
         <div class="tool-call" style="margin: 4px 0;">╭──────────────────────────────────╮</div>
-        <div class="tool-call">│  <span style="color:var(--blue);font-weight:700;">Claude Code</span> <span class="muted">v1.0.0</span>           │</div>
-        <div class="tool-call">│  Reading CLAUDE.md...            │</div>
+        <div class="tool-call">│  <span style="color:var(--blue);font-weight:700;">Claude Code</span> <span class="muted">v2.1.83</span>            │</div>
+        <div class="tool-call">│  <span class="muted">No CLAUDE.md found</span>              │</div>
         <div class="tool-call">╰──────────────────────────────────╯</div>
-        <div style="margin-top: 6px;"><span class="prompt-sign">❯</span> <span class="user-input">이 프로젝트 구조 설명해줘</span></div>
-        <div class="tool-call">  ↳ Read: package.json</div>
-        <div class="tool-call">  ↳ Glob: src/**/*.ts</div>
-        <div class="ai-response" style="margin-top: 4px;">  이 프로젝트는 TypeScript 기반 REST API입니다...</div>
+        <div style="margin-top: 6px;"><span class="prompt-sign">❯</span> <span class="user-input">/init</span></div>
+        <div class="tool-call">  ↳ Read: package.json, tsconfig.json</div>
+        <div class="tool-call">  ↳ Glob: src/**/*.ts (247 files)</div>
+        <div class="tool-call">  ↳ Read: README.md</div>
+        <div class="ai-response" style="margin-top: 4px;">  <span style="color:var(--green);">✓</span> CLAUDE.md created (47 lines)</div>
+        <div class="ai-response">  TypeScript + pnpm 모노레포. 빌드·테스트 명령,</div>
+        <div class="ai-response">  컨벤션·금지 영역을 편집해 두면 다음 세션부터 자동 로드.</div>
       </div>
     </div>
+    <p class="muted small mb-24" style="max-width: 70ch; line-height: 1.65;">여기서 생성된 초벌 CLAUDE.md가 프로젝트 튜닝의 출발점 — 다음 섹션에서 <em>왜 쓰고, 뭘 적고, 어떻게 구조화하는지</em>를 다룹니다.</p>
 
     <!-- Auth -->
-    <p class="label-row">인증 방법</p>
+    <p class="label-row">인증 — 두 가지 길</p>
     <div class="grid-2 mb-24">
       <div class="card hover">
         <p style="font-weight: 700; margin-bottom: 6px;">API Key</p>
-        <p class="muted small"><code style="color: var(--blue);">ANTHROPIC_API_KEY</code> 환경변수 — 사용량 기반 과금</p>
+        <p class="muted small"><code style="color: var(--blue);">ANTHROPIC_API_KEY</code> 환경변수 · 사용량 기반 과금. CI·스크립트·헤드리스용으로도 그대로.</p>
       </div>
       <div class="card hover">
         <p style="font-weight: 700; margin-bottom: 6px;">Claude Max 구독</p>
-        <p class="muted small">브라우저 인증 — 월정액 ($100/mo)</p>
+        <p class="muted small">브라우저 로그인 · 월정액. Pro/Max/Team/Enterprise 계정의 <code>/login</code>으로 연결.</p>
       </div>
     </div>
-
-    <!-- Permission -->
-    <p class="label-row">Permission 모드</p>
-    <table class="info-table mb-24">
-      <thead><tr><th>모드</th><th>자동 승인</th><th>추천 상황</th></tr></thead>
-      <tbody>
-        <tr><td><code style="color: var(--blue);">default</code></td><td>읽기만</td><td>처음 시작할 때</td></tr>
-        <tr><td><code style="color: var(--blue);">acceptEdits</code></td><td>읽기 + 편집</td><td>코드 작업할 때</td></tr>
-        <tr><td><code style="color: var(--blue);">plan</code></td><td>읽기만 (계획)</td><td>큰 작업 전 탐색</td></tr>
-        <tr><td><code style="color: var(--blue);">auto</code></td><td>전부</td><td>긴 자율 작업</td></tr>
-      </tbody>
-    </table>
 
     <!-- Slash commands -->
     <p class="label-row">Slash Commands</p>
